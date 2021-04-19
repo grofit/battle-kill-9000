@@ -1,0 +1,69 @@
+﻿@page "/"
+@using BK9K.Framework.Grids
+@using BK9K.Framework.Units
+@using BK9K.Framework.Extensions
+
+@inject GridBuilder GridBuilder
+@inject UnitBuilder UnitBuilder
+
+<div>
+    <p class="title">BATTLE TEST</p>
+    <div class="columns">
+        <div class="column">
+            @if (!PlayerUnit.IsDead())
+            {
+                <UnitAvatar Unit="PlayerUnit"/>
+            }
+            else
+            {
+                <p class="subtitle is-size-5 has-text-danger">@(PlayerUnit.Name)'s Dead</p>
+            }
+        </div>
+        <div class="column">
+            <button class="button is-danger" @onclick="PlayerAttack">Attack</button>
+        </div>
+        <div class="column">
+            @if (!EnemyUnit.IsDead())
+            {
+                <UnitAvatar Unit="EnemyUnit"/>
+            }
+            else
+            {
+                <p class="subtitle is-size-5 has-text-danger">@(EnemyUnit.Name)'s Dead</p>
+            }
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public Grid Grid { get; set; }
+    public Unit PlayerUnit { get; set; }
+    public Unit EnemyUnit { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Grid = GridBuilder.Create()
+            .WithSize(5, 5)
+            .Build();
+
+        PlayerUnit = UnitBuilder.Create()
+            .WithName("Gooch")
+            .Build();
+
+        EnemyUnit = UnitBuilder.Create()
+            .WithName("Enemy Person")
+            .WithAttack(5)
+            .Build();
+
+        base.OnInitialized();
+    }
+
+    public void PlayerAttack()
+    {
+        if (EnemyUnit.Health >= PlayerUnit.Attack)
+        { EnemyUnit.Health -= PlayerUnit.Attack; }
+        else
+        { EnemyUnit.Health = 0; }
+    }
+}
