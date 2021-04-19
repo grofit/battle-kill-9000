@@ -7,3 +7,5 @@ packages/
 *.suo
 *.nupkg
 /src/.vs
+
+src/BK9K/.vs/BK9K.Framework/DesignTimeBuild/.dtbcache.v2
