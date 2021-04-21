@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using BK9K.Framework.Extensions;
 using BK9K.Framework.Grids;
+using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 
 namespace BK9K.Game
@@ -26,11 +27,15 @@ namespace BK9K.Game
 
             PlayerUnit = UnitBuilder.Create()
                 .WithName("Gooch")
+                .WithFaction(FactionTypes.Player)
+                .WithInitiative(6)
                 .Build();
 
             EnemyUnit = UnitBuilder.Create()
                 .WithName("Enemy Person")
+                .WithInitiative(2)
                 .WithAttack(5)
+                .WithClass(ClassTypes.Rogue)
                 .Build();
 
             _gameLoopSub = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(Update);

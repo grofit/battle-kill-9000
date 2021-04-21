@@ -1,8 +1,42 @@
 ﻿@using BK9K.Framework.Units
-<div>
-    <span class="tag is-info">@Unit.Name</span>
-    <span class="tag is-danger">@Unit.Health.ToString()</span>
-    <span class="tag is-warning">@Unit.Attack.ToString()</span>
+@using BK9K.Framework.Extensions
+
+<div class="unit-avatar box @(Unit.IsDead() ? "has-background-danger" : "")">
+    <div class="columns">
+        <div class="column">
+            <span class="tag is-info">@Unit.Name</span>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            @if (Unit.IsDead())
+            {
+                <p class="subtitle is-size-5">@(Unit.Name)'s Dead</p>
+            }
+            else
+            {
+                <p class="title has-text-centered">F</p>
+            }
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="tags has-addons">
+                <span class="tag">
+                    <span class="icon">
+                        <i class="fas fa-heart"></i>
+                    </span>
+                </span>
+                <span class="tag is-danger">@Unit.Health</span>
+                <span class="tag">
+                    <span class="icon">
+                        <i class="fas fa-fist-raised"></i>
+                    </span>
+                </span>
+                <span class="tag is-warning">@Unit.Attack</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
