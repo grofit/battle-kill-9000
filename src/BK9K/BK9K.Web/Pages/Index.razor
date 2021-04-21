@@ -15,26 +15,12 @@
     <p class="title">BATTLE TEST</p>
     <div class="columns">
         <div class="column">
-            @if (!Game.PlayerUnit.IsDead())
-            {
-                <UnitAvatar Unit="Game.PlayerUnit" />
-            }
-            else
-            {
-                <p class="subtitle is-size-5 has-text-danger">@Game.(PlayerUnit.Name)'s Dead</p>
-            }
+            <UnitAvatar Unit="Game.PlayerUnit" />
         </div>
         <div class="column">
         </div>
         <div class="column">
-            @if (!Game.EnemyUnit.IsDead())
-            {
-                <UnitAvatar Unit="Game.EnemyUnit" />
-            }
-            else
-            {
-                <p class="subtitle is-size-5 has-text-danger">@(Game.EnemyUnit.Name)'s Dead</p>
-            }
+            <UnitAvatar Unit="Game.EnemyUnit" />
         </div>
     </div>
 </div>
