@@ -5,9 +5,9 @@ using BK9K.Framework.Extensions;
 using BK9K.Framework.Grids;
 using BK9K.Framework.Units;
 
-namespace BK9K.Web
+namespace BK9K.Game
 {
-    public class Game : IDisposable
+    public class GameBootstrap : IDisposable
     {
         public Grid Grid { get; set; }
         public Unit PlayerUnit { get; set; }
