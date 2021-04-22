@@ -4,7 +4,9 @@
 @using BK9K.Framework.Extensions
 @using System.Reactive.Linq
 @using System
+@using BK9K.Framework.Transforms
 @using BK9K.Game
+@using BK9K.Game.Events
 
 @implements IDisposable
 
@@ -12,23 +14,54 @@
 @inject UnitBuilder UnitBuilder
 
 <div>
-    <p class="title">BATTLE TEST</p>
-    <div class="columns">
-        <div class="column">
-            <UnitAvatar Unit="Game.PlayerUnit" />
+    <p class="title">BATTLE GRID</p>
+    @if (!DidPlayerWin.HasValue)
+    {
+        <div>
+            @for (var y = 0; y < Game.Grid.YSize; y++)
+            {
+                <div class="columns">
+                    @for (var x = 0; x < Game.Grid.XSize; x++)
+                    {
+                        <div class="is-flex column has-background-dark is-relative">
+                            <span class="grid-tag tag is-info">Pos [@x,@y]</span>
+                            @{
+                                var possibleUnit = Game.GetUnitAt(new Position(x, y));
+                                if (possibleUnit != null)
+                                {
+                                    <UnitAvatar Unit="possibleUnit"/>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
         </div>
-        <div class="column">
+    }
+    else
+    {
+        <div>
+            @if (DidPlayerWin.Value)
+            { <p class="title has-text-success">CONGRATULATIONS YOU WON!!</p> }
+            else
+            { <p class="title has-text-danger">YOU DIED :(</p> }
         </div>
-        <div class="column">
-            <UnitAvatar Unit="Game.EnemyUnit" />
-        </div>
+    }
+    <div class="output-log is-absolute box">
+        <p class="title">COMBAT LOGS</p>
+        @foreach (var log in Logs)
+        {
+            <p>@log</p>
+        }
     </div>
 </div>
 
 @code
 {
     public GameBootstrap Game;
-    private IDisposable _gameUpdateSub;
+    private bool? DidPlayerWin = null;
+    private List<string> Logs = new();
+    private IDisposable _gameUpdateSub, _unitAttackedSub, _gameResolvedSub;
 
     protected override void OnInitialized()
     {
@@ -36,13 +69,23 @@
         Game.StartGame();
 
         _gameUpdateSub = Game.OnUpdated.Subscribe(unit => StateHasChanged());
+        _unitAttackedSub = Game.OnUnitAttacked.Subscribe(UnitHasAttacked);
+        _gameResolvedSub = Game.OnGameResolved.Subscribe(ResolveGame);
 
         base.OnInitialized();
     }
+
+    public void UnitHasAttacked(UnitAttackedEvent args)
+    { Logs.Add($"{args.Attacker.Name} Attacked {args.Target.Name} For {args.Damage} Damage"); }
+
+    public void ResolveGame(GameResolvedEvent args)
+    { DidPlayerWin = args.DidPlayerWin; }
 
     public void Dispose()
     {
         Game?.Dispose();
         _gameUpdateSub?.Dispose();
+        _unitAttackedSub?.Dispose();
+        _gameResolvedSub?.Dispose();
     }
 }
