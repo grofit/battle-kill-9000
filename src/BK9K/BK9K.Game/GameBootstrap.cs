@@ -50,7 +50,7 @@ namespace BK9K.Game
                 .WithName("Enemy Person 1")
                 .WithInitiative(3)
                 .WithFaction(FactionTypes.Enemy)
-                .WithAttack(3)
+                .WithAttack(2)
                 .WithClass(ClassTypes.Mage)
                 .WithPosition(3, 3)
                 .Build();
@@ -59,14 +59,24 @@ namespace BK9K.Game
                 .WithName("Enemy Person 2")
                 .WithFaction(FactionTypes.Enemy)
                 .WithInitiative(2)
-                .WithAttack(2)
+                .WithAttack(1)
                 .WithClass(ClassTypes.Rogue)
                 .WithPosition(3, 1)
+                .Build();
+
+            var enemyUnit3 = UnitBuilder.Create()
+                .WithName("Enemy Person 3")
+                .WithFaction(FactionTypes.Enemy)
+                .WithInitiative(2)
+                .WithAttack(1)
+                .WithClass(ClassTypes.Fighter)
+                .WithPosition(2, 2)
                 .Build();
 
             Units.Add(playerUnit);
             Units.Add(enemyUnit1);
             Units.Add(enemyUnit2);
+            Units.Add(enemyUnit3);
 
             _gameLoopSub = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(Update);
         }
@@ -100,18 +110,23 @@ namespace BK9K.Game
 
         public void TakeTurn(Unit unit)
         {
-            var target = Units.FirstOrDefault(x => x.FactionType != unit.FactionType);
+            var target = Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
             var damage = RunAttack(unit, target);
+            if (target.IsDead()) { unit.Level++; }
             _onUnitAttacked?.OnNext(new UnitAttackedEvent(unit, target, damage));
         }
-        
+
+        public byte GenerateAttack(Unit unit)
+        { return (byte)(unit.Attack + ((unit.Attack / 5) * unit.Level)); }
+
         public int RunAttack(Unit attacker, Unit defender)
         {
-            if (defender.Health >= attacker.Attack)
-            { defender.Health -= attacker.Attack; }
+            var damage = GenerateAttack(attacker);
+            if (defender.Health >= damage)
+            { defender.Health -= damage; }
             else
             { defender.Health = 0; }
-            return attacker.Attack;
+            return damage;
         }
 
         public void Dispose()
