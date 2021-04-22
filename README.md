@@ -1,6 +1,8 @@
 # battle-kill-9000
 This repo is used for a [twitch stream](https://www.twitch.tv/grofit) I'm doing on game prototyping with view separation, its generally updated as the stream progresses showing new bits and will evolve as the stream continues.
 
+If you wonder why its called `Battle Kill 9000` thats because I couldn't come up with a name for the project so chat named it for me :D
+
 ## What happens on the stream
 While this is primarily me coding stuff there is often other friends doing code on voice too so we have some lols and may go off topic, but its hopefully a fun journey.
 
