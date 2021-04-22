@@ -6,3 +6,18 @@
     position: absolute;
     opacity: 0.4;
 }
+
+.is-absolute {
+    position: absolute;
+}
+
+.output-log {
+    opacity: 0.3;
+    width: 20em;
+    height: 20em;
+    overflow: auto;
+}
+
+.output-log:hover {
+    opacity: 1;
+}

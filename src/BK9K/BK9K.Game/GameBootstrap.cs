@@ -8,6 +8,7 @@ using BK9K.Framework.Grids;
 using BK9K.Framework.Transforms;
 using BK9K.Framework.Types;
 using BK9K.Framework.Units;
+using BK9K.Game.Events;
 
 namespace BK9K.Game
 {
@@ -18,6 +19,12 @@ namespace BK9K.Game
 
         public IObservable<System.Reactive.Unit> OnUpdated => _onUpdated;
         private readonly Subject<System.Reactive.Unit> _onUpdated = new();
+
+        public IObservable<UnitAttackedEvent> OnUnitAttacked => _onUnitAttacked;
+        private readonly Subject<UnitAttackedEvent> _onUnitAttacked = new();
+
+        public IObservable<GameResolvedEvent> OnGameResolved => _onGameResolved;
+        private readonly Subject<GameResolvedEvent> _onGameResolved = new();
 
         private IDisposable _gameLoopSub;
 
@@ -42,6 +49,7 @@ namespace BK9K.Game
             var enemyUnit1 = UnitBuilder.Create()
                 .WithName("Enemy Person 1")
                 .WithInitiative(3)
+                .WithFaction(FactionTypes.Enemy)
                 .WithAttack(3)
                 .WithClass(ClassTypes.Mage)
                 .WithPosition(3, 3)
@@ -49,6 +57,7 @@ namespace BK9K.Game
 
             var enemyUnit2 = UnitBuilder.Create()
                 .WithName("Enemy Person 2")
+                .WithFaction(FactionTypes.Enemy)
                 .WithInitiative(2)
                 .WithAttack(2)
                 .WithClass(ClassTypes.Rogue)
@@ -62,28 +71,55 @@ namespace BK9K.Game
             _gameLoopSub = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(Update);
         }
 
+        public bool HasPlayerWon()
+        { return !Units.Any(x => x.FactionType == FactionTypes.Enemy && !x.IsDead()); }
+
+        public bool HasPlayerLost()
+        { return !Units.Any(x => x.FactionType == FactionTypes.Player && !x.IsDead()); }
+
+        public void PlayRound()
+        {
+            Units.Where(x => !x.IsDead())
+                .OrderBy(x => x.Initiative)
+                .ToList()
+                .ForEach(TakeTurn);
+        }
+
         protected void Update(long elapsed)
         {
-            /*
-            PlayerAttack();
-            if (!EnemyUnit.IsDead())
-            { EnemyAttack(); }
-            */
-            _onUpdated.OnNext(System.Reactive.Unit.Default);
+            if (!HasPlayerWon() && !HasPlayerLost())
+            {
+                PlayRound();
+                
+                if (HasPlayerWon()) { _onGameResolved.OnNext(new GameResolvedEvent(true)); }
+                else if (HasPlayerLost()) { _onGameResolved.OnNext(new GameResolvedEvent(false)); }
+            }
+
+            _onUpdated?.OnNext(System.Reactive.Unit.Default);
+        }
+
+        public void TakeTurn(Unit unit)
+        {
+            var target = Units.FirstOrDefault(x => x.FactionType != unit.FactionType);
+            var damage = RunAttack(unit, target);
+            _onUnitAttacked?.OnNext(new UnitAttackedEvent(unit, target, damage));
         }
         
-        public void RunAttack(Unit attacker, Unit defender)
+        public int RunAttack(Unit attacker, Unit defender)
         {
             if (defender.Health >= attacker.Attack)
             { defender.Health -= attacker.Attack; }
             else
             { defender.Health = 0; }
+            return attacker.Attack;
         }
 
         public void Dispose()
         {
             _gameLoopSub?.Dispose();
             _onUpdated?.Dispose();
+            _onUnitAttacked?.Dispose();
+            _onGameResolved?.Dispose();
         }
     }
 }
