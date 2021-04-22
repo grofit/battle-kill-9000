@@ -4,7 +4,7 @@ This repo is used for a [twitch stream](https://www.twitch.tv/grofit) I'm doing 
 If you wonder why its called `Battle Kill 9000` thats because I couldn't come up with a name for the project so chat named it for me :D
 
 ## What happens on the stream
-While this is primarily me coding stuff there is often other friends doing code on voice too so we have some lols and may go off topic, but its hopefully a fun journey.
+While this is primarily me coding stuff there is often other friends doing code on voice too so we have some lols and may go off topic, but its hopefully a fun journey. I am more than happy to answer questions on stream about tech and related approaches, so feel free to drop in and ask about why something was/is done a certain way.
 
 ## What is the game?
 The game started out as a simple idea of a sort of auto battler grid card thing, which I was inspired to create after seeing someone make something similar on reddit and didn't even know this was a genre, so now im just making a really rubbish one just to see how far I can get while keeping a focus on separation from the view.
