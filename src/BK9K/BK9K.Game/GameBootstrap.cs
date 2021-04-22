@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using BK9K.Framework.Extensions;
 using BK9K.Framework.Grids;
+using BK9K.Framework.Transforms;
 using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 
@@ -11,48 +14,64 @@ namespace BK9K.Game
     public class GameBootstrap : IDisposable
     {
         public Grid Grid { get; set; }
-        public Unit PlayerUnit { get; set; }
-        public Unit EnemyUnit { get; set; }
+        public List<Unit> Units { get; set; } = new List<Unit>();
 
         public IObservable<System.Reactive.Unit> OnUpdated => _onUpdated;
-        private readonly Subject<System.Reactive.Unit> _onUpdated = new Subject<System.Reactive.Unit>();
+        private readonly Subject<System.Reactive.Unit> _onUpdated = new();
 
         private IDisposable _gameLoopSub;
-        
+
+        public Unit GetUnitAt(Position position)
+        { return Units.SingleOrDefault(x => x.Position == position); }
+
         public void StartGame()
         {
             Grid = GridBuilder.Create()
                 .WithSize(5, 5)
                 .Build();
 
-            PlayerUnit = UnitBuilder.Create()
+            var playerUnit = UnitBuilder.Create()
                 .WithName("Gooch")
                 .WithFaction(FactionTypes.Player)
+                .WithClass(ClassTypes.Fighter)
+                .WithAttack(6)
                 .WithInitiative(6)
+                .WithPosition(3, 2)
                 .Build();
 
-            EnemyUnit = UnitBuilder.Create()
-                .WithName("Enemy Person")
-                .WithInitiative(2)
-                .WithAttack(5)
-                .WithClass(ClassTypes.Rogue)
+            var enemyUnit1 = UnitBuilder.Create()
+                .WithName("Enemy Person 1")
+                .WithInitiative(3)
+                .WithAttack(3)
+                .WithClass(ClassTypes.Mage)
+                .WithPosition(3, 3)
                 .Build();
+
+            var enemyUnit2 = UnitBuilder.Create()
+                .WithName("Enemy Person 2")
+                .WithInitiative(2)
+                .WithAttack(2)
+                .WithClass(ClassTypes.Rogue)
+                .WithPosition(3, 1)
+                .Build();
+
+            Units.Add(playerUnit);
+            Units.Add(enemyUnit1);
+            Units.Add(enemyUnit2);
 
             _gameLoopSub = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(Update);
         }
 
         protected void Update(long elapsed)
         {
+            /*
             PlayerAttack();
             if (!EnemyUnit.IsDead())
             { EnemyAttack(); }
-
+            */
             _onUpdated.OnNext(System.Reactive.Unit.Default);
         }
         
-        public void PlayerAttack() => RunAttack(PlayerUnit, EnemyUnit);
-        public void EnemyAttack() => RunAttack(EnemyUnit, PlayerUnit);
-
         public void RunAttack(Unit attacker, Unit defender)
         {
             if (defender.Health >= attacker.Attack)

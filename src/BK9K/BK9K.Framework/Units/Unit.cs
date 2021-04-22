@@ -1,4 +1,6 @@
-﻿namespace BK9K.Framework.Units
+﻿using BK9K.Framework.Transforms;
+
+namespace BK9K.Framework.Units
 {
     public class Unit
     {
@@ -9,5 +11,6 @@
         public byte FactionType { get; set; }
         public byte Initiative { get; set; }
         public byte ClassType { get; set; }
+        public Position Position { get;set; }
     }
 }

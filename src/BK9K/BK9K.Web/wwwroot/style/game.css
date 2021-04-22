@@ -1,3 +1,8 @@
 ﻿.unit-avatar {
     width: 11em;
 }
+
+.grid-tag {
+    position: absolute;
+    opacity: 0.4;
+}

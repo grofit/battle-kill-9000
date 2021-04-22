@@ -1,4 +1,5 @@
-﻿using BK9K.Framework.Types;
+﻿using BK9K.Framework.Transforms;
+using BK9K.Framework.Types;
 
 namespace BK9K.Framework.Units
 {
@@ -11,6 +12,7 @@ namespace BK9K.Framework.Units
         private byte _classType = ClassTypes.Fighter;
         private byte _health = 100;
         private byte _attack = 10;
+        private Position _position = Position.Zero;
 
         public static UnitBuilder Create()
         { return new(); }
@@ -57,6 +59,15 @@ namespace BK9K.Framework.Units
             return this;
         }
 
+        public UnitBuilder WithPosition(Position position)
+        {
+            _position = position;
+            return this;
+        }
+
+        public UnitBuilder WithPosition(int x, int y)
+        { return WithPosition(new Position(x, y)); }
+
         public Unit Build()
         {
             return new Unit
@@ -67,7 +78,8 @@ namespace BK9K.Framework.Units
                 FactionType = _factionType,
                 ClassType = _classType,
                 Initiative = _initiative,
-                Level = _level
+                Level = _level,
+                Position = _position
             };
         }
     }
