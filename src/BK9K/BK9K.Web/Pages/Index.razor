@@ -17,13 +17,13 @@
     <p class="title">BATTLE GRID</p>
     @if (!DidPlayerWin.HasValue)
     {
-        <div>
+        <section class="section">
             @for (var y = 0; y < Game.Grid.YSize; y++)
             {
-                <div class="columns">
+                <div>
                     @for (var x = 0; x < Game.Grid.XSize; x++)
                     {
-                        <div class="is-flex column has-background-dark is-relative">
+                        <div class="ground-tile is-relative">
                             <span class="grid-tag tag is-info">Pos [@x,@y]</span>
                             @{
                                 var possibleUnit = Game.GetUnitAt(new Position(x, y));
@@ -36,7 +36,7 @@
                     }
                 </div>
             }
-        </div>
+        </section>
     }
     else
     {
