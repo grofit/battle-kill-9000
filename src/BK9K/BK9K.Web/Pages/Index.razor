@@ -7,6 +7,7 @@
 @using BK9K.Framework.Transforms
 @using BK9K.Game
 @using BK9K.Game.Events
+@using Unit = System.Reactive.Unit
 
 @implements IDisposable
 
@@ -18,16 +19,16 @@
     @if (!DidPlayerWin.HasValue)
     {
         <section class="section">
-            @for (var y = 0; y < Game.Grid.YSize; y++)
+            @for (var y = 0; y < World.Grid.YSize; y++)
             {
                 <div>
-                    @for (var x = 0; x < Game.Grid.XSize; x++)
+                    @for (var x = 0; x < World.Grid.XSize; x++)
                     {
                         <div class="ground-tile is-relative">
                             <span class="grid-tag tag is-info">Pos [@x,@y]</span>
                             @{
-                                var possibleUnit = Game.GetUnitAt(new Position(x, y));
-                                if (possibleUnit != null)
+                                var possibleUnit = World.GetUnitAt(new Position(x, y));
+                                if (possibleUnit != null && !possibleUnit.IsDead())
                                 {
                                     <UnitAvatar Unit="possibleUnit"/>
                                 }
@@ -59,20 +60,28 @@
 @code
 {
     public GameBootstrap Game;
+    public World World;
     private bool? DidPlayerWin = null;
     private List<string> Logs = new();
     private IDisposable _gameUpdateSub, _unitAttackedSub, _gameResolvedSub;
 
     protected override void OnInitialized()
     {
+        World = new World();
         Game = new GameBootstrap();
         Game.StartGame();
 
-        _gameUpdateSub = Game.OnUpdated.Subscribe(unit => StateHasChanged());
-        _unitAttackedSub = Game.OnUnitAttacked.Subscribe(UnitHasAttacked);
-        _gameResolvedSub = Game.OnGameResolved.Subscribe(ResolveGame);
+        _gameUpdateSub = Game.OnUpdated.Subscribe(OnGameUpdated);
+        _unitAttackedSub = World.OnUnitAttacked.Subscribe(UnitHasAttacked);
+        _gameResolvedSub = World.OnGameResolved.Subscribe(ResolveGame);
 
         base.OnInitialized();
+    }
+
+    public void OnGameUpdated(long elapsed)
+    {
+        World.Update(elapsed);
+        StateHasChanged();
     }
 
     public void UnitHasAttacked(UnitAttackedEvent args)
