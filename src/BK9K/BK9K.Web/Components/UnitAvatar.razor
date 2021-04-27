@@ -2,45 +2,65 @@
 @using BK9K.Framework.Extensions
 @using BK9K.Framework.Types
 
-<div class="unit-avatar box @(Unit.IsDead() ? "has-background-danger" : "")">
-    <div class="columns">
-        <div class="column has-text-centered">
-            <span class="tag is-info">@Unit.Name</span>
-        </div>
+<div class="unit-avatar @(Unit.IsDead() ? "has-background-danger" : "")">
+    @{ var className = GetClassName(Unit.ClassType); }
+    <span class="tag is-info">@Unit.Name</span>
+    <img src="./assets/sprites/@(className).png" alt="@className">
+    <div class="tags has-addons">
+        <span class="tag">
+            <span class="icon">
+                <i class="fas fa-heart"></i>
+            </span>
+        </span>
+        <span class="tag is-danger">@Unit.Health</span>
+        <span class="tag">
+            <span class="icon">
+                <i class="fas fa-fist-raised"></i>
+            </span>
+        </span>
+        <span class="tag is-warning">@Unit.Attack</span>
     </div>
-    <div class="columns">
-        <div class="column has-text-centered is-flex is-justify-content-center has-text-centered">
-            @if (Unit.IsDead())
-            {
-                <p class="subtitle is-size-5">@(Unit.Name)'s Dead</p>
-            }
-            else
-            {
-                <figure class="image is-32x32">
-                    @{ var className = GetClassName(Unit.ClassType); }
-                    <img src="./assets/sprites/@(className).png" alt="@className">
-                </figure>
-            }
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="tags has-addons">
-                <span class="tag">
-                    <span class="icon">
-                        <i class="fas fa-heart"></i>
-                    </span>
-                </span>
-                <span class="tag is-danger">@Unit.Health</span>
-                <span class="tag">
-                    <span class="icon">
-                        <i class="fas fa-fist-raised"></i>
-                    </span>
-                </span>
-                <span class="tag is-warning">@Unit.Attack</span>
+
+    @*
+        <div class="columns">
+            <div class="column has-text-centered">
+
             </div>
         </div>
-    </div>
+        <div class="columns">
+            <div class="column has-text-centered is-flex is-justify-content-center has-text-centered">
+                @if (Unit.IsDead())
+                {
+                    <p class="subtitle is-size-5">@(Unit.Name)'s Dead</p>
+                }
+                else
+                {
+                    <figure class="image is-32x32">
+                        @{ var className = GetClassName(Unit.ClassType); }
+                        <img src="./assets/sprites/@(className).png" alt="@className">
+                    </figure>
+                }
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div class="tags has-addons">
+                    <span class="tag">
+                        <span class="icon">
+                            <i class="fas fa-heart"></i>
+                        </span>
+                    </span>
+                    <span class="tag is-danger">@Unit.Health</span>
+                    <span class="tag">
+                        <span class="icon">
+                            <i class="fas fa-fist-raised"></i>
+                        </span>
+                    </span>
+                    <span class="tag is-warning">@Unit.Attack</span>
+                </div>
+            </div>
+        </div>
+    *@
 </div>
 
 @code {

@@ -1,8 +1,4 @@
-﻿.unit-avatar {
-    width: 11em;
-}
-
-.grid-tag {
+﻿.grid-tag {
     position: absolute;
     opacity: 0.4;
 }
@@ -20,4 +16,39 @@
 
 .output-log:hover {
     opacity: 1;
+}
+
+.unit-avatar {
+    width: 128px;
+    height: 128px;
+    position: relative;
+    text-align: center;
+}
+
+.unit-avatar .tags {
+    position: relative;
+    bottom: -74px;
+}
+
+.unit-avatar img {
+    background-repeat: no-repeat;
+    background-size: 64px 64px;
+    image-rendering: pixelated;
+    width: 64px;
+    min-height: 64px;
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    opacity: 1;
+}
+
+.ground-tile {
+    background-image: url(../assets/sprites/ground/floor.png);
+    background-repeat: no-repeat;
+    background-size: 128px 128px;
+    image-rendering: pixelated;
+    width: 128px;
+    min-height: 128px;
+    display: inline-block;
+    vertical-align: top;
 }
