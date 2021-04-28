@@ -122,6 +122,8 @@ namespace BK9K.Game
         public void TakeTurn(Unit unit)
         {
             var target = Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
+            if (target == null) { return; }
+
             var damage = RunAttack(unit, target);
             if (target.IsDead()) { ((DefaultClass)unit.Class).Level += 1; }
             _onUnitAttacked?.OnNext(new UnitAttackedEvent(unit, target, damage));
