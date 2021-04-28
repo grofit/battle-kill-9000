@@ -6,13 +6,14 @@
 @using System
 @using BK9K.Framework.Transforms
 @using BK9K.Game
+@using BK9K.Game.Builders
 @using BK9K.Game.Events
 @using Unit = System.Reactive.Unit
 
 @implements IDisposable
 
 @inject GridBuilder GridBuilder
-@inject UnitBuilder UnitBuilder
+@inject World World
 
 <div>
     <p class="title">BATTLE GRID</p>
@@ -60,14 +61,12 @@
 @code
 {
     public GameBootstrap Game;
-    public World World;
     private bool? DidPlayerWin = null;
     private List<string> Logs = new();
     private IDisposable _gameUpdateSub, _unitAttackedSub, _gameResolvedSub;
 
     protected override void OnInitialized()
     {
-        World = new World();
         Game = new GameBootstrap();
         Game.StartGame();
 
@@ -85,7 +84,7 @@
     }
 
     public void UnitHasAttacked(UnitAttackedEvent args)
-    { Logs.Add($"{args.Attacker.Name} Attacked {args.Target.Name} For {args.Damage} Damage"); }
+    { Logs.Add($"{args.Attacker.NameLocaleId} Attacked {args.Target.NameLocaleId} For {args.Damage} Damage"); }
 
     public void ResolveGame(GameResolvedEvent args)
     { DidPlayerWin = args.DidPlayerWin; }

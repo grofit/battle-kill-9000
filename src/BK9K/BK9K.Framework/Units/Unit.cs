@@ -1,16 +1,11 @@
 ﻿using BK9K.Framework.Transforms;
+using OpenRpg.Genres.Fantasy.Defaults;
 
 namespace BK9K.Framework.Units
 {
-    public class Unit
+    public class Unit : DefaultCharacter
     {
-        public string Name { get; set; }
-        public byte Health { get; set; }
-        public byte Attack { get; set; }
-        public byte Level { get; set; }
         public byte FactionType { get; set; }
-        public byte Initiative { get; set; }
-        public byte ClassType { get; set; }
         public Position Position { get;set; }
     }
 }
