@@ -8,11 +8,16 @@ using BK9K.Framework.Transforms;
 using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 using BK9K.Game.Events;
+using OpenRpg.Core.Classes;
+using OpenRpg.Genres.Fantasy.Extensions;
+using UnitBuilder = BK9K.Game.Builders.UnitBuilder;
 
 namespace BK9K.Game
 {
     public class World : IDisposable
     {
+        public UnitBuilder UnitBuilder { get; }
+
         public Grid Grid { get; set; }
         public List<Unit> Units { get; set; } = new List<Unit>();
 
@@ -21,10 +26,11 @@ namespace BK9K.Game
 
         public IObservable<GameResolvedEvent> OnGameResolved => _onGameResolved;
         private readonly Subject<GameResolvedEvent> _onGameResolved = new();
-
-
-        public World()
+        
+        public World(UnitBuilder unitBuilder)
         {
+            UnitBuilder = unitBuilder;
+
             SetupGrid();
             SetupUnits();
         }
@@ -45,7 +51,6 @@ namespace BK9K.Game
                 .WithName("Gooch")
                 .WithFaction(FactionTypes.Player)
                 .WithClass(ClassTypes.Fighter)
-                .WithAttack(6)
                 .WithInitiative(6)
                 .WithPosition(3, 2)
                 .Build();
@@ -54,7 +59,6 @@ namespace BK9K.Game
                 .WithName("Kate")
                 .WithFaction(FactionTypes.Player)
                 .WithClass(ClassTypes.Fighter)
-                .WithAttack(6)
                 .WithInitiative(6)
                 .WithPosition(1, 1)
                 .Build();
@@ -63,7 +67,6 @@ namespace BK9K.Game
                 .WithName("Enemy Person 1")
                 .WithInitiative(3)
                 .WithFaction(FactionTypes.Enemy)
-                .WithAttack(2)
                 .WithClass(ClassTypes.Mage)
                 .WithPosition(3, 3)
                 .Build();
@@ -72,7 +75,6 @@ namespace BK9K.Game
                 .WithName("Enemy Person 2")
                 .WithFaction(FactionTypes.Enemy)
                 .WithInitiative(2)
-                .WithAttack(1)
                 .WithClass(ClassTypes.Rogue)
                 .WithPosition(3, 1)
                 .Build();
@@ -81,7 +83,6 @@ namespace BK9K.Game
                 .WithName("Enemy Person 3")
                 .WithFaction(FactionTypes.Enemy)
                 .WithInitiative(2)
-                .WithAttack(1)
                 .WithClass(ClassTypes.Fighter)
                 .WithPosition(2, 2)
                 .Build();
@@ -102,7 +103,7 @@ namespace BK9K.Game
         public void PlayRound()
         {
             Units.Where(x => !x.IsDead())
-                .OrderBy(x => x.Initiative)
+                .OrderBy(x => x.Stats.Initiative())
                 .ToList()
                 .ForEach(TakeTurn);
         }
@@ -122,20 +123,20 @@ namespace BK9K.Game
         {
             var target = Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
             var damage = RunAttack(unit, target);
-            if (target.IsDead()) { unit.Level++; }
+            if (target.IsDead()) { ((DefaultClass)unit.Class).Level += 1; }
             _onUnitAttacked?.OnNext(new UnitAttackedEvent(unit, target, damage));
         }
 
         public byte GenerateAttack(Unit unit)
-        { return (byte)(unit.Attack + ((unit.Attack / 5) * unit.Level)); }
+        { return (byte)(unit.Stats.SlashingDamage() + ((unit.Stats.SlashingDamage() / 5) * unit.Class.Level)); }
 
         public int RunAttack(Unit attacker, Unit defender)
         {
             var damage = GenerateAttack(attacker);
-            if (defender.Health >= damage)
-            { defender.Health -= damage; }
+            if (defender.Stats.Health() >= damage)
+            { defender.Stats.Health(defender.Stats.Health() - damage); }
             else
-            { defender.Health = 0; }
+            { defender.Stats.Health(0); }
             return damage;
         }
 

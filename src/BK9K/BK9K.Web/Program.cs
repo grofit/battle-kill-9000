@@ -21,6 +21,7 @@ namespace BK9K.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddModule(new GameModule());
+            builder.Services.AddModule(new OpenRpgModule());
 
             await builder.Build().RunAsync();
         }
