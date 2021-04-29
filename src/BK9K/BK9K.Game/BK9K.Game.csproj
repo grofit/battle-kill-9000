@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EcsRx" Version="3.12.77" />
+    <PackageReference Include="EcsRx.Plugins.ReactiveSystems" Version="3.12.77" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
