@@ -1,22 +1,21 @@
 ﻿using BK9K.Framework.Grids;
-using BK9K.Framework.Units;
 using BK9K.Game;
 using BK9K.Game.Builders;
 using BK9K.Game.Data;
-using BK9K.Web.Infrastructure.DI;
-using Microsoft.Extensions.DependencyInjection;
+using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Infrastructure.Extensions;
 
 namespace BK9K.Web.Modules
 {
-    public class GameModule : IModule
+    public class GameModule : IDependencyModule
     {
-        public void Setup(IServiceCollection services)
+        public void Setup(IDependencyContainer container)
         {
-            services.AddSingleton<GridBuilder>();
-            services.AddSingleton<RaceRepository>();
-            services.AddSingleton<ClassRepository>();
-            services.AddSingleton<UnitBuilder>();
-            services.AddSingleton<World>();
+            container.Bind<GridBuilder>();
+            container.Bind<RaceRepository>();
+            container.Bind<ClassRepository>();
+            container.Bind<UnitBuilder>();
+            container.Bind<World>();
         }
     }
 }
