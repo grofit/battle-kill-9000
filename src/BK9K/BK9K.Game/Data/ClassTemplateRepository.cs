@@ -26,8 +26,8 @@ namespace BK9K.Game.Data
             {
                 new Effect {Potency = 2, EffectType = EffectTypes.StrengthBonusAmount},
                 new Effect {Potency = 2, EffectType = EffectTypes.ConstitutionBonusAmount},
-                new Effect {Potency = 5, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 5, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
+                new Effect {Potency = 20, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
+                new Effect {Potency = 30, EffectType = EffectTypes.AllMeleeDefenseBonusPercentage},
                 new Effect {Potency = 30, EffectType = EffectTypes.HealthBonusAmount}
             };
 
@@ -47,9 +47,9 @@ namespace BK9K.Game.Data
             var effects = new[]
             {
                 new Effect {Potency = 4, EffectType = EffectTypes.IntelligenceBonusAmount},
-                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
-                new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusAmount}
+                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
+                new Effect {Potency = 30, EffectType = EffectTypes.AllElementDefenseBonusPercentage},
+                new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusPercentage}
             };
 
             return new DefaultClassTemplate
@@ -67,10 +67,11 @@ namespace BK9K.Game.Data
         {
             var effects = new[]
             {
-                new Effect {Potency = 4, EffectType = EffectTypes.IntelligenceBonusAmount},
-                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
-                new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusAmount}
+                new Effect {Potency = 4, EffectType = EffectTypes.DexterityBonusAmount},
+                new Effect {Potency = 10, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
+                new Effect {Potency = 30, EffectType = EffectTypes.PiercingBonusPercentage},
+                new Effect {Potency = 15, EffectType = EffectTypes.AllMeleeDefenseBonusPercentage},
+                new Effect {Potency = 15, EffectType = EffectTypes.AllElementDefenseBonusPercentage}
             };
 
             return new DefaultClassTemplate

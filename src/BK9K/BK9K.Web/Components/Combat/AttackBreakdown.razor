@@ -8,38 +8,48 @@
 @inject ILocaleRepository LocaleRepository;
 
 <div class="box">
-    <div>
-        <span class="tag @GetFactionClass(Attacker)">@Attacker.NameLocaleId</span>
+    
+    <div class="field is-grouped is-grouped-multiline">
+        <div class="control">
+            <span class="tag @GetFactionClass(Attacker)">@Attacker.NameLocaleId</span>
+        </div>
         <span>&nbsp;Attacked&nbsp;</span>
-        <span class="tag @GetFactionClass(Defender)">@Defender.NameLocaleId</span>
-        <span>&nbsp;Doing&nbsp;</span>
+        <div class="control">
+            <span class="tag @GetFactionClass(Defender)">@Defender.NameLocaleId</span>
+        </div>
     </div>
-    <div>
+    
+
+    <div class="field is-grouped is-grouped-multiline">
         @foreach (var damage in ProcessedAttack.DamageDone)
         {
-            <span class="has-addons">
-                <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
-                <span class="tag is-warning">@damage.Value</span>
-            </span>
+            <div class="control">
+                <span class="tags has-addons">
+                    <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
+                    <span class="tag is-warning">@damage.Value</span>
+                </span>
+            </div>
             <span>&nbsp;+&nbsp;</span>
         }
     </div>
     
-    <div>
+    <div class="field is-grouped is-grouped-multiline">
         @foreach (var damage in ProcessedAttack.DamageDefended)
         {
-            <span class="has-addons">
-                <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
-                <span class="tag is-info">@damage.Value</span>
-            </span>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
+                    <span class="tag is-info">@damage.Value</span>
+                </div>
+            </div>
             <span>&nbsp;-&nbsp;</span>
         }
     </div>
-
-    <div>
-        <span>&nbsp;=&nbsp;</span>
-        <span class="tag is-warning">@TotalDamage</span>
-        <span>&nbsp;Damage&nbsp;</span>
+    <div class="control">
+        <div class="tags has-addons">
+            <span class="tag is-dark">Total Damage</span>
+            <span class="tag is-warning">@TotalDamage</span>
+        </div>
     </div>
 </div>
 

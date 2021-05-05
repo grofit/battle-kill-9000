@@ -25,10 +25,7 @@ namespace BK9K.Game.Data
             var effects = new[]
             {
                 new Effect {Potency = 10, EffectType = EffectTypes.AllAttributeBonusAmount},
-                new Effect {Potency = 3, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 2, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
-                new Effect {Potency = 80, EffectType = EffectTypes.HealthBonusAmount},
-                new Effect {Potency = 10, EffectType = EffectTypes.MagicBonusAmount}
+                new Effect {Potency = 80, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultRaceTemplate
@@ -51,11 +48,7 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 8, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 12, EffectType = EffectTypes.IntelligenceBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.WisdomBonusAmount},
-                new Effect {Potency = 10, EffectType = EffectTypes.CharismaBonusAmount},                
-                new Effect {Potency = 3, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 2, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
-                new Effect {Potency = 70, EffectType = EffectTypes.HealthBonusAmount},
-                new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusAmount}
+                new Effect {Potency = 70, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultRaceTemplate
@@ -78,9 +71,6 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 12, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.IntelligenceBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.WisdomBonusAmount},
-                new Effect {Potency = 8, EffectType = EffectTypes.CharismaBonusAmount},
-                new Effect {Potency = 3, EffectType = EffectTypes.AllMeleeAttackBonusAmount},
-                new Effect {Potency = 2, EffectType = EffectTypes.AllMeleeDefenseBonusAmount},
                 new Effect {Potency = 100, EffectType = EffectTypes.HealthBonusAmount},
             };
 
