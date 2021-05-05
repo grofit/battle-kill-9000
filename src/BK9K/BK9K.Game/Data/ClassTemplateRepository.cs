@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Types;
+using BK9K.Game.Types;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;
@@ -28,7 +28,7 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 2, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 20, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
                 new Effect {Potency = 30, EffectType = EffectTypes.AllMeleeDefenseBonusPercentage},
-                new Effect {Potency = 30, EffectType = EffectTypes.HealthBonusAmount}
+                new Effect {Potency = 10, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultClassTemplate

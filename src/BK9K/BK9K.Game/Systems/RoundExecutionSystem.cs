@@ -7,6 +7,7 @@ using BK9K.Framework.Extensions;
 using BK9K.Framework.Units;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
+using BK9K.Game.Extensions;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Classes;
 using OpenRpg.Genres.Fantasy.Extensions;

@@ -30,6 +30,7 @@ namespace BK9K.Web.Modules
             container.Bind<ILocaleRepository, DefaultLocaleRepository>();
             container.Bind<IRaceTemplateRepository, RaceTemplateRepository>();
             container.Bind<IClassTemplateRepository, ClassTemplateRepository>();
+            container.Bind<IItemTemplateRepository, ItemTemplateRepository>();
         }
     }
 }

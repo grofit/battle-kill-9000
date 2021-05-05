@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Types;
+using BK9K.Game.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Races;
 using OpenRpg.Core.Requirements;
@@ -25,7 +25,7 @@ namespace BK9K.Game.Data
             var effects = new[]
             {
                 new Effect {Potency = 10, EffectType = EffectTypes.AllAttributeBonusAmount},
-                new Effect {Potency = 80, EffectType = EffectTypes.HealthBonusAmount}
+                new Effect {Potency = 15, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultRaceTemplate
@@ -48,7 +48,7 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 8, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 12, EffectType = EffectTypes.IntelligenceBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.WisdomBonusAmount},
-                new Effect {Potency = 70, EffectType = EffectTypes.HealthBonusAmount}
+                new Effect {Potency = 10, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultRaceTemplate
@@ -71,7 +71,7 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 12, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.IntelligenceBonusAmount},
                 new Effect {Potency = 10, EffectType = EffectTypes.WisdomBonusAmount},
-                new Effect {Potency = 100, EffectType = EffectTypes.HealthBonusAmount},
+                new Effect {Potency = 20, EffectType = EffectTypes.HealthBonusAmount},
             };
 
             return new DefaultRaceTemplate
