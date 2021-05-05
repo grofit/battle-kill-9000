@@ -1,6 +1,6 @@
-﻿using DryIoc;
+﻿using SystemsRx.Infrastructure.Dependencies;
+using DryIoc;
 using EcsRx.Infrastructure;
-using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.DryIoc;
 
 namespace BK9K.Web.Applications

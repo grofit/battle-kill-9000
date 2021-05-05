@@ -1,12 +1,12 @@
 ﻿using System.Linq;
+using SystemsRx.Attributes;
+using SystemsRx.Events;
+using SystemsRx.Scheduling;
+using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Extensions;
 using BK9K.Framework.Units;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
-using BK9K.Game.Systems.Paradigms;
-using EcsRx.Attributes;
-using EcsRx.Events;
-using EcsRx.Scheduling;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Classes;
 using OpenRpg.Genres.Fantasy.Extensions;
@@ -14,7 +14,7 @@ using OpenRpg.Genres.Fantasy.Extensions;
 namespace BK9K.Game.Systems
 {
     [Priority(-100)]
-    public class RoundExecutionSystem : UpdateSystem
+    public class RoundExecutionSystem : IBasicSystem
     {
         const int RoundTimeScale = 1000;
         public int RoundTimeDelay => (int)(RoundTimeScale * Configuration.GameSpeed);
@@ -27,7 +27,7 @@ namespace BK9K.Game.Systems
         public IAttackGenerator AttackGenerator { get; }
         public IAttackProcessor AttackProcessor { get; }
 
-        public RoundExecutionSystem(World world, IEventSystem eventSystem, IUpdateScheduler updateScheduler, GameConfiguration configuration, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor) : base(updateScheduler)
+        public RoundExecutionSystem(World world, IEventSystem eventSystem, GameConfiguration configuration, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor)
         {
             World = world;
             EventSystem = eventSystem;
@@ -36,7 +36,7 @@ namespace BK9K.Game.Systems
             AttackProcessor = attackProcessor;
         }
 
-        public override void OnUpdate(ElapsedTime elapsed)
+        public void Execute(ElapsedTime elapsed)
         {
             if (Configuration.GameSpeed == 0)
             { return; }

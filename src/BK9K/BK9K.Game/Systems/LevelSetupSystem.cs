@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SystemsRx.Events;
+using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Grids;
 using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 using BK9K.Game.Builders;
 using BK9K.Game.Events;
-using EcsRx.Events;
-using EcsRx.Plugins.ReactiveSystems.Custom;
 
 namespace BK9K.Game.Systems
 {
-    public class LevelSetupSystem : EventReactionSystem<RequestLevelLoadEvent>
+    public class LevelSetupSystem : IReactToEventSystem<RequestLevelLoadEvent>
     {
         public World World { get; }
+        public IEventSystem EventSystem { get; }
         public UnitBuilder UnitBuilder { get; }
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, World world, IEventSystem eventSystem) : base(eventSystem)
+        public LevelSetupSystem(UnitBuilder unitBuilder, World world, IEventSystem eventSystem)
         {
             UnitBuilder = unitBuilder;
             World = world;
+            EventSystem = eventSystem;
         }
 
-        public override void EventTriggered(RequestLevelLoadEvent eventData)
+        public void Process(RequestLevelLoadEvent eventData)
         {
             World.Units = SetupUnits().ToList();
             World.Grid = SetupGrid();
