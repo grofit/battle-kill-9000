@@ -8,9 +8,9 @@ using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.Data
 {
-    public class RaceRepository : InMemoryDataRepository<IRaceTemplate>
+    public class RaceTemplateRepository : InMemoryDataRepository<IRaceTemplate>, IRaceTemplateRepository
     {
-        public RaceRepository()
+        public RaceTemplateRepository()
         {
             Data = new List<IRaceTemplate>
             {

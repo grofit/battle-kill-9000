@@ -1,0 +1,49 @@
+@using OpenRpg.Genres.Fantasy.Types
+@using OpenRpg.Core.Requirements
+@using OpenRpg.Genres.Fantasy.Characters
+@using OpenRpg.Genres.Fantasy.Requirements
+@using BK9K.Game.Data
+@using OpenRpg.Localization.Repositories
+
+@inject ILocaleRepository LocaleRepository
+@inject IRaceTemplateRepository _raceTemplateRepository
+@inject IClassTemplateRepository _classTemplateRepository
+@inject IRequirementChecker RequirementsChecker
+
+@if (Requirements != null && Requirements.Count > 0)
+{
+    <div class="content is-small has-text-centered">
+        @foreach (var requirement in Requirements)
+        {
+            <li style="list-style: none;">
+                <span class="@(IsRequirementMet(requirement) ? "has-text-success" : "has-text-danger")">
+                    @if (requirement.RequirementType == RequirementTypes.ClassRequirement)
+                    {<span>@(_classTemplateRepository.Retrieve(requirement.AssociatedId).NameLocaleId) Class Required</span>}
+                    else if (requirement.RequirementType == RequirementTypes.RaceRequirement)
+                    {<span>@(_raceTemplateRepository.Retrieve(requirement.AssociatedId).NameLocaleId) Race Required</span>}
+                    else if (requirement.RequirementType == RequirementTypes.StrengthRequirement)
+                    {<span>@(requirement.AssociatedValue) Strength Required</span>}
+                    else if (requirement.RequirementType == RequirementTypes.LevelRequirement)
+                    {<span>Level @(requirement.AssociatedValue) Required</span>}
+                    @* Lots of other checks would go here *@
+                </span>
+            </li>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<Requirement> Requirements { get; set; }
+
+    [Parameter]
+    public ICharacter Character { get; set; }
+
+    private IDictionary<Requirement, bool> _requirementPassed = new Dictionary<Requirement, bool>();
+
+    public bool IsRequirementMet(Requirement requirement)
+    { return RequirementsChecker.IsRequirementMet(Character, requirement); }
+
+    public string GetRequirementText(int requirementType)
+    { return LocaleRepository.Retrieve(DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.RequirementTextKey, requirementType)); }
+}
