@@ -27,6 +27,7 @@ namespace BK9K.Game.Builders
         private int _raceType = RaceTypes.Human;
         private int _classType = ClassTypes.Fighter;
         private int _weaponId = ItemTemplateLookups.Unknown;
+        private int _armourId = ItemTemplateLookups.Unknown;
         private Position _position = Position.Zero;
 
         public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer, IItemTemplateRepository itemTemplateRepository)
@@ -92,6 +93,12 @@ namespace BK9K.Game.Builders
             return this;
         }
 
+        public UnitBuilder WithArmour(int itemId)
+        {
+            _armourId = itemId;
+            return this;
+        }
+
         public Unit Build()
         {
             var classTemplate = ClassTemplateRepository.Retrieve(_classType);
@@ -106,30 +113,72 @@ namespace BK9K.Game.Builders
                 Equipment = new DefaultEquipment()
             };
 
-            if (_weaponId == ItemTemplateLookups.Unknown)
-            {
-                if (_classType == ClassTypes.Fighter) { _weaponId = ItemTemplateLookups.Sword; }
-                if (_classType == ClassTypes.Rogue) { _weaponId = ItemTemplateLookups.Dagger; }
-                if (_classType == ClassTypes.Mage) { _weaponId = ItemTemplateLookups.Staff; }
-            }
+            var weapon = GetWeapon();
+            if(weapon != null)
+            { unit.Equipment.MainHandSlot.EquipItemToSlot(weapon); }
 
-            if (_weaponId != ItemTemplateLookups.Unknown)
-            {
-                var weaponTemplate = ItemTemplateRepository.Retrieve(_weaponId);
-                var weapon = new DefaultItem
-                {
-                    ItemTemplate = weaponTemplate,
-                    Modifications = new IModification[0],
-                    Variables = new DefaultItemVariables()
-                };
-                var didEquip = unit.Equipment.MainHandSlot.EquipItemToSlot(weapon);
-                if(didEquip){}
-            }
-
+            var armour = GetArmour();
+            if(armour != null)
+            { unit.Equipment.UpperBodySlot.EquipItemToSlot(armour); }
+            
             var unitEffects = unit.GetActiveEffects().ToList();
             unit.Stats = StatsComputer.ComputeStats(unitEffects);
             unit.Stats.Initiative(_initiative);
             return unit;
+        }
+
+        private IItem GetWeapon()
+        {
+            if (_weaponId == ItemTemplateLookups.Unknown)
+            {
+                if (_classType == ClassTypes.Fighter)
+                { _weaponId = ItemTemplateLookups.Sword; }
+
+                if (_classType == ClassTypes.Rogue)
+                { _weaponId = ItemTemplateLookups.Dagger; }
+
+                if (_classType == ClassTypes.Mage)
+                { _weaponId = ItemTemplateLookups.Staff; }
+            }
+
+            if (_weaponId == ItemTemplateLookups.Unknown)
+            { return null; }
+
+            var weaponTemplate = ItemTemplateRepository.Retrieve(_weaponId);
+
+            return new DefaultItem
+            {
+                ItemTemplate = weaponTemplate,
+                Modifications = new IModification[0],
+                Variables = new DefaultItemVariables()
+            };
+        }
+
+        private IItem GetArmour()
+        {
+            if (_armourId == ItemTemplateLookups.Unknown)
+            {
+                if (_classType == ClassTypes.Fighter)
+                { _armourId = ItemTemplateLookups.PlateArmour; }
+
+                if (_classType == ClassTypes.Rogue)
+                { _armourId = ItemTemplateLookups.Tunic; }
+
+                if (_classType == ClassTypes.Mage)
+                { _armourId = ItemTemplateLookups.Robe; }
+            }
+
+            if (_armourId == ItemTemplateLookups.Unknown)
+            { return null; }
+
+            var armourTemplate = ItemTemplateRepository.Retrieve(_armourId);
+            return new DefaultItem
+            {
+                ItemTemplate = armourTemplate,
+                Modifications = new IModification[0],
+                Variables = new DefaultItemVariables()
+            };
+
         }
     }
 }

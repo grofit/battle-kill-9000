@@ -104,7 +104,7 @@ namespace BK9K.Game.Data
             GetTypeFieldsDictionary<DamageTypes>()
                 .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(DamageTypesTextKey, key), value));
         }
-
+        
         private void GenerateAssociatedTypeLocaleText()
         {
             GetTypeFieldsDictionary<AssociatedTypes>()

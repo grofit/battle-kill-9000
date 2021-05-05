@@ -28,7 +28,7 @@ namespace BK9K.Game.Data
                 new Effect {Potency = 2, EffectType = EffectTypes.ConstitutionBonusAmount},
                 new Effect {Potency = 20, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
                 new Effect {Potency = 30, EffectType = EffectTypes.AllMeleeDefenseBonusPercentage},
-                new Effect {Potency = 30, EffectType = EffectTypes.HealthBonusAmount}
+                new Effect {Potency = 10, EffectType = EffectTypes.HealthBonusAmount}
             };
 
             return new DefaultClassTemplate
