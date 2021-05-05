@@ -12,47 +12,29 @@
 @inject GameApplication GameApp
 
 <div class="container">
+    <div class="columns">
 
-    @if (!DidPlayerWin.HasValue)
-    {
-        <section class="section">
-            @for (var y = 0; y < World.Grid.YSize; y++)
-            {
+        @if (!DidPlayerWin.HasValue)
+        {
+            <div class="column">
+                <LevelView World="World" />
                 <div>
-                    @for (var x = 0; x < World.Grid.XSize; x++)
-                    {
-                        <div class="ground-tile is-relative">
-                            <span class="grid-tag tag is-info">Pos [@x,@y]</span>
-                            @{
-                                var possibleUnit = World.GetUnitAt(new Position(x, y));
-                                if (possibleUnit != null && !possibleUnit.IsDead())
-                                {
-                                    <UnitAvatar Unit="possibleUnit"/>
-                                }
-                            }
-                        </div>
-                    }
+                    <GameSpeed Configuration="@GameApp.GameConfiguration" />
                 </div>
-            }
-            <div>
-                <GameSpeed Configuration="@GameApp.GameConfiguration" />
             </div>
-        </section>
-    }
-    else
-    {
-        <div>
-            @if (DidPlayerWin.Value)
-            {
-                <p class="title has-text-success">CONGRATULATIONS YOU WON!!</p>
-            }
-            else
-            {
-                <p class="title has-text-danger">YOU DIED :(</p>
-                <a href="/" class="button">To Main Menu</a>
-            }
-        </div>
-    }
+            <div class="column is-one-third">
+                <p class="title">TEST STATS</p>
+            </div>
+        }
+        else
+        {
+            <div class="column">
+                <LevelFinishedView DidPlayerWin="DidPlayerWin"></LevelFinishedView>
+            </div>
+        }
+
+    </div>
+
     <div class="output-log is-absolute box">
         <p class="title">COMBAT LOGS</p>
         @foreach (var log in Logs)
@@ -60,8 +42,9 @@
             <p>@log</p>
         }
     </div>
-    
+
 </div>
+
 
 @code
 {

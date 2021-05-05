@@ -1,0 +1,16 @@
+﻿<div>
+    @if (DidPlayerWin.Value)
+    {
+        <p class="title has-text-success">CONGRATULATIONS YOU WON!!</p>
+    }
+    else
+    {
+        <p class="title has-text-danger">YOU DIED :(</p>
+        <a href="/" class="button">To Main Menu</a>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public bool? DidPlayerWin { get; set; }
+}

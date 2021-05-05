@@ -1,0 +1,29 @@
+﻿@using BK9K.Framework.Transforms
+@using BK9K.Game
+@using BK9K.Framework.Extensions
+
+<div>
+    @for (var y = 0; y < World.Grid.YSize; y++)
+    {
+        <div>
+            @for (var x = 0; x < World.Grid.XSize; x++)
+            {
+                <div class="ground-tile is-relative">
+                    <span class="grid-tag tag is-info">Pos [@x,@y]</span>
+                    @{
+                        var possibleUnit = World.GetUnitAt(new Position(x, y));
+                        if (possibleUnit != null && !possibleUnit.IsDead())
+                        {
+                            <UnitAvatarView Unit="possibleUnit" />
+                        }
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public World World { get; set; }
+}
