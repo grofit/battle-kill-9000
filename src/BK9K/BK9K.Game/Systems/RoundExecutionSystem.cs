@@ -33,6 +33,9 @@ namespace BK9K.Game.Systems
 
         public override void OnUpdate(ElapsedTime elapsed)
         {
+            if (Configuration.GameSpeed == 0)
+            { return; }
+
             _elapsedRoundTime += elapsed.DeltaTime.Milliseconds;
             if (_elapsedRoundTime < RoundTimeDelay) { return; }
 

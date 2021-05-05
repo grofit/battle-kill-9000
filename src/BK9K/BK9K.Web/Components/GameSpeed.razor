@@ -7,6 +7,14 @@
 
 <div class="field has-addons">
     <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.Paused)" @onclick="() => SetGameSpeed(GameSpeedTypes.Paused)">
+            <span class="icon is-small">
+                <i class="fas fa-pause"></i>
+            </span>
+            <span>Pause</span>
+        </button>
+    </p>
+    <p class="control">
         <button class="button @GetClassState(GameSpeedTypes.Default)" @onclick="() => SetGameSpeed(GameSpeedTypes.Default)">
             <span class="icon is-small">
                 <i class="fas fa-play"></i>
