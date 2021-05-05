@@ -7,6 +7,7 @@ using BK9K.Game.Systems.Paradigms;
 using EcsRx.Attributes;
 using EcsRx.Events;
 using EcsRx.Scheduling;
+using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Classes;
 using OpenRpg.Genres.Fantasy.Extensions;
 
@@ -23,12 +24,16 @@ namespace BK9K.Game.Systems
         public World World { get; }
         public GameConfiguration Configuration { get; }
         public IEventSystem EventSystem { get; }
+        public IAttackGenerator AttackGenerator { get; }
+        public IAttackProcessor AttackProcessor { get; }
 
-        public RoundExecutionSystem(World world, IEventSystem eventSystem, IUpdateScheduler updateScheduler, GameConfiguration configuration) : base(updateScheduler)
+        public RoundExecutionSystem(World world, IEventSystem eventSystem, IUpdateScheduler updateScheduler, GameConfiguration configuration, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor) : base(updateScheduler)
         {
             World = world;
             EventSystem = eventSystem;
             Configuration = configuration;
+            AttackGenerator = attackGenerator;
+            AttackProcessor = attackProcessor;
         }
 
         public override void OnUpdate(ElapsedTime elapsed)
@@ -57,22 +62,22 @@ namespace BK9K.Game.Systems
             var target = World.Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
             if (target == null) { return; }
 
-            var damage = RunAttack(unit, target);
+            var processedAttack = RunAttack(unit, target);
             if (target.IsDead()) { ((DefaultClass)unit.Class).Level += 1; }
-            EventSystem.Publish(new UnitAttackedEvent(unit, target, damage));
+            EventSystem.Publish(new UnitAttackedEvent(unit, target, processedAttack));
         }
-
-        public byte GenerateAttack(Unit unit)
-        { return (byte)(unit.Stats.SlashingDamage() + ((unit.Stats.SlashingDamage() / 5) * unit.Class.Level)); }
-
-        public int RunAttack(Unit attacker, Unit defender)
+        
+        public ProcessedAttack RunAttack(Unit attacker, Unit defender)
         {
-            var damage = GenerateAttack(attacker);
-            if (defender.Stats.Health() >= damage)
-            { defender.Stats.Health(defender.Stats.Health() - damage); }
+            var attack = AttackGenerator.GenerateAttack(attacker.Stats);
+            var processedAttack = AttackProcessor.ProcessAttack(attack, defender.Stats);
+            var totalDamage = (int)processedAttack.DamageDone.Sum(x => x.Value);
+
+            if (defender.Stats.Health() >= totalDamage)
+            { defender.Stats.Health(defender.Stats.Health() - totalDamage); }
             else
             { defender.Stats.Health(0); }
-            return damage;
+            return processedAttack;
         }
     }
 }

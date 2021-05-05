@@ -8,9 +8,9 @@ using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.Data
 {
-    public class ClassRepository : InMemoryDataRepository<IClassTemplate>
+    public class ClassTemplateRepository : InMemoryDataRepository<IClassTemplate>, IClassTemplateRepository
     {
-        public ClassRepository()
+        public ClassTemplateRepository()
         {
             Data = new List<IClassTemplate>
             {

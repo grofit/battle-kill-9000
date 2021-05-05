@@ -13,8 +13,6 @@ namespace BK9K.Web.Modules
         public void Setup(IDependencyContainer container)
         {
             container.Bind<GridBuilder>();
-            container.Bind<RaceRepository>();
-            container.Bind<ClassRepository>();
             container.Bind<UnitBuilder>();
             container.Bind<World>();
             container.Bind<GameConfiguration>();

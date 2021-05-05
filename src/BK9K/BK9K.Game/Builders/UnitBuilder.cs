@@ -14,8 +14,8 @@ namespace BK9K.Game.Builders
 {
     public class UnitBuilder
     {
-        public RaceRepository RaceRepository { get; }
-        public ClassRepository ClassRepository { get; }
+        public IRaceTemplateRepository RaceTemplateRepository { get; }
+        public IClassTemplateRepository ClassTemplateRepository { get; }
         public IStatsComputer StatsComputer { get; }
 
         private string _name = "Randy Random";
@@ -26,15 +26,15 @@ namespace BK9K.Game.Builders
         private byte _classType = ClassTypes.Fighter;
         private Position _position = Position.Zero;
 
-        public UnitBuilder(RaceRepository raceRepository, ClassRepository classRepository, IStatsComputer statsComputer)
+        public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer)
         {
-            RaceRepository = raceRepository;
-            ClassRepository = classRepository;
+            RaceTemplateRepository = raceTemplateRepository;
+            ClassTemplateRepository = classTemplateRepository;
             StatsComputer = statsComputer;
         }
 
         public UnitBuilder Create()
-        { return new(RaceRepository, ClassRepository, StatsComputer); }
+        { return new(RaceTemplateRepository, ClassTemplateRepository, StatsComputer); }
 
         public UnitBuilder WithName(string name)
         {
@@ -84,8 +84,8 @@ namespace BK9K.Game.Builders
 
         public Unit Build()
         {
-            var classTemplate = ClassRepository.Retrieve(_classType);
-            var raceTemplate = RaceRepository.Retrieve(_raceType);
+            var classTemplate = ClassTemplateRepository.Retrieve(_classType);
+            var raceTemplate = RaceTemplateRepository.Retrieve(_raceType);
             var unit = new Unit
             {
                 NameLocaleId = _name,

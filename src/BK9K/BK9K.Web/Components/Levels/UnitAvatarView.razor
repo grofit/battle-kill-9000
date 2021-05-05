@@ -2,7 +2,7 @@
 @using BK9K.Framework.Types
 @using OpenRpg.Genres.Fantasy.Extensions
 
-<div class="unit-avatar">
+<div class="unit-avatar" @onclick="() => OnUnitClick.InvokeAsync(Unit)">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
     <img src="./assets/sprites/@(className).png" alt="@className">
@@ -23,9 +23,13 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public EventCallback<Unit> OnUnitClick { get; set; }
+
     [Parameter]
     public Unit Unit { get; set; }
-
+    
     public string GetFactionClass(byte factionType)
     {
         if(factionType == FactionTypes.Player) { return "is-success"; }

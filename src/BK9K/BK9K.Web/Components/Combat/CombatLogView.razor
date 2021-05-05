@@ -1,0 +1,38 @@
+﻿@using EcsRx.Events
+@using EcsRx.Extensions
+@using BK9K.Game.Events
+
+@implements IDisposable 
+@inject IEventSystem EventSystem
+
+<section class="section">
+    <p class="title">COMBAT LOGS</p>
+    <div class="output-log is-absolute box">
+        @foreach (var log in Logs)
+        {
+            <AttackBreakdown Attacker=@log.Attacker Defender=@log.Target ProcessedAttack=@log.ProcessedAttack></AttackBreakdown>
+        }
+    </div>
+</section>
+
+@code {
+    private List<UnitAttackedEvent> Logs = new();
+    private List<IDisposable> _subs = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        EventSystem.Receive<UnitAttackedEvent>().Subscribe(UnitHasAttacked).AddTo(_subs);
+    }
+
+    public void UnitHasAttacked(UnitAttackedEvent args)
+    {
+        Logs.Add(args);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _subs.DisposeAll();
+    }
+}
