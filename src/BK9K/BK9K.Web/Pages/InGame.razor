@@ -2,6 +2,7 @@
 @using BK9K.Framework.Extensions
 @using System
 @using BK9K.Framework.Transforms
+@using BK9K.Framework.Units
 @using BK9K.Game
 @using BK9K.Game.Events
 @using BK9K.Web.Applications
@@ -17,13 +18,16 @@
         @if (!DidPlayerWin.HasValue)
         {
             <div class="column">
-                <LevelView World="World" />
+                <LevelView World="World" OnUnitSelected="(Unit unit) => SelectedUnit = unit" />
                 <div>
                     <GameSpeed Configuration="@GameApp.GameConfiguration" />
                 </div>
             </div>
-            <div class="column is-one-third">
-                <p class="title">TEST STATS</p>
+            <div class="column is-two-fifths">
+                @if (SelectedUnit != null)
+                {
+                    <BasicCharacter Character="SelectedUnit"></BasicCharacter>
+                }
             </div>
         }
         else
@@ -35,12 +39,8 @@
 
     </div>
 
-    <div class="output-log is-absolute box">
-        <p class="title">COMBAT LOGS</p>
-        @foreach (var log in Logs)
-        {
-            <p>@log</p>
-        }
+    <div>
+        <CombatLogView />
     </div>
 
 </div>
@@ -49,17 +49,16 @@
 @code
 {
     private bool? DidPlayerWin = null;
-    private List<string> Logs = new();
     private List<IDisposable> _subs = new();
 
     public World World => GameApp.World;
     public bool isLoaded = false;
+    public Unit SelectedUnit = null;
 
     protected override async Task OnInitializedAsync()
     {
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
         GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
-        GameApp.EventSystem.Receive<UnitAttackedEvent>().Subscribe(UnitHasAttacked).AddTo(_subs);
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
         GameApp.EventSystem.Publish(new RequestLevelLoadEvent(1));
     }
@@ -73,15 +72,12 @@
     {
         StateHasChanged();
     }
-
+    
     public void OnLevelEnded(LevelEndedEvent args)
     {
         DidPlayerWin = args.DidPlayerWin;
         StateHasChanged();
     }
-
-    public void UnitHasAttacked(UnitAttackedEvent args)
-    { Logs.Add($"{args.Attacker.NameLocaleId} Attacked {args.Target.NameLocaleId} For {args.Damage} Damage"); }
 
     public void ResolveGame(LevelEndedEvent args)
     { DidPlayerWin = args.DidPlayerWin; }

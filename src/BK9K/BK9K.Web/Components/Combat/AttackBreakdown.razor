@@ -1,0 +1,61 @@
+﻿@using BK9K.Framework.Units
+@using OpenRpg.Combat.Processors
+@using BK9K.Framework.Types
+@using BK9K.Game.Data
+@using BK9K.Game.Extensions
+@using OpenRpg.Localization.Repositories
+
+@inject ILocaleRepository LocaleRepository;
+
+<div class="box">
+    <div>
+        <span class="tag @GetFactionClass(Attacker)">@Attacker.NameLocaleId</span>
+        <span>&nbsp;Attacked&nbsp;</span>
+        <span class="tag @GetFactionClass(Defender)">@Defender.NameLocaleId</span>
+        <span>&nbsp;Doing&nbsp;</span>
+    </div>
+    <div>
+        @foreach (var damage in ProcessedAttack.DamageDone)
+        {
+            <span class="has-addons">
+                <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
+                <span class="tag is-warning">@damage.Value</span>
+            </span>
+            <span>&nbsp;+&nbsp;</span>
+        }
+    </div>
+    
+    <div>
+        @foreach (var damage in ProcessedAttack.DamageDefended)
+        {
+            <span class="has-addons">
+                <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
+                <span class="tag is-info">@damage.Value</span>
+            </span>
+            <span>&nbsp;-&nbsp;</span>
+        }
+    </div>
+
+    <div>
+        <span>&nbsp;=&nbsp;</span>
+        <span class="tag is-warning">@TotalDamage</span>
+        <span>&nbsp;Damage&nbsp;</span>
+    </div>
+</div>
+
+@code {
+
+    public int TotalDamage => (int)ProcessedAttack.DamageDone.Sum(x => x.Value);
+
+    [Parameter]
+    public Unit Attacker { get; set; }
+
+    [Parameter]
+    public Unit Defender { get; set; }
+
+    [Parameter]
+    public ProcessedAttack ProcessedAttack { get; set; }
+
+    public string GetFactionClass(Unit unit)
+    { return unit.FactionType == FactionTypes.Player ? "is-success" : "is-danger"; }
+}

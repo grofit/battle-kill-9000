@@ -4,6 +4,7 @@
 @using OpenRpg.Genres.Fantasy.Types
 @using System.Reflection
 @using BK9K.Game.Data
+@using BK9K.Game.Extensions
 @using OpenRpg.Core.Requirements
 @using OpenRpg.Genres.Fantasy.Characters
 @using OpenRpg.Genres.Fantasy.Requirements
@@ -63,7 +64,7 @@
     { return _percentageEffectTypeCache.Contains(effectType); }
 
     public string GetEffectText(int effectType)
-    { return LocaleRepository.Retrieve(DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.EffectTextKey, effectType)); }
+    { return LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.EffectTextKey, effectType)); }
 
     public string GetPotencySymbol(float potency)
     { return potency > 0 ? "+" : "-"; }

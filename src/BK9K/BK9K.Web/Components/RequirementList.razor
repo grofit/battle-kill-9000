@@ -3,6 +3,7 @@
 @using OpenRpg.Genres.Fantasy.Characters
 @using OpenRpg.Genres.Fantasy.Requirements
 @using BK9K.Game.Data
+@using BK9K.Game.Extensions
 @using OpenRpg.Localization.Repositories
 
 @inject ILocaleRepository LocaleRepository
@@ -45,5 +46,5 @@
     { return RequirementsChecker.IsRequirementMet(Character, requirement); }
 
     public string GetRequirementText(int requirementType)
-    { return LocaleRepository.Retrieve(DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.RequirementTextKey, requirementType)); }
+    { return LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.RequirementTextKey, requirementType)); }
 }

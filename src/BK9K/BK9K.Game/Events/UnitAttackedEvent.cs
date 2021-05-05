@@ -1,4 +1,5 @@
 ﻿using BK9K.Framework.Units;
+using OpenRpg.Combat.Processors;
 
 namespace BK9K.Game.Events
 {
@@ -6,13 +7,13 @@ namespace BK9K.Game.Events
     {
         public Unit Attacker { get; set; }
         public Unit Target { get; set; }
-        public int Damage { get; set; }
+        public ProcessedAttack ProcessedAttack { get; set; }
 
-        public UnitAttackedEvent(Unit attacker, Unit target, int damage = 0)
+        public UnitAttackedEvent(Unit attacker, Unit target, ProcessedAttack processedAttack)
         {
             Attacker = attacker;
             Target = target;
-            Damage = damage;
+            ProcessedAttack = processedAttack;
         }
     }
 }
