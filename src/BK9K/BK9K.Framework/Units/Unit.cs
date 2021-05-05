@@ -5,7 +5,7 @@ namespace BK9K.Framework.Units
 {
     public class Unit : DefaultCharacter
     {
-        public byte FactionType { get; set; }
+        public int FactionType { get; set; }
         public Position Position { get;set; }
     }
 }

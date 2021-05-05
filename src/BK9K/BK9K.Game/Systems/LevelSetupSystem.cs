@@ -3,10 +3,10 @@ using System.Linq;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Grids;
-using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 using BK9K.Game.Builders;
 using BK9K.Game.Events;
+using BK9K.Game.Types;
 
 namespace BK9K.Game.Systems
 {

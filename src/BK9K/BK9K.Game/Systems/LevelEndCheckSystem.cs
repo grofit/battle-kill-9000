@@ -4,8 +4,8 @@ using SystemsRx.Events;
 using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Extensions;
-using BK9K.Framework.Types;
 using BK9K.Game.Events;
+using BK9K.Game.Types;
 
 namespace BK9K.Game.Systems
 {

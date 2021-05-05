@@ -1,4 +1,4 @@
-﻿namespace BK9K.Framework.Types
+﻿namespace BK9K.Game.Types
 {
     public class ClassTypes
     {
