@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BK9K.Framework.Extensions;
 using BK9K.Framework.Units;
+using BK9K.Game.Configuration;
 using BK9K.Game.Events;
 using BK9K.Game.Systems.Paradigms;
 using EcsRx.Attributes;
@@ -14,27 +15,30 @@ namespace BK9K.Game.Systems
     [Priority(-100)]
     public class RoundExecutionSystem : UpdateSystem
     {
-        const int RoundTriggerTime = 1000;
+        const int RoundTimeScale = 1000;
+        public int RoundTimeDelay => (int)(RoundTimeScale * Configuration.GameSpeed);
 
         private int _elapsedRoundTime = 0;
-
+        
         public World World { get; }
+        public GameConfiguration Configuration { get; }
         public IEventSystem EventSystem { get; }
 
-        public RoundExecutionSystem(World world, IEventSystem eventSystem, IUpdateScheduler updateScheduler) : base(updateScheduler)
+        public RoundExecutionSystem(World world, IEventSystem eventSystem, IUpdateScheduler updateScheduler, GameConfiguration configuration) : base(updateScheduler)
         {
             World = world;
             EventSystem = eventSystem;
+            Configuration = configuration;
         }
 
         public override void OnUpdate(ElapsedTime elapsed)
         {
             _elapsedRoundTime += elapsed.DeltaTime.Milliseconds;
-            if (_elapsedRoundTime < RoundTriggerTime) { return; }
+            if (_elapsedRoundTime < RoundTimeDelay) { return; }
 
             PlayRound();
             EventSystem.Publish(new RoundConcludedEvent());
-            _elapsedRoundTime -= RoundTriggerTime;
+            _elapsedRoundTime -= RoundTimeDelay;
         }
 
         public void PlayRound()

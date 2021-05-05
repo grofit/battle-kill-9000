@@ -1,10 +1,10 @@
 ﻿namespace BK9K.Game.Events
 {
-    public class LevelLoadingEvent
+    public class RequestLevelLoadEvent
     {
         public int Level { get; }
 
-        public LevelLoadingEvent(int level)
+        public RequestLevelLoadEvent(int level)
         {
             Level = level;
         }

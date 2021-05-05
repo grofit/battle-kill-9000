@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EcsRx" Version="3.12.77" />
+    <PackageReference Include="EcsRx.Plugins.ReactiveSystems" Version="3.12.77" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BK9K.Framework\BK9K.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
+
+</Project>

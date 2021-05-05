@@ -1,10 +1,10 @@
 ﻿namespace BK9K.Game.Events
 {
-    public class GameResolvedEvent
+    public class LevelEndedEvent
     {
         public bool DidPlayerWin { get; set; }
 
-        public GameResolvedEvent(bool didPlayerWin)
+        public LevelEndedEvent(bool didPlayerWin)
         {
             DidPlayerWin = didPlayerWin;
         }

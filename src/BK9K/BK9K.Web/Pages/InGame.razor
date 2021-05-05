@@ -1,0 +1,108 @@
+﻿@page "/in-game"
+@using BK9K.Framework.Extensions
+@using System
+@using BK9K.Framework.Transforms
+@using BK9K.Game
+@using BK9K.Game.Events
+@using BK9K.Web.Applications
+@using EcsRx.Extensions
+
+@implements IDisposable
+
+@inject GameApplication GameApp
+
+<div class="container">
+
+    @if (!DidPlayerWin.HasValue)
+    {
+        <section class="section">
+            @for (var y = 0; y < World.Grid.YSize; y++)
+            {
+                <div>
+                    @for (var x = 0; x < World.Grid.XSize; x++)
+                    {
+                        <div class="ground-tile is-relative">
+                            <span class="grid-tag tag is-info">Pos [@x,@y]</span>
+                            @{
+                                var possibleUnit = World.GetUnitAt(new Position(x, y));
+                                if (possibleUnit != null && !possibleUnit.IsDead())
+                                {
+                                    <UnitAvatar Unit="possibleUnit"/>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            <div>
+                <GameSpeed Configuration="@GameApp.GameConfiguration" />
+            </div>
+        </section>
+    }
+    else
+    {
+        <div>
+            @if (DidPlayerWin.Value)
+            {
+                <p class="title has-text-success">CONGRATULATIONS YOU WON!!</p>
+            }
+            else
+            {
+                <p class="title has-text-danger">YOU DIED :(</p>
+                <a href="/" class="button">To Main Menu</a>
+            }
+        </div>
+    }
+    <div class="output-log is-absolute box">
+        <p class="title">COMBAT LOGS</p>
+        @foreach (var log in Logs)
+        {
+            <p>@log</p>
+        }
+    </div>
+    
+</div>
+
+@code
+{
+    private bool? DidPlayerWin = null;
+    private List<string> Logs = new();
+    private List<IDisposable> _subs = new();
+
+    public World World => GameApp.World;
+    public bool isLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
+        GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
+        GameApp.EventSystem.Receive<UnitAttackedEvent>().Subscribe(UnitHasAttacked).AddTo(_subs);
+        GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
+        GameApp.EventSystem.Publish(new RequestLevelLoadEvent(1));
+    }
+
+    public void OnLevelLoaded(LevelLoadedEvent args)
+    {
+        StateHasChanged();
+    }
+
+    public void OnRoundConcluded(RoundConcludedEvent args)
+    {
+        StateHasChanged();
+    }
+
+    public void OnLevelEnded(LevelEndedEvent args)
+    {
+        DidPlayerWin = args.DidPlayerWin;
+        StateHasChanged();
+    }
+
+    public void UnitHasAttacked(UnitAttackedEvent args)
+    { Logs.Add($"{args.Attacker.NameLocaleId} Attacked {args.Target.NameLocaleId} For {args.Damage} Damage"); }
+
+    public void ResolveGame(LevelEndedEvent args)
+    { DidPlayerWin = args.DidPlayerWin; }
+
+    public void Dispose()
+    { _subs.DisposeAll(); }
+}

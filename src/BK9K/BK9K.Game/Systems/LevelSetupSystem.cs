@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BK9K.Framework.Grids;
 using BK9K.Framework.Types;
 using BK9K.Framework.Units;
 using BK9K.Game.Builders;
@@ -9,20 +10,29 @@ using EcsRx.Plugins.ReactiveSystems.Custom;
 
 namespace BK9K.Game.Systems
 {
-    public class UnitSetupSystem : EventReactionSystem<LevelLoadingEvent>
+    public class LevelSetupSystem : EventReactionSystem<RequestLevelLoadEvent>
     {
         public World World { get; }
         public UnitBuilder UnitBuilder { get; }
         
-        public UnitSetupSystem(UnitBuilder unitBuilder, World world, IEventSystem eventSystem) : base(eventSystem)
+        public LevelSetupSystem(UnitBuilder unitBuilder, World world, IEventSystem eventSystem) : base(eventSystem)
         {
             UnitBuilder = unitBuilder;
             World = world;
         }
 
-        public override void EventTriggered(LevelLoadingEvent eventData)
+        public override void EventTriggered(RequestLevelLoadEvent eventData)
         {
             World.Units = SetupUnits().ToList();
+            World.Grid = SetupGrid();
+            EventSystem.Publish(new LevelLoadedEvent());
+        }
+
+        public Grid SetupGrid()
+        {
+            return GridBuilder.Create()
+                .WithSize(5, 5)
+                .Build();
         }
 
         private IEnumerable<Unit> SetupUnits()

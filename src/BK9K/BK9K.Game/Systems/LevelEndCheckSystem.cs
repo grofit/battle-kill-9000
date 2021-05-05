@@ -27,9 +27,9 @@ namespace BK9K.Game.Systems
             { return; }
 
             if (HasPlayerWon())
-            { EventSystem.Publish(new GameResolvedEvent(true)); }
+            { EventSystem.Publish(new LevelEndedEvent(true)); }
             else if (HasPlayerLost())
-            { EventSystem.Publish(new GameResolvedEvent(false)); }
+            { EventSystem.Publish(new LevelEndedEvent(false)); }
         }
         
         public bool HasPlayerWon()

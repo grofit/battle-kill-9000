@@ -1,0 +1,49 @@
+﻿@using BK9K.Game.Types
+@using BK9K.Game.Configuration
+@using BK9K.Game.Events
+@using EcsRx.Events
+
+@inject IEventSystem EventSystem
+
+<div class="field has-addons">
+    <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.Default)" @onclick="() => SetGameSpeed(GameSpeedTypes.Default)">
+            <span class="icon is-small">
+                <i class="fas fa-play"></i>
+            </span>
+            <span>1x Speed</span>
+        </button>
+    </p>
+    <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.TwoTimes)" @onclick="() => SetGameSpeed(GameSpeedTypes.TwoTimes)">
+            <span class="icon is-small">
+                <i class="fas fa-play"></i>
+            </span>
+            <span>2x Speed</span>
+        </button>
+    </p>
+    <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.FourTimes)" @onclick="() => SetGameSpeed(GameSpeedTypes.FourTimes)">
+            <span class="icon is-small">
+                <i class="fas fa-play"></i>
+            </span>
+            <span>4x Speed</span>
+        </button>
+    </p>
+</div>
+
+@code {
+
+    [Parameter]
+    public GameConfiguration Configuration { get; set; }
+
+    private string GetClassState(float speedMatch)
+    { return Configuration.GameSpeed == speedMatch ? "is-success is-active" : ""; }
+
+    private void SetGameSpeed(float newSpeed)
+    {
+        Configuration.GameSpeed = newSpeed;
+        EventSystem.Publish(new GameConfigurationChanged());
+    }
+
+}
