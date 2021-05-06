@@ -21,7 +21,7 @@
             var requirementsMet = AreAllRequirementsMet(effect);
             <li style="list-style: none;">
                 <span class="effect-section @(effect.Potency > 0 ? "has-text-success" : "has-text-danger")">
-                    <span class="@(requirementsMet ? "" : "is-strikethrough")">@(effect.Potency > 0 ? "+":"")@(effect.Potency) @GetEffectText(effect.EffectType)</span>
+                    <span class="@(requirementsMet ? "" : "is-strikethrough")">@GenerateEffectText(effect)</span>
                     @if (HasRequirements(effect))
                     {
                         <div class="requirement-section">
@@ -41,30 +41,19 @@
     [Parameter]
     public ICharacter Character { get; set; }
 
-    private int[] _percentageEffectTypeCache;
-
-    protected override void OnInitialized()
-    {
-        // You could easily add other types in if you had custom ones
-        _percentageEffectTypeCache = GetAllPercentageEffectTypeIds(typeof(EffectTypes));
-        base.OnInitialized();
-    }
-
-    private int[] GetAllPercentageEffectTypeIds(Type effectTypes)
-    {
-        return effectTypes
-            .GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(x => x.Name.Contains("Percentage"))
-            .Select(x => (int)x.GetValue(null))
-            .ToArray();
-    }
-
-
     public bool IsPercentageEffect(int effectType)
-    { return _percentageEffectTypeCache.Contains(effectType); }
+    { return effectType.IsPercentageEffect(); }
 
-    public string GetEffectText(int effectType)
+    public string GetEffectTypeText(int effectType)
     { return LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.EffectTextKey, effectType)); }
+
+    public string GenerateEffectText(Effect effect)
+    {
+        var isPercentageEffect = effect.IsPercentageEffect();
+        var possiblePlus = (effect.Potency > 0) ? " +" : "";
+        var possiblePercentage = isPercentageEffect ? "%" : "";
+        return $"{GetEffectTypeText(effect.EffectType)} {possiblePlus}{effect.Potency}{possiblePercentage}";
+    }
 
     public string GetPotencySymbol(float potency)
     { return potency > 0 ? "+" : "-"; }
@@ -72,9 +61,9 @@
     public bool HasRequirements(Effect effect)
     {
         if (effect.Requirements == null)
-        { return false;}
-        
-        if(!effect.Requirements.Any())
+        { return false; }
+
+        if (!effect.Requirements.Any())
         { return false; }
 
         return true;
@@ -82,10 +71,10 @@
 
     public bool AreAllRequirementsMet(Effect effect)
     {
-        if(Character == null)
+        if (Character == null)
         { return true; }
 
-        if(!HasRequirements(effect))
+        if (!HasRequirements(effect))
         { return true; }
 
         return RequirementsChecker.AreRequirementsMet(Character, effect);

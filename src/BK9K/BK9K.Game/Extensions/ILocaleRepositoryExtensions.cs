@@ -1,4 +1,5 @@
-﻿using BK9K.Game.Data;
+﻿using System;
+using BK9K.Game.Data;
 using OpenRpg.Localization.Repositories;
 
 namespace BK9K.Game.Extensions
