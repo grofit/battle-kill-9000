@@ -13,7 +13,7 @@ namespace BK9K.Web
     {
         public static async Task Main(string[] args)
         {
-             await Task.Delay(5000);
+            // await Task.Delay(5000);
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
             var container = new Container();

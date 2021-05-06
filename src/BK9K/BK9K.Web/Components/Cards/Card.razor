@@ -1,0 +1,31 @@
+﻿@using OpenRpg.Core.Effects
+<div class="container game-card">
+    <div class="card">
+        <div class="card-content">
+            <div class="content has-text-centered">
+                <h3 class="ribbon">
+                    <p class="ribbon-content">@Title</p>
+                </h3>
+                <div class="card-effects">
+                    <EffectList Effects=@Effects></EffectList>
+                </div>
+                <div>
+                    <p>@Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Description { get; set; }
+
+    [Parameter]
+    public Effect[] Effects { get; set; }
+
+}

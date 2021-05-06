@@ -52,3 +52,85 @@
     display: inline-block;
     vertical-align: top;
 }
+
+.game-card .card, .game-card .card-content {
+    width: 13em;
+    height: 18em;
+}
+
+.game-card .card {
+    box-shadow: 0 0.2em 0.2em rgba(0, 0, 0, 0.15);
+    border-radius: 0.25em;
+}
+
+.game-card .card-content {
+    border: 0.5em solid rgba(192, 57, 43,1);
+    position: relative;
+}
+
+.game-card .card-effects {
+    height: 9em;
+    overflow: auto;
+}
+
+.ribbon {
+    font-size: 16px !important;
+    width: 123%;
+    margin-left: -17px;
+    margin-top: -20px;
+    position: relative;
+    background: #e74c3c;
+    text-align: center;
+    padding: 0.25em 0.25em;
+    box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.3);
+    border-radius: 0.25em;
+}
+
+.ribbon:before, .ribbon:after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: -1em;
+    border: 1em solid #e74c3c;
+    z-index: 1;
+    box-shadow: 0 0.2em 0.0em rgba(0, 0, 0, 0.2);
+}
+
+.ribbon:before {
+    left: -1.5em;
+    border-right-width: 1.5em;
+    border-left-color: transparent;
+}
+
+.ribbon:after {
+    right: -1.5em;
+    border-left-width: 1.5em;
+    border-right-color: transparent;
+}
+
+.ribbon-content {
+    z-index: 100;
+    color: #fff;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2), 1px 1px 0 rgba(0,0,0,0.2);
+    height: 1.5em
+}
+
+.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-style: solid;
+    border-color: #c0392b transparent transparent transparent;
+    bottom: -1em;
+    z-index: 2;
+}
+
+.ribbon .ribbon-content:before {
+    left: 0;
+    border-width: 1em 0 0 1em;
+}
+
+.ribbon .ribbon-content:after {
+    right: 0;
+    border-width: 1em 1em 0 0;
+}
