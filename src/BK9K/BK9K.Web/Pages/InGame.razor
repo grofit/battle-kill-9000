@@ -67,11 +67,11 @@
         await LoadLevel(GameState.LevelId);
     }
 
-    public async Task LoadLevel(int levelId, int loadDelay = 0)
+    public async Task LoadLevel(int loadDelay = 0)
     {
-        DidPlayerWin = null;
         await Task.Delay(loadDelay);
-        GameApp.EventSystem.Publish(new RequestLevelLoadEvent(levelId));
+        GameApp.EventSystem.Publish(new RequestLevelLoadEvent(GameState.LevelId));
+        DidPlayerWin = null;
     }
 
     public void OnLevelLoaded(LevelLoadedEvent args)
@@ -90,8 +90,8 @@
         CurrentLevel = args.CurrentLevelId;
         StateHasChanged();
 
-        //if(args.DidPlayerWin)
-        //{ LoadLevel(args.NextLevelId, 3000).Start(); }
+        if(args.DidPlayerWin)
+        { LoadLevel(3000).Start(); }
     }
 
     public void ResolveGame(LevelEndedEvent args)

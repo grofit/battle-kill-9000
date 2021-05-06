@@ -31,14 +31,13 @@ namespace BK9K.Game.Systems
 
             if (HasPlayerWon())
             {
-                EventSystem.Publish(new LevelEndedEvent(true, GameState.LevelId++, GameState.LevelId));
                 Level.HasLevelFinished = true;
-
+                EventSystem.Publish(new LevelEndedEvent(true, GameState.LevelId++));
             }
             else if (HasPlayerLost())
             {
-                EventSystem.Publish(new LevelEndedEvent(false, GameState.LevelId++, GameState.LevelId));
                 Level.HasLevelFinished = true;
+                EventSystem.Publish(new LevelEndedEvent(false, GameState.LevelId++));
             }
         }
         

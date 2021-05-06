@@ -33,7 +33,10 @@ namespace BK9K.Game.Systems
         {
             Level.Grid = SetupGrid();
             Level.Units = SetupPlayerTeam().ToList();
-            Level.Units.AddRange(SetupEnemies(eventData.LevelId).ToList());
+
+            foreach (var enemy in SetupEnemies(eventData.LevelId))
+            { Level.Units.Add(enemy); }
+
             Level.HasLevelFinished = false;
             EventSystem.Publish(new LevelLoadedEvent());
         }
