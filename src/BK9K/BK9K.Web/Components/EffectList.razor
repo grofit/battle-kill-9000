@@ -1,8 +1,5 @@
-@using OpenRpg.Core.Stats
 @using OpenRpg.Genres.Fantasy.Extensions
 @using OpenRpg.Core.Effects
-@using OpenRpg.Genres.Fantasy.Types
-@using System.Reflection
 @using BK9K.Game.Data
 @using BK9K.Game.Extensions
 @using OpenRpg.Core.Requirements
@@ -54,9 +51,6 @@
         var possiblePercentage = isPercentageEffect ? "%" : "";
         return $"{GetEffectTypeText(effect.EffectType)} {possiblePlus}{effect.Potency}{possiblePercentage}";
     }
-
-    public string GetPotencySymbol(float potency)
-    { return potency > 0 ? "+" : "-"; }
 
     public bool HasRequirements(Effect effect)
     {

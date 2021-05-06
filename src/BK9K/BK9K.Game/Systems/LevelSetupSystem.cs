@@ -20,6 +20,7 @@ namespace BK9K.Game.Systems
         public IEventSystem EventSystem { get; }
         public UnitBuilder UnitBuilder { get; }
         public IRandomizer Randomizer { get; }
+        public GameState GameState { get; }
         
         public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer)
         {
@@ -27,12 +28,13 @@ namespace BK9K.Game.Systems
             Level = level;
             EventSystem = eventSystem;
             Randomizer = randomizer;
+            GameState = gameState;
         }
 
         public void Process(RequestLevelLoadEvent eventData)
         {
             Level.Grid = SetupGrid();
-            Level.Units = SetupPlayerTeam().ToList();
+            Level.Units = GameState.PlayerUnits.ToList();
 
             foreach (var enemy in SetupEnemies(eventData.LevelId))
             { Level.Units.Add(enemy); }
@@ -47,26 +49,7 @@ namespace BK9K.Game.Systems
                 .WithSize(5, 5)
                 .Build();
         }
-
-        private IEnumerable<Unit> SetupPlayerTeam()
-        {
-            yield return UnitBuilder.Create()
-                .WithName("Gooch")
-                .WithFaction(FactionTypes.Player)
-                .WithClass(ClassTypes.Fighter)
-                .WithInitiative(6)
-                .WithPosition(3, 2)
-                .Build();
-
-            yield return UnitBuilder.Create()
-                .WithName("Kate")
-                .WithFaction(FactionTypes.Player)
-                .WithClass(ClassTypes.Fighter)
-                .WithInitiative(6)
-                .WithPosition(1, 1)
-                .Build();
-        }
-
+        
         private IEnumerable<Position> GeneratePosition()
         {
             while (true)

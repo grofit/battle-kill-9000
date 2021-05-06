@@ -7,6 +7,7 @@ using BK9K.Framework.Extensions;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
 using BK9K.Game.Types;
+using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Systems
 {
@@ -37,7 +38,10 @@ namespace BK9K.Game.Systems
             else if (HasPlayerLost())
             {
                 Level.HasLevelFinished = true;
-                EventSystem.Publish(new LevelEndedEvent(false, GameState.LevelId++));
+                GameState.PlayerUnits.ForEach(x => x.Stats.Health(x.Stats.MaxHealth()));
+                var previousLevelId = GameState.LevelId;
+                GameState.LevelId = 1;
+                EventSystem.Publish(new LevelEndedEvent(false, previousLevelId));
             }
         }
         
