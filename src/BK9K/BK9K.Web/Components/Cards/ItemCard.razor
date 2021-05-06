@@ -1,0 +1,11 @@
+﻿@using OpenRpg.Core.Effects
+@using OpenRpg.Items
+
+<Card Title=@Item.ItemTemplate.NameLocaleId Description=@Item.ItemTemplate.DescriptionLocaleId Effects="Item.ItemTemplate.Effects.ToArray()"/>
+
+@code {
+
+    [Parameter]
+    public IItem Item { get; set; }
+
+}

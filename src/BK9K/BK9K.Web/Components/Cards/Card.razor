@@ -20,6 +20,9 @@
 @code {
 
     [Parameter]
+    public int CardType { get; set; }
+
+    [Parameter]
     public string Title { get; set; }
 
     [Parameter]
@@ -27,5 +30,7 @@
 
     [Parameter]
     public Effect[] Effects { get; set; }
+
+    public string CardTypeClass => $"card-type-{CardType}";
 
 }

@@ -31,18 +31,24 @@ namespace BK9K.Game.Systems
             { return; }
 
             if (HasPlayerWon())
-            {
-                Level.HasLevelFinished = true;
-                EventSystem.Publish(new LevelEndedEvent(true, GameState.LevelId++));
-            }
+            { HandlePlayerWon(); }
             else if (HasPlayerLost())
-            {
-                Level.HasLevelFinished = true;
-                GameState.PlayerUnits.ForEach(x => x.Stats.Health(x.Stats.MaxHealth()));
-                var previousLevelId = GameState.LevelId;
-                GameState.LevelId = 1;
-                EventSystem.Publish(new LevelEndedEvent(false, previousLevelId));
-            }
+            { HandlePlayerLost(); }
+        }
+
+        public void HandlePlayerWon()
+        {
+            Level.HasLevelFinished = true;
+            EventSystem.Publish(new LevelEndedEvent(true, GameState.LevelId++));
+        }
+
+        public void HandlePlayerLost()
+        {
+            Level.HasLevelFinished = true;
+            GameState.PlayerUnits.ForEach(x => x.Stats.Health(x.Stats.MaxHealth()));
+            var previousLevelId = GameState.LevelId;
+            GameState.LevelId = 1;
+            EventSystem.Publish(new LevelEndedEvent(false, previousLevelId));
         }
         
         public bool HasPlayerWon()
