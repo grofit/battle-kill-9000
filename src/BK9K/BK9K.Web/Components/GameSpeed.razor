@@ -38,6 +38,14 @@
             <span>4x Speed</span>
         </button>
     </p>
+    <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.EightTimes)" @onclick="() => SetGameSpeed(GameSpeedTypes.EightTimes)">
+            <span class="icon is-small">
+                <i class="fas fa-play"></i>
+            </span>
+            <span>8x Speed</span>
+        </button>
+    </p>
 </div>
 
 @code {
