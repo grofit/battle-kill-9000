@@ -10,7 +10,7 @@ namespace BK9K.Web.Applications
 {
     public class GameApplication : BlazorEcsRxApplication
     {
-        public World World { get; set; }
+        public Level Level { get; set; }
         public GameConfiguration GameConfiguration { get; set; }
 
         public GameApplication(Container container) : base(container)
@@ -32,7 +32,7 @@ namespace BK9K.Web.Applications
         protected override void ResolveApplicationDependencies()
         {
             base.ResolveApplicationDependencies();
-            World = Container.Resolve<World>();
+            Level = Container.Resolve<Level>();
             GameConfiguration = Container.Resolve<GameConfiguration>();
         }
 

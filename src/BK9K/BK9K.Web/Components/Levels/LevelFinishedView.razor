@@ -1,7 +1,7 @@
 ﻿<div>
     @if (DidPlayerWin.Value)
     {
-        <p class="title has-text-success">CONGRATULATIONS YOU WON!!</p>
+        <p class="title has-text-success">Level @LevelId Complete!</p>
     }
     else
     {
@@ -13,4 +13,7 @@
 @code {
     [Parameter]
     public bool? DidPlayerWin { get; set; }
+
+    [Parameter]
+    public int LevelId { get; set; }
 }

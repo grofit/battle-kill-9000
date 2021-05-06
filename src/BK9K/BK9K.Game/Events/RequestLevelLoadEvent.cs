@@ -2,11 +2,11 @@
 {
     public class RequestLevelLoadEvent
     {
-        public int Level { get; }
+        public int LevelId { get; }
 
-        public RequestLevelLoadEvent(int level)
+        public RequestLevelLoadEvent(int levelId)
         {
-            Level = level;
+            LevelId = levelId;
         }
     }
 }

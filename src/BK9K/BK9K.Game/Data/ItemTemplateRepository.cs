@@ -124,7 +124,7 @@ namespace BK9K.Game.Data
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 0.5f },
-                    new Effect { EffectType = EffectTypes.AllElementDamageBonusAmount, Potency = 1.0f }
+                    new Effect { EffectType = EffectTypes.AllElementDefenseBonusAmount, Potency = 1.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);

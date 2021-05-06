@@ -1,32 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Grids;
+using BK9K.Framework.Transforms;
 using BK9K.Framework.Units;
 using BK9K.Game.Builders;
+using BK9K.Game.Configuration;
 using BK9K.Game.Events;
 using BK9K.Game.Types;
+using OpenRpg.Core.Utils;
 
 namespace BK9K.Game.Systems
 {
     public class LevelSetupSystem : IReactToEventSystem<RequestLevelLoadEvent>
     {
-        public World World { get; }
+        public Level Level { get; }
         public IEventSystem EventSystem { get; }
         public UnitBuilder UnitBuilder { get; }
+        public IRandomizer Randomizer { get; }
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, World world, IEventSystem eventSystem)
+        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer)
         {
             UnitBuilder = unitBuilder;
-            World = world;
+            Level = level;
             EventSystem = eventSystem;
+            Randomizer = randomizer;
         }
 
         public void Process(RequestLevelLoadEvent eventData)
         {
-            World.Units = SetupUnits().ToList();
-            World.Grid = SetupGrid();
+            Level.Grid = SetupGrid();
+            Level.Units = SetupPlayerTeam().ToList();
+            Level.Units.AddRange(SetupEnemies(eventData.LevelId).ToList());
+            Level.HasLevelFinished = false;
             EventSystem.Publish(new LevelLoadedEvent());
         }
 
@@ -37,7 +45,7 @@ namespace BK9K.Game.Systems
                 .Build();
         }
 
-        private IEnumerable<Unit> SetupUnits()
+        private IEnumerable<Unit> SetupPlayerTeam()
         {
             yield return UnitBuilder.Create()
                 .WithName("Gooch")
@@ -54,30 +62,46 @@ namespace BK9K.Game.Systems
                 .WithInitiative(6)
                 .WithPosition(1, 1)
                 .Build();
+        }
 
-            yield return UnitBuilder.Create()
-                .WithName("Enemy Person 1")
-                .WithInitiative(3)
-                .WithFaction(FactionTypes.Enemy)
-                .WithClass(ClassTypes.Mage)
-                .WithPosition(3, 3)
-                .Build();
+        private IEnumerable<Position> GeneratePosition()
+        {
+            while (true)
+            {
+                var x = Randomizer.Random(0, Level.Grid.XSize-1);
+                var y = Randomizer.Random(0, Level.Grid.YSize-1);
+                yield return new Position(x, y);
+            }
+        }
 
-            yield return UnitBuilder.Create()
-                .WithName("Enemy Person 2")
-                .WithFaction(FactionTypes.Enemy)
-                .WithInitiative(2)
-                .WithClass(ClassTypes.Rogue)
-                .WithPosition(3, 1)
-                .Build();
+        private Position FindOpenPosition()
+        { return GeneratePosition().First(x => Level.GetUnitAt(x) == null); }
 
-            yield return UnitBuilder.Create()
-                .WithName("Enemy Person 3")
-                .WithFaction(FactionTypes.Enemy)
-                .WithInitiative(2)
-                .WithClass(ClassTypes.Fighter)
-                .WithPosition(2, 2)
-                .Build();
+        private IEnumerable<Unit> SetupEnemies(int levelId)
+        {
+            var minEnemies = levelId / 2;
+            if(minEnemies == 0) { minEnemies = 1; }
+            var maxEnemies = levelId;
+
+            var actualEnemies = Randomizer.Random(minEnemies, maxEnemies);
+            var enemyIndex = 1;
+
+            for (var i = 0; i < actualEnemies; i++)
+            {
+                var randomInitiative = Randomizer.Random(1, 6);
+                var randomClass = Randomizer.Random(ClassTypes.Fighter, ClassTypes.Rogue-1);
+                var randomRace = Randomizer.Random(RaceTypes.Human, RaceTypes.Dwarf-1);
+                var randomPosition = FindOpenPosition();
+
+                yield return UnitBuilder.Create()
+                    .WithName($"Enemy Person {enemyIndex++}")
+                    .WithInitiative(randomInitiative)
+                    .WithFaction(FactionTypes.Enemy)
+                    .WithRace(randomRace)
+                    .WithClass(randomClass)
+                    .WithPosition(randomPosition)
+                    .Build();
+            }
         }
     }
 }

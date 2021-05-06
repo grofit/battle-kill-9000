@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SystemsRx.Attributes;
 using SystemsRx.Events;
 using SystemsRx.Scheduling;
@@ -22,15 +23,15 @@ namespace BK9K.Game.Systems
 
         private int _elapsedRoundTime = 0;
         
-        public World World { get; }
+        public Level Level { get; }
         public GameConfiguration Configuration { get; }
         public IEventSystem EventSystem { get; }
         public IAttackGenerator AttackGenerator { get; }
         public IAttackProcessor AttackProcessor { get; }
 
-        public RoundExecutionSystem(World world, IEventSystem eventSystem, GameConfiguration configuration, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor)
+        public RoundExecutionSystem(Level level, IEventSystem eventSystem, GameConfiguration configuration, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor)
         {
-            World = world;
+            Level = level;
             EventSystem = eventSystem;
             Configuration = configuration;
             AttackGenerator = attackGenerator;
@@ -52,7 +53,7 @@ namespace BK9K.Game.Systems
 
         public void PlayRound()
         {
-            World.Units.Where(x => !x.IsDead())
+            Level.Units.Where(x => !x.IsDead())
                 .OrderBy(x => x.Stats.Initiative())
                 .ToList()
                 .ForEach(TakeTurn);
@@ -60,7 +61,7 @@ namespace BK9K.Game.Systems
         
         public void TakeTurn(Unit unit)
         {
-            var target = World.Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
+            var target = Level.Units.FirstOrDefault(x => x.FactionType != unit.FactionType && !x.IsDead());
             if (target == null) { return; }
 
             var processedAttack = RunAttack(unit, target);
@@ -72,7 +73,8 @@ namespace BK9K.Game.Systems
         {
             var attack = AttackGenerator.GenerateAttack(attacker.Stats);
             var processedAttack = AttackProcessor.ProcessAttack(attack, defender.Stats);
-            var totalDamage = (int)processedAttack.DamageDone.Sum(x => x.Value);
+            var summedAttack = processedAttack.DamageDone.Sum(x => x.Value);
+            var totalDamage = (int)Math.Round(summedAttack);
 
             if (defender.Stats.Health() >= totalDamage)
             { defender.Stats.Health(defender.Stats.Health() - totalDamage); }

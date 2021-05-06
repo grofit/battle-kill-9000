@@ -24,11 +24,15 @@
         {
             <div class="control">
                 <span class="tags has-addons">
-                    <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type))</span>
-                    <span class="tag is-warning">@damage.Value</span>
+                    <span class="tag is-dark">
+                        <span class="icon">
+                            <i class="fas fa-fist-raised"></i>
+                        </span>
+                        <span>@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type)).Replace("Damage", "")</span>
+                    </span>
+                    <span class="tag is-warning">@((int)Math.Round(damage.Value))</span>
                 </span>
             </div>
-            <span>&nbsp;+&nbsp;</span>
         }
     </div>
     
@@ -37,11 +41,15 @@
         {
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, defense.Type)).Replace("Damage", "Defense")</span>
-                    <span class="tag is-info">@defense.Value</span>
+                    <span class="tag is-dark">
+                        <span class="icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </span>
+                        <span>@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, defense.Type)).Replace("Damage", "")</span>
+                    </span>
+                    <span class="tag is-info">@((int)Math.Round(defense.Value))</span>
                 </div>
             </div>
-            <span>&nbsp;-&nbsp;</span>
         }
     </div>
     <div class="control">
@@ -54,7 +62,7 @@
 
 @code {
 
-    public int TotalDamage => (int)ProcessedAttack.DamageDone.Sum(x => x.Value);
+    public int TotalDamage => (int)Math.Round(ProcessedAttack.DamageDone.Sum(x => x.Value));
 
     [Parameter]
     public Unit Attacker { get; set; }

@@ -5,6 +5,7 @@
 @using BK9K.Framework.Transforms
 @using BK9K.Framework.Units
 @using BK9K.Game
+@using BK9K.Game.Configuration
 @using BK9K.Game.Events
 @using BK9K.Web.Applications
 @using EcsRx.Extensions
@@ -12,6 +13,7 @@
 @implements IDisposable
 
 @inject GameApplication GameApp
+@inject GameState GameState
 
 <div class="container">
     <div class="columns">
@@ -19,7 +21,7 @@
         @if (!DidPlayerWin.HasValue)
         {
             <div class="column">
-                <LevelView World="World" OnUnitSelected="(Unit unit) => SelectedUnit = unit" />
+                <LevelView Level="Level" OnUnitSelected="(Unit unit) => SelectedUnit = unit" />
                 <div>
                     <GameSpeed Configuration="@GameApp.GameConfiguration" />
                 </div>
@@ -34,14 +36,14 @@
         else
         {
             <div class="column">
-                <LevelFinishedView DidPlayerWin="DidPlayerWin"></LevelFinishedView>
+                <LevelFinishedView DidPlayerWin="DidPlayerWin" LevelId="CurrentLevel"></LevelFinishedView>
             </div>
         }
 
     </div>
 
     <div>
-        <CombatLogView />
+        <CombatLogView/>
     </div>
 
 </div>
@@ -50,9 +52,10 @@
 @code
 {
     private bool? DidPlayerWin = null;
+    private int CurrentLevel = 1;
     private List<IDisposable> _subs = new();
 
-    public World World => GameApp.World;
+    public Level Level => GameApp.Level;
     public bool isLoaded = false;
     public Unit SelectedUnit = null;
 
@@ -61,7 +64,14 @@
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
         GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
-        GameApp.EventSystem.Publish(new RequestLevelLoadEvent(1));
+        await LoadLevel(GameState.LevelId);
+    }
+
+    public async Task LoadLevel(int levelId, int loadDelay = 0)
+    {
+        DidPlayerWin = null;
+        await Task.Delay(loadDelay);
+        GameApp.EventSystem.Publish(new RequestLevelLoadEvent(levelId));
     }
 
     public void OnLevelLoaded(LevelLoadedEvent args)
@@ -73,11 +83,15 @@
     {
         StateHasChanged();
     }
-    
+
     public void OnLevelEnded(LevelEndedEvent args)
     {
         DidPlayerWin = args.DidPlayerWin;
+        CurrentLevel = args.CurrentLevelId;
         StateHasChanged();
+
+        //if(args.DidPlayerWin)
+        //{ LoadLevel(args.NextLevelId, 3000).Start(); }
     }
 
     public void ResolveGame(LevelEndedEvent args)

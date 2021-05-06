@@ -13,8 +13,9 @@ namespace BK9K.Web.Modules
         {
             container.Bind<GridBuilder>();
             container.Bind<UnitBuilder>();
-            container.Bind<World>();
+            container.Bind<Level>();
             container.Bind<GameConfiguration>();
+            container.Bind<GameState>();
         }
     }
 }

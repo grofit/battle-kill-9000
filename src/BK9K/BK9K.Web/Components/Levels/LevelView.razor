@@ -4,15 +4,15 @@
 @using BK9K.Framework.Units
 
 <div>
-    @for (var y = 0; y < World.Grid.YSize; y++)
+    @for (var y = 0; y < Level.Grid.YSize; y++)
     {
         <div>
-            @for (var x = 0; x < World.Grid.XSize; x++)
+            @for (var x = 0; x < Level.Grid.XSize; x++)
             {
                 <div class="ground-tile is-relative">
                     <span class="grid-tag tag is-info">Pos [@x,@y]</span>
                     @{
-                        var possibleUnit = World.GetUnitAt(new Position(x, y));
+                        var possibleUnit = Level.GetUnitAt(new Position(x, y));
                         if (possibleUnit != null && !possibleUnit.IsDead())
                         {
                             <UnitAvatarView Unit="possibleUnit" OnUnitClick=@OnUnitClicked />
@@ -30,7 +30,7 @@
     public EventCallback<Unit> OnUnitSelected { get; set; }
 
     [Parameter]
-    public World World { get; set; }
+    public Level Level { get; set; }
 
     public async Task OnUnitClicked(Unit unit)
     {
