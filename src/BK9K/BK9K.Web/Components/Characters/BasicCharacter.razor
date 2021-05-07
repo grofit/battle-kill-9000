@@ -22,19 +22,19 @@
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Characteristics</h4>
             <div class="columns">
                 <div class="column">
-                    <Card Title="@Character.Race.NameLocaleId" Description="@Character.Race.DescriptionLocaleId" Effects="@Character.Race.Effects.ToArray()" />
+                    <RaceCard RaceTemplate="@Character.Race" />
                 </div>
                 <div class="column">
-                    <Card Title="@Character.Class.ClassTemplate.NameLocaleId" Description="@Character.Class.ClassTemplate.DescriptionLocaleId" Effects="@Character.Class.ClassTemplate.Effects.ToArray()" />
+                    <ClassCard ClassTemplate="@Character.Class.ClassTemplate" />
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
             <div class="columns">
                 <div class="column">
-                    <Card Title="@Character.Equipment.MainHandSlot.SlottedItem.ItemTemplate.NameLocaleId" Description="@Character.Equipment.MainHandSlot.SlottedItem.ItemTemplate.DescriptionLocaleId" Effects="@Character.Equipment.MainHandSlot.SlottedItem.ItemTemplate.Effects.ToArray()" />
+                    <EquipmentCard Item="@Character.Equipment.MainHandSlot.SlottedItem" />
                 </div>
                 <div class="column">
-                    <Card Title="@Character.Equipment.UpperBodySlot.SlottedItem.ItemTemplate.NameLocaleId" Description="@Character.Equipment.UpperBodySlot.SlottedItem.ItemTemplate.DescriptionLocaleId" Effects="@Character.Equipment.UpperBodySlot.SlottedItem.ItemTemplate.Effects.ToArray()" />
+                    <EquipmentCard Item="@Character.Equipment.UpperBodySlot.SlottedItem" />
                 </div>
             </div>
         }

@@ -1,17 +1,26 @@
 ﻿@using OpenRpg.Core.Effects
+@using OpenRpg.Localization.Repositories
+@using BK9K.Game.Extensions
+@using BK9K.Game.Data
+
+@inject ILocaleRepository LocaleRepository
+
 <div class="container game-card">
-    <div class="card">
+    <div class="card @CardTypeClass">
         <div class="card-content">
             <div class="content has-text-centered">
                 <h3 class="ribbon">
                     <p class="ribbon-content">@Title</p>
                 </h3>
-                <div class="card-effects">
-                    <EffectList Effects=@Effects></EffectList>
+                <div class="card-body">
+                    <div class="card-effects">
+                        <EffectList Effects=@Effects></EffectList>
+                    </div>
                 </div>
-                <div>
+                <div class="description-section">
                     <p>@Description</p>
                 </div>
+                <span class="card-tag tag">@CardTypeText</span>
             </div>
         </div>
     </div>
@@ -32,5 +41,6 @@
     public Effect[] Effects { get; set; }
 
     public string CardTypeClass => $"card-type-{CardType}";
+    public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, CardType));
 
 }

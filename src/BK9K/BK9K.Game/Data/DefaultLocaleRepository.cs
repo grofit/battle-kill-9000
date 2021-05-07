@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BK9K.Game.Extensions;
+using BK9K.Game.Types;
 using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Localization.Repositories;
 
@@ -20,6 +21,7 @@ namespace BK9K.Game.Data
         public static readonly string RewardsTextKey = "types-rewards-";
         public static readonly string DamageTypesTextKey = "types-damage-";
         public static readonly string AssociatedTypesTextKey = "types-associated-";
+        public static readonly string CardTypesTextKey = "types-cards-";
         
         public static string GetKeyFor(string typeKey, int typeValue)
         { return $"{typeKey}{typeValue}"; }
@@ -38,6 +40,7 @@ namespace BK9K.Game.Data
             GenerateObjectiveTypeLocaleText();
             GenerateQuestStateTypeLocaleText();
             GenerateRewardTypeLocaleText();
+            GenerateCardTypeLocaleText();
         }
 
         private IDictionary<int, string> GetTypeFieldsDictionary<T>()
@@ -109,6 +112,12 @@ namespace BK9K.Game.Data
         {
             GetTypeFieldsDictionary<AssociatedTypes>()
                 .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(AssociatedTypesTextKey, key), value.Replace("Association", "")));
+        }
+
+        private void GenerateCardTypeLocaleText()
+        {
+            GetTypeFieldsDictionary<CardTypes>()
+                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(CardTypesTextKey, key), value.Replace("Card", "")));
         }
     }
 }

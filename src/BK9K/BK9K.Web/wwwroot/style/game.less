@@ -1,4 +1,12 @@
-﻿.grid-tag {
+﻿@race-card-color: rgba(192, 57, 43,1.0);
+@class-card-color: rgba(41, 128, 185,1.0);
+@item-card-color: rgba(39, 174, 96,1.0);
+@equipment-card-color: rgba(243, 156, 18,1.0);
+@effect-card-color: rgba(189, 195, 199,1.0);
+@ability-card-color: rgba(142, 68, 173,1.0);
+@spell-card-color: rgba(44, 62, 80,1.0);
+
+.grid-tag {
     position: absolute;
     opacity: 0.4;
 }
@@ -57,29 +65,104 @@
     vertical-align: top;
 }
 
-.game-card 
-{
-    .card, .card-content
-    {
+.card-type-coloring(@card-color) {
+
+    .card-content { border: 0.5em solid @card-color; }
+
+    .ribbon {
+        background: @card-color;
+
+        &:before, &:after { border-color: @card-color; }
+        &:before { border-left-color: transparent; }
+        &:after { border-right-color: transparent; }
+
+        .ribbon-content:before, .ribbon-content:after {
+            border-color: darken(@card-color, 20%) transparent transparent transparent;
+        }
+    }
+
+    .card-tag { 
+        background: @card-color; 
+        box-shadow: 1px 1px rgba(0,0,0,0.5);
+    }
+}
+
+.game-card {
+    margin-top: 1.5em;
+
+    .card, .card-content {
         width: 13em;
         height: 18em;
+    }
+
+    .card-body {
+        height: 11em;
+    }
+
+    .card-effects {
+        height: 8em;
+        padding-top: 2em;
+        overflow: auto;
     }
 
     .card {
         box-shadow: 0 0.2em 0.2em rgba(0, 0, 0, 0.15);
         border-radius: 0.25em;
+
+        &.card-type-1 {
+            .card-type-coloring(@race-card-color);
+        }
+
+        &.card-type-2 {
+            .card-type-coloring(@class-card-color);
+        }
+
+        &.card-type-3 {
+            .card-type-coloring(@item-card-color);
+        }
+
+        &.card-type-4 {
+            .card-type-coloring(@equipment-card-color);
+        }
+
+        &.card-type-5 {
+            .card-type-coloring(@effect-card-color);
+        }
+
+        &.card-type-6 {
+            .card-type-coloring(@ability-card-color);
+        }
+
+        &.card-type-7 {
+            .card-type-coloring(@spell-card-color);
+        }
     }
 
-    .card-content {
-        border: 0.5em solid rgba(192, 57, 43,1);
+    .description-section {
+        margin: 0 -1.5em;
+        margin-top: 0.1em;
+        border-radius: 0.5em 0.5em 0 0;
+        background-color: rgba(0,0,0,0.1);
+        height: 5em;
+        padding-top: 0.5em;
+
+        p {
+            text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
+            padding: 0.1em;
+            font-size: 0.8em;
+        }
+    }
+
+    .ribbon {
+        margin-top: -3em;
+    }
+
+    .card-tag {
+        top: -1.5em;
         position: relative;
+        width: 6em;
+        color: #fff;
     }
-
-    .card-effects {
-        height: 9em;
-        overflow: auto;
-    }
-
 }
 
 .ribbon {
@@ -94,8 +177,7 @@
     box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.3);
     border-radius: 0.25em;
 
-    &:before, &:after
-    {
+    &:before, &:after {
         content: "";
         position: absolute;
         display: block;
@@ -120,11 +202,10 @@
     .ribbon-content {
         z-index: 100;
         color: #fff;
-        text-shadow: -1px -1px 0 rgba(0, 0, 0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2), 1px 1px 0 rgba(0,0,0,0.2);
+        text-shadow: 1px 1px rgba(0,0,0,0.2);
         height: 1.5em;
 
-        &:before, &:after
-        {
+        &:before, &:after {
             content: "";
             position: absolute;
             display: block;
@@ -143,6 +224,5 @@
             right: 0;
             border-width: 1em 1em 0 0;
         }
-    
     }
 }

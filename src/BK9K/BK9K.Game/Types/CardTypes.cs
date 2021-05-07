@@ -1,6 +1,6 @@
 ﻿namespace BK9K.Game.Types
 {
-    public static class CardTypes
+    public class CardTypes
     {
         public static readonly int Unknown = 0;
 
