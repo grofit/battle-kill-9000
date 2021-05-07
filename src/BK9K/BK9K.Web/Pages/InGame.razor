@@ -56,7 +56,7 @@
     public Level Level => GameApp.Level;
     public bool isLoaded = false;
     public Unit SelectedUnit = null;
-
+    
     protected override async Task OnInitializedAsync()
     {
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);

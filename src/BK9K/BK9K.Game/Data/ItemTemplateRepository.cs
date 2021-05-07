@@ -22,7 +22,8 @@ namespace BK9K.Game.Data
                 MakeStaff(),
                 MakePlateArmour(),
                 MakeRobe(),
-                MakeTunic()
+                MakeTunic(),
+                MakeDeadlySosig()
             };
         }
 
@@ -147,6 +148,28 @@ namespace BK9K.Game.Data
                 {
                     new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 1.0f },
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 1.0f }
+                }
+            };
+            template.Variables.QualityType(ItemQualityTypes.CommonQuality);
+            template.Variables.Value(10);
+            return template;
+        }
+
+        private IItemTemplate MakeDeadlySosig()
+        {
+            var template = new DefaultItemTemplate
+            {
+                Id = ItemTemplateLookups.DeadlySosig,
+                NameLocaleId = "The Deadly Sosig",
+                AssetCode = "the-deadly-sosig",
+                DescriptionLocaleId = "Its a sosig",
+                ItemType = ItemTypes.GenericWeapon,
+                ModificationAllowances = new ModificationAllowance[0],
+                Requirements = new Requirement[0],
+                Effects = new[]
+                {
+                    new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 5.0f },
+                    new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 5.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);

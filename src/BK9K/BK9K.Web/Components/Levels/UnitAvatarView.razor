@@ -1,8 +1,15 @@
 ﻿@using BK9K.Framework.Units
 @using BK9K.Game.Types
 @using OpenRpg.Genres.Fantasy.Extensions
+@using SystemsRx.Events
+@using SystemsRx.Extensions
+@using BK9K.Game.Events.Units
+@using System.Reactive.Linq
 
-<div class="unit-avatar" @onclick="() => OnUnitClick.InvokeAsync(Unit)">
+@inject IEventSystem EventSystem
+@implements IDisposable
+
+<div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isTargetUnit ? "is-target" : "")" @onclick="() => OnUnitClick.InvokeAsync(Unit)">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
     <img src="./assets/sprites/@(className).png" alt="@className">
@@ -23,7 +30,11 @@
 
     [Parameter]
     public Unit Unit { get; set; }
-    
+
+    private bool _isActiveUnit, _isTargetUnit;
+
+    private List<IDisposable> _sub = new();
+
     public string GetFactionClass(int factionType)
     {
         if(factionType == FactionTypes.Player) { return "is-success"; }
@@ -38,4 +49,38 @@
         if (classType == ClassTypes.Fighter) { return "fighter"; }
         return "peasant";
     }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        EventSystem.Receive<UnitStartTurn>().Where(x => x.Unit == Unit).Subscribe(OnUnitTurnStarted).AddTo(_sub);
+        EventSystem.Receive<UnitEndTurn>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
+        EventSystem.Receive<UnitAttackedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitTargetted).AddTo(_sub);
+    }
+
+    public void OnUnitTurnEnded(UnitEndTurn args)
+    {
+        _isActiveUnit = false;
+        _isTargetUnit = false;
+        StateHasChanged();
+    }
+
+    public void OnUnitTurnStarted(UnitStartTurn args)
+    {
+        _isActiveUnit = true;
+        StateHasChanged();
+    }
+
+    public void OnUnitTargetted(UnitAttackedEvent args)
+    {
+        _isTargetUnit = true;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _sub.DisposeAll();
+    }
+
 }

@@ -33,10 +33,12 @@
     text-align: center;
 }
 
-.unit-avatar 
-{   
-    .tags
-    {
+.unit-avatar {
+
+    &.is-active { background: rgba(0,0,255,0.3); }
+    &.is-target { background: rgba(255,0,0,0.3); }
+
+    .tags {
         position: relative;
         bottom: -74px;
     }

@@ -46,6 +46,15 @@ namespace BK9K.Web.Applications
                 .WithInitiative(6)
                 .WithPosition(1, 1)
                 .Build();
+
+            yield return UnitBuilder.Create()
+                .WithName("Le Grandé Tudge")
+                .WithFaction(FactionTypes.Player)
+                .WithClass(ClassTypes.Rogue)
+                .WithInitiative(6)
+                .WithWeapon(ItemTemplateLookups.DeadlySosig)
+                .WithPosition(1, 4)
+                .Build();
         }
 
         protected override void BindSystems()
