@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SystemsRx.Infrastructure.Extensions;
 using SystemsRx.Systems;
+using BK9K.Framework.Levels;
 using BK9K.Framework.Units;
 using BK9K.Game;
 using BK9K.Game.Builders;
@@ -44,6 +45,15 @@ namespace BK9K.Web.Applications
                 .WithClass(ClassTypes.Fighter)
                 .WithInitiative(6)
                 .WithPosition(1, 1)
+                .Build();
+
+            yield return UnitBuilder.Create()
+                .WithName("Le Grandé Tudge")
+                .WithFaction(FactionTypes.Player)
+                .WithClass(ClassTypes.Rogue)
+                .WithInitiative(6)
+                .WithWeapon(ItemTemplateLookups.DeadlySosig)
+                .WithPosition(1, 4)
                 .Build();
         }
 

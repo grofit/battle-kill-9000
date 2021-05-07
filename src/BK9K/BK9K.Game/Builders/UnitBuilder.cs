@@ -28,6 +28,8 @@ namespace BK9K.Game.Builders
         private int _classType = ClassTypes.Fighter;
         private int _weaponId = ItemTemplateLookups.Unknown;
         private int _armourId = ItemTemplateLookups.Unknown;
+        private int _abilityId = AbilityTypes.Attack;
+
         private Position _position = Position.Zero;
 
         public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer, IItemTemplateRepository itemTemplateRepository)
@@ -99,6 +101,12 @@ namespace BK9K.Game.Builders
             return this;
         }
 
+        public UnitBuilder WithAbility(int abilityId)
+        {
+            _abilityId = abilityId;
+            return this;
+        }
+
         public Unit Build()
         {
             var classTemplate = ClassTemplateRepository.Retrieve(_classType);
@@ -110,6 +118,7 @@ namespace BK9K.Game.Builders
                 Position = _position,
                 Race = raceTemplate,
                 Class = new DefaultClass(_level, classTemplate),
+                ActiveAbility = _abilityId,
                 Equipment = new DefaultEquipment()
             };
 

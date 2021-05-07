@@ -11,5 +11,9 @@
         public static int PlateArmour = 4;
         public static int Robe = 5;
         public static int Tunic = 6;
+
+
+
+        public static int DeadlySosig = 100;
     }
 }
