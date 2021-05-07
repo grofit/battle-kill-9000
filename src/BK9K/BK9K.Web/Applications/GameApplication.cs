@@ -32,7 +32,9 @@ namespace BK9K.Web.Applications
         protected override void ApplicationStarted()
         {
             var playerTeam = SetupPlayerTeam();
+            var playerCards = SetupPlayerCards();
             GameState.PlayerUnits.AddRange(playerTeam);
+            GameState.PlayerCards.AddRange(playerCards);
         }
 
         private IEnumerable<Unit> SetupPlayerTeam()

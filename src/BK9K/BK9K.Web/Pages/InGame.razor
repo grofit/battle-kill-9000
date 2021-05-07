@@ -33,8 +33,16 @@
                     <LevelFinishedView DidPlayerWin="DidPlayerWin" LevelId="CurrentLevel" />
                 }
             </div>
-            <div>
-                <p>CARD DISPLAY</p>
+            <div class="player-cards">
+                <div class="columns">
+                    @foreach (var card in GameState.PlayerCards)
+                    {
+                        <div class="column">
+                            <GameCard Card="card"></GameCard>
+                        </div>
+                    }
+                </div>
+                
             </div>
         </div>
         <div class="column is-four">

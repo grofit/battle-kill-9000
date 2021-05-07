@@ -32,10 +32,25 @@
     text-align: center;
 }
 
+.player-cards {
+    .game-card {
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+}
+
 .unit-avatar {
 
-    &.is-active { background: rgba(0,0,255,0.3); }
-    &.is-target { background: rgba(255,0,0,0.3); }
+    &.is-active {
+        background: rgba(0,0,255,0.3);
+    }
+
+    &.is-target {
+        background: rgba(255,0,0,0.3);
+    }
 
     .tags {
         position: relative;
@@ -90,6 +105,7 @@
 
 .game-card {
     margin-top: 1.5em;
+    width: 13em;
 
     .card, .card-content {
         width: 13em;
