@@ -1,7 +1,7 @@
-﻿@using OpenRpg.Core.Effects
-@using OpenRpg.Localization.Repositories
+﻿@using OpenRpg.Localization.Repositories
 @using BK9K.Game.Extensions
 @using BK9K.Game.Data
+@using BK9K.Framework.Cards
 
 @inject ILocaleRepository LocaleRepository
 
@@ -10,15 +10,15 @@
         <div class="card-content">
             <div class="content has-text-centered">
                 <h3 class="ribbon">
-                    <p class="ribbon-content">@Title</p>
+                    <p class="ribbon-content">@Card.NameLocaleId</p>
                 </h3>
                 <div class="card-body">
                     <div class="card-effects">
-                        <EffectList Effects=@Effects></EffectList>
+                        <EffectList Effects=@Card.Effects.ToArray()></EffectList>
                     </div>
                 </div>
                 <div class="description-section">
-                    <p>@Description</p>
+                    <p>@Card.DescriptionLocaleId</p>
                 </div>
                 <span class="card-tag tag">@CardTypeText</span>
             </div>
@@ -29,18 +29,9 @@
 @code {
 
     [Parameter]
-    public int CardType { get; set; }
+    public ICard Card { get; set; }
 
-    [Parameter]
-    public string Title { get; set; }
-
-    [Parameter]
-    public string Description { get; set; }
-
-    [Parameter]
-    public Effect[] Effects { get; set; }
-
-    public string CardTypeClass => $"card-type-{CardType}";
-    public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, CardType));
+    public string CardTypeClass => $"card-type-{Card.CardType}";
+    public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, Card.CardType));
 
 }

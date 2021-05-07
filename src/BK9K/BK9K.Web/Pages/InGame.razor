@@ -13,37 +13,37 @@
 @inject GameApplication GameApp
 @inject GameState GameState
 
-<div class="container">
+<div class="container is-fluid">
     <div class="columns">
+        <div class="column is-3">
+            <CombatLogView />
+        </div>
 
-        @if (!DidPlayerWin.HasValue)
-        {
-            <div class="column">
-                <LevelView Level="Level" OnUnitSelected="(Unit unit) => SelectedUnit = unit" />
-                <div>
-                    <GameSpeed Configuration="@GameApp.GameConfiguration" />
-                </div>
-            </div>
-            <div class="column is-two-fifths">
-                @if (SelectedUnit != null)
+        <div class="column">
+            <div>
+                @if (!DidPlayerWin.HasValue)
                 {
-                    <BasicCharacter Character="SelectedUnit"></BasicCharacter>
+                    <LevelView Level="Level" OnUnitSelected="(Unit unit) => SelectedUnit = unit"/>
+                    <div>
+                        <GameSpeed Configuration="@GameApp.GameConfiguration"/>
+                    </div>
+                }
+                else
+                {
+                    <LevelFinishedView DidPlayerWin="DidPlayerWin" LevelId="CurrentLevel" />
                 }
             </div>
-        }
-        else
-        {
-            <div class="column">
-                <LevelFinishedView DidPlayerWin="DidPlayerWin" LevelId="CurrentLevel"></LevelFinishedView>
+            <div>
+                <p>CARD DISPLAY</p>
             </div>
-        }
-
+        </div>
+        <div class="column is-four">
+            @if (!DidPlayerWin.HasValue && SelectedUnit != null)
+            {
+                <BasicCharacter Character="SelectedUnit"></BasicCharacter>
+            }
+        </div>
     </div>
-
-    <div>
-        <CombatLogView/>
-    </div>
-
 </div>
 
 

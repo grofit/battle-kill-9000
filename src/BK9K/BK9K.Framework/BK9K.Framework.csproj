@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Cards\" />
     <Folder Include="Transforms\" />
   </ItemGroup>
 

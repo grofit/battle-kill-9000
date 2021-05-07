@@ -1,4 +1,5 @@
 @using OpenRpg.Genres.Fantasy.Characters
+@using BK9K.Game.Cards
 
 <CardSection>
     <div class="container">
@@ -22,19 +23,19 @@
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Characteristics</h4>
             <div class="columns">
                 <div class="column">
-                    <RaceCard RaceTemplate="@Character.Race" />
+                    <GameCard Card="@RaceCard" />
                 </div>
                 <div class="column">
-                    <ClassCard ClassTemplate="@Character.Class.ClassTemplate" />
+                    <GameCard Card="@ClassCard" />
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
             <div class="columns">
                 <div class="column">
-                    <EquipmentCard Item="@Character.Equipment.MainHandSlot.SlottedItem" />
+                    <GameCard Card="@WeaponCard" />
                 </div>
                 <div class="column">
-                    <EquipmentCard Item="@Character.Equipment.UpperBodySlot.SlottedItem" />
+                    <GameCard Card="@ArmourCard" />
                 </div>
             </div>
         }
@@ -45,5 +46,20 @@
 
     [Parameter]
     public ICharacter Character { get; set; }
+
+    public RaceCard RaceCard { get; set; }
+    public ClassCard ClassCard { get; set; }
+    public EquipmentCard WeaponCard { get; set; }
+    public EquipmentCard ArmourCard { get; set; }
+
+    protected override void OnInitialized()
+    {
+        RaceCard = new RaceCard(Character.Race);
+        ClassCard = new ClassCard(Character.Class.ClassTemplate);
+        WeaponCard = new EquipmentCard(Character.Equipment.MainHandSlot.SlottedItem);
+        ArmourCard = new EquipmentCard(Character.Equipment.UpperBodySlot.SlottedItem);
+    }
+
+
 
 }

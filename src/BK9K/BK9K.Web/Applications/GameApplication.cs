@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
 using SystemsRx.Infrastructure.Extensions;
 using SystemsRx.Systems;
+using BK9K.Framework.Cards;
 using BK9K.Framework.Levels;
 using BK9K.Framework.Units;
 using BK9K.Game;
 using BK9K.Game.Builders;
+using BK9K.Game.Cards;
 using BK9K.Game.Configuration;
+using BK9K.Game.Data;
 using BK9K.Game.Systems;
 using BK9K.Game.Types;
 using BK9K.Web.Modules;
 using DryIoc;
+using OpenRpg.Core.Modifications;
+using OpenRpg.Items;
 
 namespace BK9K.Web.Applications
 {
@@ -19,6 +24,7 @@ namespace BK9K.Web.Applications
         public GameConfiguration GameConfiguration { get; set; }
         public GameState GameState { get; set; }
         public UnitBuilder UnitBuilder { get; set; }
+        public IItemTemplateRepository ItemTemplateRepository { get; set; }
 
         public GameApplication(Container container) : base(container)
         {}
@@ -57,6 +63,17 @@ namespace BK9K.Web.Applications
                 .Build();
         }
 
+        private IEnumerable<ICard> SetupPlayerCards()
+        {
+            var potionItemTemplate = ItemTemplateRepository.Retrieve(ItemTemplateLookups.MinorHealthPotion);
+            yield return new ItemCard(new DefaultItem
+            {
+                ItemTemplate = potionItemTemplate,
+                Modifications = new IModification[0],
+                Variables = new DefaultItemVariables()
+            });
+        }
+
         protected override void BindSystems()
         {
             base.BindSystems();
@@ -72,6 +89,7 @@ namespace BK9K.Web.Applications
             GameConfiguration = Container.Resolve<GameConfiguration>();
             GameState = Container.Resolve<GameState>();
             UnitBuilder = Container.Resolve<UnitBuilder>();
+            ItemTemplateRepository = Container.Resolve<IItemTemplateRepository>();
         }
 
         protected override void LoadModules()

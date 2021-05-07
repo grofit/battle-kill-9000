@@ -15,6 +15,14 @@
         </button>
     </p>
     <p class="control">
+        <button class="button @GetClassState(GameSpeedTypes.Half)" @onclick="() => SetGameSpeed(GameSpeedTypes.Half)">
+            <span class="icon is-small">
+                <i class="fas fa-play"></i>
+            </span>
+            <span>Half Speed</span>
+        </button>
+    </p>
+    <p class="control">
         <button class="button @GetClassState(GameSpeedTypes.Default)" @onclick="() => SetGameSpeed(GameSpeedTypes.Default)">
             <span class="icon is-small">
                 <i class="fas fa-play"></i>

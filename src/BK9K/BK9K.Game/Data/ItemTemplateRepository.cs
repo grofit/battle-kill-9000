@@ -23,7 +23,9 @@ namespace BK9K.Game.Data
                 MakePlateArmour(),
                 MakeRobe(),
                 MakeTunic(),
-                MakeDeadlySosig()
+                MakeDeadlySosig(),
+                MakeMinorHealthPotion(),
+                MakeMajorHealthPotion()
             };
         }
 
@@ -170,6 +172,48 @@ namespace BK9K.Game.Data
                 {
                     new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 5.0f },
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 5.0f }
+                }
+            };
+            template.Variables.QualityType(ItemQualityTypes.CommonQuality);
+            template.Variables.Value(10);
+            return template;
+        }
+
+        private IItemTemplate MakeMinorHealthPotion()
+        {
+            var template = new DefaultItemTemplate
+            {
+                Id = ItemTemplateLookups.MinorHealthPotion,
+                NameLocaleId = "Minor Heal Potion",
+                AssetCode = "minor-heal-potion",
+                DescriptionLocaleId = "This potion can heal a small amount of Health to the consumer",
+                ItemType = ItemTypes.Potions,
+                ModificationAllowances = new ModificationAllowance[0],
+                Requirements = new Requirement[0],
+                Effects = new[]
+                {
+                    new Effect { EffectType = EffectTypes.HealthBonusAmount, Potency = 20.0f }
+                }
+            };
+            template.Variables.QualityType(ItemQualityTypes.CommonQuality);
+            template.Variables.Value(10);
+            return template;
+        }
+
+        private IItemTemplate MakeMajorHealthPotion()
+        {
+            var template = new DefaultItemTemplate
+            {
+                Id = ItemTemplateLookups.MajorHealthPotion,
+                NameLocaleId = "Major Heal Potion",
+                AssetCode = "major-heal-potion",
+                DescriptionLocaleId = "This potion can heal a large amount of Health to the consumer",
+                ItemType = ItemTypes.Potions,
+                ModificationAllowances = new ModificationAllowance[0],
+                Requirements = new Requirement[0],
+                Effects = new[]
+                {
+                    new Effect { EffectType = EffectTypes.HealthBonusAmount, Potency = 50.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);

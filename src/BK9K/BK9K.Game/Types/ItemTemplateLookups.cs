@@ -12,8 +12,9 @@
         public static int Robe = 5;
         public static int Tunic = 6;
 
+        public static int MinorHealthPotion = 100;
+        public static int MajorHealthPotion = 101;
 
-
-        public static int DeadlySosig = 100;
+        public static int DeadlySosig = 200;
     }
 }
