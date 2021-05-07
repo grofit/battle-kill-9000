@@ -1,7 +1,7 @@
 ﻿using BK9K.Framework.Units;
 using OpenRpg.Combat.Processors;
 
-namespace BK9K.Game.Events
+namespace BK9K.Game.Events.Units
 {
     public class UnitAttackedEvent
     {

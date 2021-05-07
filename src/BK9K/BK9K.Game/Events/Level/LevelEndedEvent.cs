@@ -1,4 +1,4 @@
-﻿namespace BK9K.Game.Events
+﻿namespace BK9K.Game.Events.Level
 {
     public class LevelEndedEvent
     {
