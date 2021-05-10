@@ -1,10 +1,10 @@
-﻿using OpenRpg.Core.Common;
+﻿using BK9K.Game.Conventions;
+using OpenRpg.Core.Common;
 using OpenRpg.Core.Effects;
-using OpenRpg.Localization;
 
 namespace BK9K.Framework.Cards
 {
-    public interface ICard : IHasLocaleDescription, IHasEffects
+    public interface ICard : IHasLocaleDescription, IHasEffects, IHasUniqueId
     {
         int CardType { get; }
     }

@@ -5,7 +5,7 @@
 
 @inject ILocaleRepository LocaleRepository
 
-<div class="container game-card">
+<div class="container game-card" draggable="@Draggable.ToString().ToLower()" ondragstart="OnStartDragCard(event)" ondrag="OnDragging(event)" ondragend="OnEndDragCard(event)" card-type="@Card.CardType" view-id="@Card.UniqueId">
     <div class="card @CardTypeClass">
         <div class="card-content">
             <div class="content has-text-centered">
@@ -30,6 +30,9 @@
 
     [Parameter]
     public ICard Card { get; set; }
+
+    [Parameter]
+    public bool Draggable { get; set; } = false;
 
     public string CardTypeClass => $"card-type-{Card.CardType}";
     public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, Card.CardType));

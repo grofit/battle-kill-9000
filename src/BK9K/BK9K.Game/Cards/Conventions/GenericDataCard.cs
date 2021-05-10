@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BK9K.Framework.Cards;
 using OpenRpg.Core.Common;
 using OpenRpg.Core.Effects;
@@ -8,6 +9,8 @@ namespace BK9K.Game.Cards.Conventions
     public abstract class GenericDataCard<T> : ICard
         where T : IHasLocaleDescription
     {
+        public Guid UniqueId { get; set; } = Guid.NewGuid();
+
         public abstract int CardType { get; }
         public T Data { get; }
 

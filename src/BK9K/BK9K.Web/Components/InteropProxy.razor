@@ -1,0 +1,42 @@
+﻿@using BK9K.Web.Applications
+@using BK9K.Web.Types
+
+<span id="interop-handler"></span>
+
+@implements IDisposable
+
+@inject GameApplication GameApp
+@inject IJSRuntime JSRuntime
+
+@code
+{
+    DotNetObjectReference<InteropProxy> ObjectReference;
+
+    [JSInvokable("ApplyCard")]
+    public void ApplyCardToViewEntity(string cardId, string viewType, string viewId)
+    {
+        var cardGuid = Guid.Parse(cardId);
+        var viewGuid = Guid.Parse(viewId);
+        var card = GameApp.GameState.PlayerCards.Single(x => x.UniqueId == cardGuid);
+        if (int.Parse(viewType) == ViewTypes.Unit)
+        {
+            var unit = GameApp.Level.Units.Single(x => x.UniqueId == viewGuid);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            ObjectReference = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("interopProxy.exposeInterop", ObjectReference);
+        }
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        ObjectReference?.Dispose();
+    }
+}

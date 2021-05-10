@@ -1,4 +1,5 @@
 ﻿@page "/in-game"
+
 @using System
 @using SystemsRx.Extensions
 @using BK9K.Framework.Levels
@@ -7,6 +8,7 @@
 @using BK9K.Game.Events
 @using BK9K.Game.Events.Level
 @using BK9K.Web.Applications
+@using BK9K.Web.Types
 
 @implements IDisposable
 
@@ -38,7 +40,7 @@
                     @foreach (var card in GameState.PlayerCards)
                     {
                         <div class="column">
-                            <GameCard Card="card"></GameCard>
+                            <GameCard Card="card" Draggable="true"></GameCard>
                         </div>
                     }
                 </div>
@@ -52,6 +54,7 @@
             }
         </div>
     </div>
+    <InteropProxy />
 </div>
 
 
@@ -64,7 +67,7 @@
     public Level Level => GameApp.Level;
     public bool isLoaded = false;
     public Unit SelectedUnit = null;
-    
+
     protected override async Task OnInitializedAsync()
     {
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
