@@ -21,4 +21,8 @@
     <ProjectReference Include="..\BK9K.Game\BK9K.Game.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
+
 </Project>

@@ -13,7 +13,10 @@ using BK9K.Game.Systems;
 using BK9K.Game.Types;
 using BK9K.Web.Modules;
 using DryIoc;
+using OpenRpg.Core.Effects;
 using OpenRpg.Core.Modifications;
+using OpenRpg.Core.Requirements;
+using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Items;
 
 namespace BK9K.Web.Applications
@@ -74,6 +77,12 @@ namespace BK9K.Web.Applications
                 Modifications = new IModification[0],
                 Variables = new DefaultItemVariables()
             });
+
+            var effects = new List<Effect>
+            {
+                new() {EffectType = EffectTypes.StrengthBonusAmount, Potency = 1, Requirements = new Requirement[0]}
+            };
+            yield return new EffectCard("Invigorating Strength", "The card imbues the unit with strength", effects);
         }
 
         protected override void BindSystems()
@@ -82,6 +91,7 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, LevelSetupSystem>();
             this.Container.Bind<ISystem, RoundExecutionSystem>();
             this.Container.Bind<ISystem, LevelEndCheckSystem>();
+            this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
         }
         
         protected override void ResolveApplicationDependencies()

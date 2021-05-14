@@ -192,7 +192,7 @@ namespace BK9K.Game.Data
                 Requirements = new Requirement[0],
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.HealthBonusAmount, Potency = 20.0f }
+                    new Effect { EffectType = EffectTypes.HealthRestoreAmount, Potency = 20.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -213,7 +213,7 @@ namespace BK9K.Game.Data
                 Requirements = new Requirement[0],
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.HealthBonusAmount, Potency = 50.0f }
+                    new Effect { EffectType = EffectTypes.HealthRestoreAmount, Potency = 50.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);

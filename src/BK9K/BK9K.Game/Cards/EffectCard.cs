@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BK9K.Framework.Cards;
 using BK9K.Game.Types;
 using OpenRpg.Core.Effects;
@@ -7,6 +8,7 @@ namespace BK9K.Game.Cards
 {
     public class EffectCard : ICard
     {
+        public Guid UniqueId { get; set; } = Guid.NewGuid();
         public int CardType => CardTypes.EffectCard;
 
         public string NameLocaleId { get; }

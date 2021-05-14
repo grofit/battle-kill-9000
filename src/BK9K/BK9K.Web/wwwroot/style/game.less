@@ -6,6 +6,14 @@
 @ability-card-color: rgba(142, 68, 173,1.0);
 @spell-card-color: rgba(44, 62, 80,1.0);
 
+svg 
+{
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .grid-tag {
     position: absolute;
     opacity: 0.4;
@@ -103,9 +111,15 @@
     }
 }
 
-.game-card {
+.game-card 
+{
     margin-top: 1.5em;
     width: 13em;
+
+    &[draggable="true"]
+    {
+        cursor: pointer;
+    }
 
     .card, .card-content {
         width: 13em;

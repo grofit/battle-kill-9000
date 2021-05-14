@@ -5,11 +5,14 @@
 @using SystemsRx.Extensions
 @using BK9K.Game.Events.Units
 @using System.Reactive.Linq
+@using BK9K.Web.Types
 
 @inject IEventSystem EventSystem
 @implements IDisposable
 
-<div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isTargetUnit ? "is-target" : "")" @onclick="() => OnUnitClick.InvokeAsync(Unit)">
+<div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isTargetUnit ? "is-target" : "")" @onclick="() => OnUnitClick.InvokeAsync(Unit)" 
+     ondragenter="OnCardDragEnter(event)" ondragleave="OnCardDragLeave(event)" ondragover="OnDragOver(event)" ondrop="OnCardDrop(event)" 
+     view-type="@ViewTypes.Unit" view-id="@Unit.UniqueId">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
     <img src="./assets/sprites/@(className).png" alt="@className">
