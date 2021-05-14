@@ -1,5 +1,6 @@
 ﻿@using BK9K.Web.Applications
 @using BK9K.Web.Types
+@using BK9K.Game.Events.Cards
 
 <span id="interop-handler"></span>
 
@@ -21,6 +22,7 @@
         if (int.Parse(viewType) == ViewTypes.Unit)
         {
             var unit = GameApp.Level.Units.Single(x => x.UniqueId == viewGuid);
+            GameApp.EventSystem.Publish(new CardUsedOnUnitEvent(card, unit));
         }
     }
 

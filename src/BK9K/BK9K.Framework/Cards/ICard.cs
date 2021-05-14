@@ -1,4 +1,4 @@
-﻿using BK9K.Game.Conventions;
+﻿using BK9K.Framework.Conventions;
 using OpenRpg.Core.Common;
 using OpenRpg.Core.Effects;
 

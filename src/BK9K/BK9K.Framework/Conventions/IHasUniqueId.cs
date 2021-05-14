@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BK9K.Game.Conventions
+namespace BK9K.Framework.Conventions
 {
     public interface IHasUniqueId
     {

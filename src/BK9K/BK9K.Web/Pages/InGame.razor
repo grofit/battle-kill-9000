@@ -6,6 +6,7 @@
 @using BK9K.Framework.Units
 @using BK9K.Game.Configuration
 @using BK9K.Game.Events
+@using BK9K.Game.Events.Cards
 @using BK9K.Game.Events.Level
 @using BK9K.Web.Applications
 @using BK9K.Web.Types
@@ -73,6 +74,7 @@
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
         GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
+        GameApp.EventSystem.Receive<PlayerCardRemovedEvent>().Subscribe(OnCardRemoved).AddTo(_subs);
         await LoadLevel(GameState.LevelId);
     }
 
@@ -84,6 +86,11 @@
     }
 
     public void OnLevelLoaded(LevelLoadedEvent args)
+    {
+        StateHasChanged();
+    }
+
+    public void OnCardRemoved(PlayerCardRemovedEvent args)
     {
         StateHasChanged();
     }
