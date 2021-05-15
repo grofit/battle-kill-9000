@@ -31,6 +31,7 @@ namespace BK9K.Web.Modules
             container.Bind<IRaceTemplateRepository, RaceTemplateRepository>();
             container.Bind<IClassTemplateRepository, ClassTemplateRepository>();
             container.Bind<IItemTemplateRepository, ItemTemplateRepository>();
+            container.Bind<IAbilityRepository, AbilityRepository>();
         }
     }
 }

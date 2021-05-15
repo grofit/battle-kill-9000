@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BK9K.Framework.Abilities;
 using BK9K.Framework.Conventions;
 using BK9K.Framework.Transforms;
 using OpenRpg.Core.Effects;
@@ -12,7 +13,7 @@ namespace BK9K.Framework.Units
         public Guid UniqueId { get; set; } = Guid.NewGuid();
 
         public int FactionType { get; set; }
-        public int ActiveAbility { get; set; }
+        public Ability ActiveAbility { get; set; }
         public Position Position { get; set; }
 
         public List<Effect> CardEffects { get; set; } = new ();

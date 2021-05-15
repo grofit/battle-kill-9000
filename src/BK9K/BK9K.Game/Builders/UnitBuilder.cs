@@ -18,6 +18,7 @@ namespace BK9K.Game.Builders
         public IRaceTemplateRepository RaceTemplateRepository { get; }
         public IClassTemplateRepository ClassTemplateRepository { get; }
         public IItemTemplateRepository ItemTemplateRepository { get; }
+        public IAbilityRepository AbilityRepository { get; }
         public IStatsComputer StatsComputer { get; }
 
         private string _name = "Randy Random";
@@ -32,16 +33,17 @@ namespace BK9K.Game.Builders
 
         private Position _position = Position.Zero;
 
-        public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer, IItemTemplateRepository itemTemplateRepository)
+        public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer, IItemTemplateRepository itemTemplateRepository, IAbilityRepository abilityRepository)
         {
             RaceTemplateRepository = raceTemplateRepository;
             ClassTemplateRepository = classTemplateRepository;
             StatsComputer = statsComputer;
             ItemTemplateRepository = itemTemplateRepository;
+            AbilityRepository = abilityRepository;
         }
 
         public UnitBuilder Create()
-        { return new(RaceTemplateRepository, ClassTemplateRepository, StatsComputer, ItemTemplateRepository); }
+        { return new(RaceTemplateRepository, ClassTemplateRepository, StatsComputer, ItemTemplateRepository, AbilityRepository); }
 
         public UnitBuilder WithName(string name)
         {
@@ -111,14 +113,15 @@ namespace BK9K.Game.Builders
         {
             var classTemplate = ClassTemplateRepository.Retrieve(_classType);
             var raceTemplate = RaceTemplateRepository.Retrieve(_raceType);
+            var ability = AbilityRepository.Retrieve(_abilityId);
             var unit = new Unit
             {
                 NameLocaleId = _name,
                 FactionType = _factionType,
                 Position = _position,
                 Race = raceTemplate,
+                ActiveAbility = ability,
                 Class = new DefaultClass(_level, classTemplate),
-                ActiveAbility = _abilityId,
                 Equipment = new DefaultEquipment()
             };
 

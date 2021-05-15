@@ -7,38 +7,41 @@
         {
             <div class="columns">
                 <div class="column">
-                    <CharacterDetails Name="@Unit.NameLocaleId" RaceTemplate="@Unit.Race" Class="@Unit.Class" />
+                    <CharacterDetails Name="@Unit.NameLocaleId" RaceTemplate="@Unit.Race" Class="@Unit.Class"/>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <CharacterVitals Stats="@Unit.Stats" />
+                    <CharacterVitals Stats="@Unit.Stats"/>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <CharacterStats Stats="@Unit.Stats" />
+                    <CharacterStats Stats="@Unit.Stats"/>
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Characteristics</h4>
             <div class="columns">
                 <div class="column">
-                    <GameCard Card="@RaceCard" />
+                    <GameCard Card="@RaceCard"/>
                 </div>
                 <div class="column">
-                    <GameCard Card="@ClassCard" />
+                    <GameCard Card="@ClassCard"/>
                 </div>
                 <div class="column">
-                    <GameCard Card="@EffectsCard" />
+                    <GameCard Card="@EffectsCard"/>
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
             <div class="columns">
                 <div class="column">
-                    <GameCard Card="@WeaponCard" />
+                    <GameCard Card="@AbilityCard"/>
                 </div>
                 <div class="column">
-                    <GameCard Card="@ArmourCard" />
+                    <GameCard Card="@WeaponCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@ArmourCard"/>
                 </div>
             </div>
         }
@@ -55,6 +58,7 @@
     public EquipmentCard WeaponCard { get; set; }
     public EquipmentCard ArmourCard { get; set; }
     public EffectCard EffectsCard { get; set; }
+    public AbilityCard AbilityCard { get; set; }
 
     protected override void OnInitialized()
     {
@@ -63,6 +67,7 @@
         WeaponCard = new EquipmentCard(Unit.Equipment.MainHandSlot.SlottedItem);
         ArmourCard = new EquipmentCard(Unit.Equipment.UpperBodySlot.SlottedItem);
         EffectsCard = new EffectCard("Passive Effects", "Passive effects on the unit", Unit.CardEffects);
+        AbilityCard = new AbilityCard(Unit.ActiveAbility);
     }
 
 }
