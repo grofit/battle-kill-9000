@@ -1,23 +1,23 @@
-@using OpenRpg.Genres.Fantasy.Characters
 @using BK9K.Game.Cards
+@using BK9K.Framework.Units
 
 <CardSection>
     <div class="container">
-        @if (Character != null)
+        @if (Unit != null)
         {
             <div class="columns">
                 <div class="column">
-                    <CharacterDetails Name="@Character.NameLocaleId" RaceTemplate="@Character.Race" Class="@Character.Class" />
+                    <CharacterDetails Name="@Unit.NameLocaleId" RaceTemplate="@Unit.Race" Class="@Unit.Class" />
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <CharacterVitals Stats="@Character.Stats" />
+                    <CharacterVitals Stats="@Unit.Stats" />
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <CharacterStats Stats="@Character.Stats" />
+                    <CharacterStats Stats="@Unit.Stats" />
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Characteristics</h4>
@@ -27,6 +27,9 @@
                 </div>
                 <div class="column">
                     <GameCard Card="@ClassCard" />
+                </div>
+                <div class="column">
+                    <GameCard Card="@EffectsCard" />
                 </div>
             </div>
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
@@ -45,21 +48,21 @@
 @code {
 
     [Parameter]
-    public ICharacter Character { get; set; }
+    public Unit Unit { get; set; }
 
     public RaceCard RaceCard { get; set; }
     public ClassCard ClassCard { get; set; }
     public EquipmentCard WeaponCard { get; set; }
     public EquipmentCard ArmourCard { get; set; }
+    public EffectCard EffectsCard { get; set; }
 
     protected override void OnInitialized()
     {
-        RaceCard = new RaceCard(Character.Race);
-        ClassCard = new ClassCard(Character.Class.ClassTemplate);
-        WeaponCard = new EquipmentCard(Character.Equipment.MainHandSlot.SlottedItem);
-        ArmourCard = new EquipmentCard(Character.Equipment.UpperBodySlot.SlottedItem);
+        RaceCard = new RaceCard(Unit.Race);
+        ClassCard = new ClassCard(Unit.Class.ClassTemplate);
+        WeaponCard = new EquipmentCard(Unit.Equipment.MainHandSlot.SlottedItem);
+        ArmourCard = new EquipmentCard(Unit.Equipment.UpperBodySlot.SlottedItem);
+        EffectsCard = new EffectCard("Passive Effects", "Passive effects on the unit", Unit.CardEffects);
     }
-
-
 
 }
