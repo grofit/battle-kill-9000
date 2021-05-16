@@ -28,10 +28,7 @@ namespace BK9K.Web.Modules
             container.Bind<IAttackProcessor, DefaultAttackProcessor>();
             container.Bind<IRequirementChecker, DefaultRequirementChecker>();
             container.Bind<ILocaleRepository, DefaultLocaleRepository>();
-            container.Bind<IRaceTemplateRepository, RaceTemplateRepository>();
-            container.Bind<IClassTemplateRepository, ClassTemplateRepository>();
-            container.Bind<IItemTemplateRepository, ItemTemplateRepository>();
-            container.Bind<IAbilityRepository, AbilityRepository>();
+            
         }
     }
 }

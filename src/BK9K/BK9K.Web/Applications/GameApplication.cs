@@ -28,6 +28,7 @@ namespace BK9K.Web.Applications
         public GameState GameState { get; set; }
         public UnitBuilder UnitBuilder { get; set; }
         public IItemTemplateRepository ItemTemplateRepository { get; set; }
+        public INamedEffectsRepository NamedEffectsRepository { get; set; }
 
         public GameApplication(Container container) : base(container)
         {}
@@ -78,11 +79,7 @@ namespace BK9K.Web.Applications
                 Variables = new DefaultItemVariables()
             });
 
-            var effects = new List<Effect>
-            {
-                new() {EffectType = EffectTypes.StrengthBonusAmount, Potency = 1, Requirements = new Requirement[0]}
-            };
-            yield return new EffectCard("Invigorating Strength", "The card imbues the unit with strength", effects);
+            yield return new EffectCard(NamedEffectsRepository.Retrieve(NamedEffectsTypes.MinorStrength));
         }
 
         protected override void BindSystems()
@@ -102,13 +99,15 @@ namespace BK9K.Web.Applications
             GameState = Container.Resolve<GameState>();
             UnitBuilder = Container.Resolve<UnitBuilder>();
             ItemTemplateRepository = Container.Resolve<IItemTemplateRepository>();
+            NamedEffectsRepository = Container.Resolve<INamedEffectsRepository>();
         }
 
         protected override void LoadModules()
         {
             base.LoadModules();
-            Container.LoadModule(new GameModule());
             Container.LoadModule(new OpenRpgModule());
+            Container.LoadModule(new GameModule());
+            Container.LoadModule(new GameDataModule());
         }
     }
 }
