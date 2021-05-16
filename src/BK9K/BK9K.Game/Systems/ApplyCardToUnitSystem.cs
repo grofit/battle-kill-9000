@@ -14,13 +14,13 @@ namespace BK9K.Game.Systems
 {
     public class ApplyCardToUnitSystem : IReactToEventSystem<CardUsedOnUnitEvent>
     {
-        private IStatsComputer StatComputer { get; }
+        private IStatsComputer StatsComputer { get; }
         private IEventSystem EventSystem { get; }
         private GameState GameState { get; }
 
-        public ApplyCardToUnitSystem(IStatsComputer statComputer, GameState gameState, IEventSystem eventSystem)
+        public ApplyCardToUnitSystem(IStatsComputer statsComputer, GameState gameState, IEventSystem eventSystem)
         {
-            StatComputer = statComputer;
+            StatsComputer = statsComputer;
             GameState = gameState;
             EventSystem = eventSystem;
         }
@@ -60,11 +60,9 @@ namespace BK9K.Game.Systems
             var health = unit.Stats.Health();
             var magic = unit.Stats.Magic();
 
-            var newStats = StatComputer.ComputeStats(unit.GetUnitEffects().ToArray());
-            newStats.Health(health);
-            newStats.Magic(magic);
-
-            unit.Stats = newStats;
+            StatsComputer.RecomputeStats(unit.Stats, unit.GetUnitEffects().ToArray());
+            unit.Stats.Health(health);
+            unit.Stats.Magic(magic);
         }
     }
 }
