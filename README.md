@@ -9,6 +9,8 @@ While this is primarily me coding stuff there is often other friends doing code 
 ## What is the game?
 The game started out as a simple idea of a sort of auto battler grid card thing, which I was inspired to create after seeing someone make something similar on reddit and didn't even know this was a genre, so now im just making a really rubbish one just to see how far I can get while keeping a focus on separation from the view.
 
+The game referenced in the reddit article can be found [here](https://krons.itch.io/towercrawl-tactics) which is far more amazing than this one is :D
+
 ## What tech are you using?
 It will evolve as we continue but the way I envision things evolving would be like:
 
