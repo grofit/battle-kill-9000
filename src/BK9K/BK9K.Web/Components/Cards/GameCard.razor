@@ -2,6 +2,8 @@
 @using BK9K.Game.Extensions
 @using BK9K.Game.Data
 @using BK9K.Framework.Cards
+@using BK9K.Game.Types
+@using OpenRpg.Core.Effects
 
 @inject ILocaleRepository LocaleRepository
 
@@ -16,6 +18,14 @@
                     <div class="card-effects">
                         <EffectList Effects=@Card.Effects.ToArray()></EffectList>
                     </div>
+                    @if (Card.CardType == CardTypes.EquipmentCard)
+                    {
+                        <div class="box as-circle has-background-link-light">
+                            <span class="is-size-4">
+                                @GetMaximumEffectPotency.Potency
+                            </span>
+                        </div>
+                    }
                 </div>
                 <div class="description-section">
                     <p>@Card.DescriptionLocaleId</p>
@@ -36,5 +46,6 @@
 
     public string CardTypeClass => $"card-type-{Card.CardType}";
     public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, Card.CardType));
+    public Effect GetMaximumEffectPotency => Card.Effects.OrderByDescending(x => x.Potency).FirstOrDefault();
 
 }
