@@ -51,7 +51,7 @@ namespace BK9K.Game.Systems
         public void ApplyEffectCardToUnit(EffectCard card, Unit unit)
         {
             var cardEffects = card.Effects;
-            unit.CardEffects.AddRange(cardEffects);
+            unit.PassiveEffects.AddRange(cardEffects);
             RefreshUnitStats(unit);
         }
 

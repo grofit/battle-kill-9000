@@ -1,5 +1,26 @@
-﻿var draw = SVG().addTo('body').size(1920, 1080);
-var line = draw.line(0,0,0,0).stroke({ width: 10, color: "#999", opacity: 0.6 });
+﻿const ViewTypes = {
+    Unknown: 0,
+    Unit: 1,
+    Tile: 2,
+    WeaponSlot: 3,
+    ArmourSlot: 4,
+    AbilitySlot: 5
+}
+
+const CardTypes = {
+    Unknown: 0,
+    RaceCard: 1,
+    ClassCard: 2,
+    ItemCard: 3,
+    EquipmentCard: 4,
+    EffectCard: 5,
+    AbilityCard: 6,
+    SpellCard: 7
+}
+
+const defaultLineColor = "#999";
+const draw = SVG().addTo('body').size(1920, 1080);
+const line = draw.line(0, 0, 0, 0).stroke({ width: 10, color: defaultLineColor, opacity: 0.6 });
 line.attr("stroke-dasharray", 4);
 line.attr("stroke-linecap", "round");
 
@@ -24,16 +45,28 @@ function getElementPosition(element) {
 }
 
 function canCardBeUsedOnView(cardType, viewType) {
-    if (viewType == 1) {
-        switch (cardType) {
-        case 0:
-        case 1:
-        case 2:
-        case 7:
-            return false;
-        default:
-            return true;
-        }
+    switch (viewType) {
+        case ViewTypes.Unit: return canCardBeUsedOnUnit(cardType);
+        case ViewTypes.Tile: return canCardBeUsedOnTile(cardType);
+        default: false;
+    }
+}
+
+function canCardBeUsedOnUnit(cardType) {
+    switch (cardType) {
+    case CardTypes.SpellCard:
+        return true;
+    default:
+        return false;
+    }
+}
+
+function canCardBeUsedOnTile(cardType) {
+    switch (cardType) {
+    case CardTypes.Unknown:
+        return false;
+    default:
+        return true;
     }
 }
 
@@ -64,11 +97,11 @@ function OnCardDragEnter(evt) {
         return;
     }
 
-    var viewType = evt.toElement.getAttribute("view-type");
-    var viewId = evt.toElement.getAttribute("view-id");
-    var cardType = currentDragState.cardType;
+    const viewType = evt.toElement.getAttribute("view-type");
+    const viewId = evt.toElement.getAttribute("view-id");
+    const cardType = currentDragState.cardType;
 
-    var canBeUsed = canCardBeUsedOnView(cardType, viewType);
+    const canBeUsed = canCardBeUsedOnView(cardType, viewType);
     if (canBeUsed) {
         line.stroke("#0F0");
         currentDragState.targetViewType = viewType;
@@ -81,7 +114,6 @@ function OnCardDragEnter(evt) {
 }
 
 function OnCardDrop(evt) {
-    console.log("DROPPING", currentDragState);
     if (currentDragState.canBeUsed == true) {
 
         runInterop((dotNet) => {
@@ -89,7 +121,6 @@ function OnCardDrop(evt) {
                 currentDragState.cardViewId,
                 currentDragState.targetViewType,
                 currentDragState.targetViewId);
-            console.log("CALLED DOTNET");
         });
     }
 }
@@ -101,8 +132,7 @@ function OnDragOver(evt) {
 function OnCardDragLeave(evt) {
     childCounter--;
     if (childCounter === 0) {
-        line.stroke("#999");
+        line.stroke(defaultLineColor);
         currentDragState.canBeUsed = false;
-        console.log("LEAVING");
     }
 }

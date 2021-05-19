@@ -16,6 +16,6 @@ namespace BK9K.Framework.Units
         public Ability ActiveAbility { get; set; }
         public Position Position { get; set; }
 
-        public List<Effect> CardEffects { get; set; } = new ();
+        public List<Effect> PassiveEffects { get; set; } = new ();
     }
 }

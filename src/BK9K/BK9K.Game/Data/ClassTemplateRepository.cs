@@ -16,7 +16,8 @@ namespace BK9K.Game.Data
             {
                 GenerateFighterClass(),
                 GenerateMageClass(),
-                GenerateRogueClass()
+                GenerateRogueClass(),
+                GenerateMonsterClass()
             };
         }
 
@@ -38,7 +39,7 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Fighter",
                 DescriptionLocaleId = "Super tough, hits things",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
             };
         }
 
@@ -59,7 +60,7 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Mage",
                 DescriptionLocaleId = "Powerful magic users",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
             };
         }
         
@@ -81,7 +82,20 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Rogue",
                 DescriptionLocaleId = "Stabby Stabby",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
+            };
+        }
+
+        private IClassTemplate GenerateMonsterClass()
+        {
+            return new DefaultClassTemplate
+            {
+                Id = ClassTypes.Monster,
+                AssetCode = "class-monster",
+                NameLocaleId = "Monster",
+                DescriptionLocaleId = "Monsters come in all shapes and sizes",
+                Effects = new Effect[0],
+                Requirements = new Requirement[0]
             };
         }
     }
