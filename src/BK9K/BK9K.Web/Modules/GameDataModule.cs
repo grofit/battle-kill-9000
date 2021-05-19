@@ -14,6 +14,8 @@ namespace BK9K.Web.Modules
             container.Bind<IClassTemplateRepository, ClassTemplateRepository>();
             container.Bind<IItemTemplateRepository, ItemTemplateRepository>();
             container.Bind<IAbilityRepository, AbilityRepository>();
+            container.Bind<ISpellRepository, SpellRepository>();
+            container.Bind<ISpellHandlerRepository, SpellHandlerRepository>();
         }
     }
 }

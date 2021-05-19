@@ -29,6 +29,7 @@ namespace BK9K.Web.Applications
         public UnitBuilder UnitBuilder { get; set; }
         public IItemTemplateRepository ItemTemplateRepository { get; set; }
         public INamedEffectsRepository NamedEffectsRepository { get; set; }
+        public ISpellRepository SpellRepository { get; set; }
 
         public GameApplication(Container container) : base(container)
         {}
@@ -80,6 +81,9 @@ namespace BK9K.Web.Applications
             });
 
             yield return new EffectCard(NamedEffectsRepository.Retrieve(NamedEffectsTypes.MinorStrength));
+
+            var fireboltSpell = SpellRepository.Retrieve(SpellTypes.Firebolt);
+            yield return new SpellCard(fireboltSpell);
         }
 
         protected override void BindSystems()
@@ -90,6 +94,7 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, LevelEndCheckSystem>();
             this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
             this.Container.Bind<ISystem, EnemyLootingSystem>();
+            this.Container.Bind<ISystem, ApplyCardToTileSystem>();
         }
         
         protected override void ResolveApplicationDependencies()
@@ -101,6 +106,7 @@ namespace BK9K.Web.Applications
             UnitBuilder = Container.Resolve<UnitBuilder>();
             ItemTemplateRepository = Container.Resolve<IItemTemplateRepository>();
             NamedEffectsRepository = Container.Resolve<INamedEffectsRepository>();
+            SpellRepository = Container.Resolve<ISpellRepository>();
         }
 
         protected override void LoadModules()

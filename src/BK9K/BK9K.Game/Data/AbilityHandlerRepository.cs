@@ -4,9 +4,9 @@ using OpenRpg.Data.Defaults;
 
 namespace BK9K.Game.Data
 {
-    public class AbilityHandlerRepository : InMemoryDataRepository<IUnitAbilityHandler>, IAbilityHandlerRepository
+    public class AbilityHandlerRepository : InMemoryDataRepository<IAbilityHandler>, IAbilityHandlerRepository
     {
-        public AbilityHandlerRepository(IEnumerable<IUnitAbilityHandler> data) : base(data)
+        public AbilityHandlerRepository(IEnumerable<IAbilityHandler> data) : base(data)
         {
         }
     }

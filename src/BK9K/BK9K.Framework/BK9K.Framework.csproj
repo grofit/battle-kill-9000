@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Cards\" />
+    <Folder Include="Spells\" />
     <Folder Include="Transforms\" />
   </ItemGroup>
 

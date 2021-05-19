@@ -4,8 +4,8 @@ using OpenRpg.Core.Common;
 
 namespace BK9K.Game.Handlers.UnitAbilities
 {
-    public interface IUnitAbilityHandler : IHasDataId
+    public interface IAbilityHandler : IHasDataId
     {
-        Task ExecuteAbility(Unit unit);
+        Task<bool> ExecuteAbility(Unit unit);
     }
 }
