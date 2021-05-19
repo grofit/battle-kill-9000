@@ -89,6 +89,7 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, RoundExecutionSystem>();
             this.Container.Bind<ISystem, LevelEndCheckSystem>();
             this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
+            this.Container.Bind<ISystem, EnemyLootingSystem>();
         }
         
         protected override void ResolveApplicationDependencies()

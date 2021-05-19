@@ -14,7 +14,7 @@ namespace BK9K.Framework.Extensions
         {
             var unitEffects = new List<Effect>();
             unitEffects.AddRange(unit.GetActiveEffects());
-            unitEffects.AddRange(unit.CardEffects);
+            unitEffects.AddRange(unit.PassiveEffects);
             return unitEffects;
         }
     }

@@ -74,7 +74,7 @@
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
         GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
-        GameApp.EventSystem.Receive<PlayerCardRemovedEvent>().Subscribe(OnCardRemoved).AddTo(_subs);
+        GameApp.EventSystem.Receive<PlayerCardsChangedEvent>().Subscribe(OnPlayerCardsChanged).AddTo(_subs);
         await LoadLevel(GameState.LevelId);
     }
 
@@ -90,7 +90,7 @@
         StateHasChanged();
     }
 
-    public void OnCardRemoved(PlayerCardRemovedEvent args)
+    public void OnPlayerCardsChanged(PlayerCardsChangedEvent args)
     {
         StateHasChanged();
     }

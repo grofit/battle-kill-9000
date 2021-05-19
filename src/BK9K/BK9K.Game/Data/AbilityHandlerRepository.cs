@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BK9K.Game.Handlers.Abilities;
+using BK9K.Game.Handlers.UnitAbilities;
 using OpenRpg.Data.Defaults;
 
 namespace BK9K.Game.Data

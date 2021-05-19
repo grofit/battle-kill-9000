@@ -11,7 +11,7 @@ using BK9K.Game.Types;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Genres.Fantasy.Extensions;
 
-namespace BK9K.Game.Handlers.Abilities
+namespace BK9K.Game.Handlers.UnitAbilities
 {
     public class AttackAbilityHandler : IUnitAbilityHandler
     {

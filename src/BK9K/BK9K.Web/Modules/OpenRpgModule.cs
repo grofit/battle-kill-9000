@@ -1,7 +1,6 @@
 ﻿using System;
 using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
-using BK9K.Framework.Random;
 using BK9K.Game.Data;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Stats;

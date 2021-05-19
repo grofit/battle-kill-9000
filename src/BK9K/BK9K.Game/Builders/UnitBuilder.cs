@@ -114,16 +114,16 @@ namespace BK9K.Game.Builders
             var classTemplate = ClassTemplateRepository.Retrieve(_classType);
             var raceTemplate = RaceTemplateRepository.Retrieve(_raceType);
             var ability = AbilityRepository.Retrieve(_abilityId);
-            var unit = new Unit
-            {
-                NameLocaleId = _name,
-                FactionType = _factionType,
-                Position = _position,
-                Race = raceTemplate,
-                ActiveAbility = ability,
-                Class = new DefaultClass(_level, classTemplate),
-                Equipment = new DefaultEquipment()
-            };
+            
+            var unit = _factionType == FactionTypes.Enemy ? new EnemyUnit() : new Unit();
+
+            unit.NameLocaleId = _name;
+            unit.FactionType = _factionType;
+            unit.Position = _position;
+            unit.Race = raceTemplate;
+            unit.ActiveAbility = ability;
+            unit.Class = new DefaultClass(_level, classTemplate);
+            unit.Equipment = new DefaultEquipment();
 
             var weapon = GetWeapon();
             if(weapon != null)

@@ -34,7 +34,7 @@ namespace BK9K.Game.Systems
             else { return; }
 
             GameState.PlayerCards.Remove(eventData.Card);
-            EventSystem.Publish(new PlayerCardRemovedEvent(eventData.Card));
+            EventSystem.Publish(new PlayerCardsChangedEvent());
         }
 
         public void ApplyItemCardToUnit(ItemCard card, Unit unit)
@@ -51,7 +51,7 @@ namespace BK9K.Game.Systems
         public void ApplyEffectCardToUnit(EffectCard card, Unit unit)
         {
             var cardEffects = card.Effects;
-            unit.CardEffects.AddRange(cardEffects);
+            unit.PassiveEffects.AddRange(cardEffects);
             RefreshUnitStats(unit);
         }
 

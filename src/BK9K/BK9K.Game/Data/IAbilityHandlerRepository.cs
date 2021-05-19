@@ -1,4 +1,4 @@
-﻿using BK9K.Game.Handlers.Abilities;
+﻿using BK9K.Game.Handlers.UnitAbilities;
 using OpenRpg.Data.Repositories;
 
 namespace BK9K.Game.Data

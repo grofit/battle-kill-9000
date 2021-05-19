@@ -5,8 +5,8 @@ using BK9K.Framework.Levels;
 using BK9K.Game.Builders;
 using BK9K.Game.Configuration;
 using BK9K.Game.Handlers;
-using BK9K.Game.Handlers.Abilities;
 using BK9K.Game.Handlers.Phases;
+using BK9K.Game.Handlers.UnitAbilities;
 
 namespace BK9K.Web.Modules
 {

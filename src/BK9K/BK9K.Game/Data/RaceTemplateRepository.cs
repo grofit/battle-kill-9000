@@ -17,6 +17,7 @@ namespace BK9K.Game.Data
                 GenerateHumanTemplate(),
                 GenerateElfTemplate(),
                 GenerateDwarfTemplate(),
+                GenerateEnemyTemplate()
             };
         }
 
@@ -35,7 +36,7 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Human",
                 DescriptionLocaleId = "Humans are the most common of all races",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
             };
         }
 
@@ -58,7 +59,7 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Elf",
                 DescriptionLocaleId = "Elves are pretty common, have pointy ears too",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
             };
         }
 
@@ -81,7 +82,22 @@ namespace BK9K.Game.Data
                 NameLocaleId = "Dwarf",
                 DescriptionLocaleId = "Dwarves are strong and hardy",
                 Effects = effects,
-                Requirements = new List<Requirement>()
+                Requirements = new Requirement[0]
+            };
+        }
+
+        private IRaceTemplate GenerateEnemyTemplate()
+        {
+            var effects = new Effect[0];
+
+            return new DefaultRaceTemplate
+            {
+                Id = RaceTypes.Enemy,
+                AssetCode = "race-enemy",
+                NameLocaleId = "Enemy",
+                DescriptionLocaleId = "Enemies are always hostile",
+                Effects = effects,
+                Requirements = new Requirement[0]
             };
         }
     }
