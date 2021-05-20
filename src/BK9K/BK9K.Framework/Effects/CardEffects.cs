@@ -4,7 +4,7 @@ using OpenRpg.Core.Effects;
 
 namespace BK9K.Framework.Effects
 {
-    public class NamedEffects : IHasDataId, IHasLocaleDescription, IHasEffects
+    public class CardEffects : IHasDataId, IHasLocaleDescription, IHasEffects
     {
         public int Id { get; set; }
         public string NameLocaleId { get; set; }

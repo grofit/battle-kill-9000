@@ -48,25 +48,21 @@ function canCardBeUsedOnView(cardType, viewType) {
     switch (viewType) {
         case ViewTypes.Unit: return canCardBeUsedOnUnit(cardType);
         case ViewTypes.Tile: return canCardBeUsedOnTile(cardType);
-        default: false;
-    }
-}
-
-function canCardBeUsedOnUnit(cardType) {
-    switch (cardType) {
-    case CardTypes.SpellCard:
-        return true;
-    default:
-        return false;
+        default: return false;
     }
 }
 
 function canCardBeUsedOnTile(cardType) {
     switch (cardType) {
-    case CardTypes.Unknown:
-        return false;
-    default:
-        return true;
+        case CardTypes.SpellCard: return true;
+        default: return false;
+    }
+}
+
+function canCardBeUsedOnUnit(cardType) {
+    switch (cardType) {
+        case CardTypes.Unknown: return false;
+        default: return true;
     }
 }
 
@@ -101,7 +97,7 @@ function OnCardDragEnter(evt) {
     const viewId = evt.toElement.getAttribute("view-id");
     const cardType = currentDragState.cardType;
 
-    const canBeUsed = canCardBeUsedOnView(cardType, viewType);
+    const canBeUsed = canCardBeUsedOnView(parseInt(cardType), parseInt(viewType));
     if (canBeUsed) {
         line.stroke("#0F0");
         currentDragState.targetViewType = viewType;

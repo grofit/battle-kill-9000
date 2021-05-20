@@ -9,13 +9,13 @@ using OpenRpg.Core.Effects;
 
 namespace BK9K.Game.Cards
 {
-    public class EffectCard : GenericDataCardWithEffects<NamedEffects>, IHasUniqueId
+    public class EffectCard : GenericDataCardWithEffects<CardEffects>, IHasUniqueId
     {
         public Guid UniqueId { get; set; } = Guid.NewGuid();
 
         public override int CardType => CardTypes.EffectCard;
 
-        public EffectCard(NamedEffects data) : base(data)
+        public EffectCard(CardEffects data) : base(data)
         {
         }
     }

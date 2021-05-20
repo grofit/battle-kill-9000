@@ -6,9 +6,8 @@ using BK9K.Game.Cards;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
 using BK9K.Game.Events.Cards;
-using OpenRpg.Core.Stats;
 
-namespace BK9K.Game.Systems
+namespace BK9K.Game.Systems.Cards
 {
     public class ApplyCardToTileSystem : IReactToEventSystem<CardUsedOnTileEvent>
     {

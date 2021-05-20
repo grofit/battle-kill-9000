@@ -10,7 +10,7 @@ using OpenRpg.Core.Stats;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Genres.Fantasy.Types;
 
-namespace BK9K.Game.Systems
+namespace BK9K.Game.Systems.Cards
 {
     public class ApplyCardToUnitSystem : IReactToEventSystem<CardUsedOnUnitEvent>
     {

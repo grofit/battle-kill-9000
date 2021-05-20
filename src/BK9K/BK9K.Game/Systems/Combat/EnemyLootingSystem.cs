@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using SystemsRx.Events;
+﻿using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Units;
 using BK9K.Game.Cards;
@@ -10,7 +8,7 @@ using BK9K.Game.Events.Units;
 using BK9K.Game.Types;
 using OpenRpg.Genres.Fantasy.Extensions;
 
-namespace BK9K.Game.Systems
+namespace BK9K.Game.Systems.Combat
 {
     public class EnemyLootingSystem : IReactToEventSystem<UnitAttackedEvent>
     {
