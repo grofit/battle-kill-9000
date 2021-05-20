@@ -11,13 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Combat" Version="0.13.72" />
-    <PackageReference Include="OpenRpg.Core" Version="0.13.72" />
-    <PackageReference Include="OpenRpg.Data" Version="0.13.72" />
-    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.12.39" />
-    <PackageReference Include="OpenRpg.Items" Version="0.13.72" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.13.72" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.13.72" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.13.78" />
+    <PackageReference Include="OpenRpg.Core" Version="0.13.78" />
+    <PackageReference Include="OpenRpg.Data" Version="0.13.78" />
+    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.13.57" />
+    <PackageReference Include="OpenRpg.Items" Version="0.13.78" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.13.78" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.13.78" />
   </ItemGroup>
 
 </Project>

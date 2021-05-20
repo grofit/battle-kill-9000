@@ -12,6 +12,7 @@ using BK9K.Game.Data;
 using BK9K.Game.Systems;
 using BK9K.Game.Systems.Cards;
 using BK9K.Game.Systems.Combat;
+using BK9K.Game.Systems.Effects;
 using BK9K.Game.Systems.Levels;
 using BK9K.Game.Types;
 using BK9K.Web.Modules;
@@ -98,6 +99,7 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
             this.Container.Bind<ISystem, EnemyLootingSystem>();
             this.Container.Bind<ISystem, ApplyCardToTileSystem>();
+            this.Container.Bind<ISystem, EffectTimingSystem>();
         }
         
         protected override void ResolveApplicationDependencies()

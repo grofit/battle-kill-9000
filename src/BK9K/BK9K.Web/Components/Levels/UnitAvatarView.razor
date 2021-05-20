@@ -5,6 +5,8 @@
 @using SystemsRx.Extensions
 @using BK9K.Game.Events.Units
 @using System.Reactive.Linq
+@using BK9K.Framework.Extensions
+@using BK9K.Game.Events.Effects
 @using BK9K.Web.Types
 
 @inject IEventSystem EventSystem
@@ -15,7 +17,7 @@
      view-type="@ViewTypes.Unit" view-id="@Unit.UniqueId">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
-    <img src="./assets/sprites/@(className).png" alt="@className">
+    <img class="@(_isBuffed ? "has-buffs" : "") @(_isDebuffed ? "has-debuff" : "")" src="./assets/sprites/@(className).png" alt="@className">
     <div class="tags has-addons">
         <span class="tag">
             <span class="icon">
@@ -34,7 +36,7 @@
     [Parameter]
     public Unit Unit { get; set; }
 
-    private bool _isActiveUnit, _isTargetUnit;
+    private bool _isActiveUnit, _isTargetUnit, _isBuffed, _isDebuffed;
 
     private List<IDisposable> _sub = new();
 
@@ -60,6 +62,8 @@
         EventSystem.Receive<UnitStartTurn>().Where(x => x.Unit == Unit).Subscribe(OnUnitTurnStarted).AddTo(_sub);
         EventSystem.Receive<UnitEndTurn>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
         EventSystem.Receive<UnitAttackedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitTargetted).AddTo(_sub);
+        EventSystem.Receive<EffectAddedEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectAdded).AddTo(_sub);
+        EventSystem.Receive<EffectExpiredEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectRemoved).AddTo(_sub);
     }
 
     public void OnUnitTurnEnded(UnitEndTurn args)
@@ -78,6 +82,24 @@
     public void OnUnitTargetted(UnitAttackedEvent args)
     {
         _isTargetUnit = true;
+        StateHasChanged();
+    }
+
+    public void OnUnitActiveEffectAdded(EffectAddedEvent args)
+    {
+        if (args.ActiveEffect.IsBeneficialEffect())
+        { _isBuffed = true; }
+        else
+        { _isDebuffed = true; }
+        StateHasChanged();
+    }
+
+    public void OnUnitActiveEffectRemoved(EffectExpiredEvent args)
+    {
+        if (args.ActiveEffect.IsBeneficialEffect())
+        { _isBuffed = false; }
+        else
+        { _isDebuffed = false; }
         StateHasChanged();
     }
 

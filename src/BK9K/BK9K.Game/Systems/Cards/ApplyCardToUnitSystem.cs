@@ -42,9 +42,9 @@ namespace BK9K.Game.Systems.Cards
             foreach (var effect in card.Effects)
             {
                 if (effect.EffectType == EffectTypes.HealthRestoreAmount)
-                { unit.Stats.Health(unit.Stats.Health() + (int)effect.Potency); }
+                { unit.Stats.AddHealth((int)effect.Potency); }
                 else if (effect.EffectType == EffectTypes.MagicRestoreAmount)
-                { unit.Stats.Magic(unit.Stats.Magic() + (int)effect.Potency); }
+                { unit.Stats.AddMagic((int)effect.Potency); }
             }
         }
 

@@ -1,10 +1,10 @@
 ﻿using SystemsRx.Events;
 using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Extensions;
 using BK9K.Framework.Levels;
 using BK9K.Framework.Units;
 using BK9K.Game.Events.Effects;
+using OpenRpg.Combat.Extensions;
 
 namespace BK9K.Game.Systems.Effects
 {
