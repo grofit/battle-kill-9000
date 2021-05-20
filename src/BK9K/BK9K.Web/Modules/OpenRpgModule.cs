@@ -27,7 +27,6 @@ namespace BK9K.Web.Modules
             container.Bind<IAttackProcessor, DefaultAttackProcessor>();
             container.Bind<IRequirementChecker, DefaultRequirementChecker>();
             container.Bind<ILocaleRepository, DefaultLocaleRepository>();
-            
         }
     }
 }

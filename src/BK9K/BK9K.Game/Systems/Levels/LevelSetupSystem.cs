@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
@@ -12,7 +11,6 @@ using BK9K.Framework.Units;
 using BK9K.Game.Builders;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
-using BK9K.Game.Events;
 using BK9K.Game.Events.Level;
 using BK9K.Game.Types;
 using OpenRpg.Core.Modifications;
@@ -23,7 +21,7 @@ using OpenRpg.Items.Extensions;
 using OpenRpg.Items.Loot;
 using OpenRpg.Items.Templates;
 
-namespace BK9K.Game.Systems
+namespace BK9K.Game.Systems.Levels
 {
     public class LevelSetupSystem : IReactToEventSystem<RequestLevelLoadEvent>
     {

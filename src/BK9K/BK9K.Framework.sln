@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Framework", "BK9K.Fram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Web", "BK9K.Web\BK9K.Web.csproj", "{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BK9K.Game", "BK9K.Game\BK9K.Game.csproj", "{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Game", "BK9K.Game\BK9K.Game.csproj", "{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

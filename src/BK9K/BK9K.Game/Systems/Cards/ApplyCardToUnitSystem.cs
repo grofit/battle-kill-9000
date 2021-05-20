@@ -10,7 +10,7 @@ using OpenRpg.Core.Stats;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Genres.Fantasy.Types;
 
-namespace BK9K.Game.Systems
+namespace BK9K.Game.Systems.Cards
 {
     public class ApplyCardToUnitSystem : IReactToEventSystem<CardUsedOnUnitEvent>
     {
@@ -42,9 +42,9 @@ namespace BK9K.Game.Systems
             foreach (var effect in card.Effects)
             {
                 if (effect.EffectType == EffectTypes.HealthRestoreAmount)
-                { unit.Stats.Health(unit.Stats.Health() + (int)effect.Potency); }
+                { unit.Stats.AddHealth((int)effect.Potency); }
                 else if (effect.EffectType == EffectTypes.MagicRestoreAmount)
-                { unit.Stats.Magic(unit.Stats.Magic() + (int)effect.Potency); }
+                { unit.Stats.AddMagic((int)effect.Potency); }
             }
         }
 

@@ -10,6 +10,10 @@ using BK9K.Game.Cards;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
 using BK9K.Game.Systems;
+using BK9K.Game.Systems.Cards;
+using BK9K.Game.Systems.Combat;
+using BK9K.Game.Systems.Effects;
+using BK9K.Game.Systems.Levels;
 using BK9K.Game.Types;
 using BK9K.Web.Modules;
 using DryIoc;
@@ -28,7 +32,8 @@ namespace BK9K.Web.Applications
         public GameState GameState { get; set; }
         public UnitBuilder UnitBuilder { get; set; }
         public IItemTemplateRepository ItemTemplateRepository { get; set; }
-        public INamedEffectsRepository NamedEffectsRepository { get; set; }
+        public ICardEffectsRepository CardEffectsRepository { get; set; }
+        public ISpellRepository SpellRepository { get; set; }
 
         public GameApplication(Container container) : base(container)
         {}
@@ -79,7 +84,13 @@ namespace BK9K.Web.Applications
                 Variables = new DefaultItemVariables()
             });
 
-            yield return new EffectCard(NamedEffectsRepository.Retrieve(NamedEffectsTypes.MinorStrength));
+            yield return new EffectCard(CardEffectsRepository.Retrieve(NamedEffectsTypes.MinorStrength));
+
+            var fireboltSpell = SpellRepository.Retrieve(SpellTypes.Firebolt);
+            yield return new SpellCard(fireboltSpell);
+
+            var regenSpell = SpellRepository.Retrieve(SpellTypes.MinorRegen);
+            yield return new SpellCard(regenSpell);
         }
 
         protected override void BindSystems()
@@ -90,6 +101,9 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, LevelEndCheckSystem>();
             this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
             this.Container.Bind<ISystem, EnemyLootingSystem>();
+            this.Container.Bind<ISystem, ApplyCardToTileSystem>();
+            this.Container.Bind<ISystem, EffectTimingSystem>();
+            this.Container.Bind<ISystem, ActionTickedEffectSystem>();
         }
         
         protected override void ResolveApplicationDependencies()
@@ -100,7 +114,8 @@ namespace BK9K.Web.Applications
             GameState = Container.Resolve<GameState>();
             UnitBuilder = Container.Resolve<UnitBuilder>();
             ItemTemplateRepository = Container.Resolve<IItemTemplateRepository>();
-            NamedEffectsRepository = Container.Resolve<INamedEffectsRepository>();
+            CardEffectsRepository = Container.Resolve<ICardEffectsRepository>();
+            SpellRepository = Container.Resolve<ISpellRepository>();
         }
 
         protected override void LoadModules()

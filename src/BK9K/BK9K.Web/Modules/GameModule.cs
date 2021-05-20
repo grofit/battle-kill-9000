@@ -6,6 +6,7 @@ using BK9K.Game.Builders;
 using BK9K.Game.Configuration;
 using BK9K.Game.Handlers;
 using BK9K.Game.Handlers.Phases;
+using BK9K.Game.Handlers.SpellAbilities;
 using BK9K.Game.Handlers.UnitAbilities;
 
 namespace BK9K.Web.Modules
@@ -23,7 +24,9 @@ namespace BK9K.Web.Modules
             container.Bind<IUnitTurnHandler, UnitTurnHandler>();
             container.Bind<IUnitMovementPhaseHandler, UnitMovementPhaseHandler>();
             container.Bind<IUnitActionPhaseHandler, UnitActionPhaseHandler>();
-            container.Bind<IUnitAbilityHandler, AttackAbilityHandler>();
+            container.Bind<IAbilityHandler, AttackAbilityHandler>();
+            container.Bind<ISpellHandler, FireboltSpellHandler>();
+            container.Bind<ISpellHandler, MinorRegenSpellHandler>();
         }
     }
 }

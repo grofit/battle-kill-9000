@@ -6,17 +6,18 @@
 
   <ItemGroup>
     <Folder Include="Cards\" />
+    <Folder Include="Spells\" />
     <Folder Include="Transforms\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Combat" Version="0.12.69" />
-    <PackageReference Include="OpenRpg.Core" Version="0.12.69" />
-    <PackageReference Include="OpenRpg.Data" Version="0.12.69" />
-    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.12.39" />
-    <PackageReference Include="OpenRpg.Items" Version="0.12.69" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.12.69" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.12.69" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Core" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Data" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.13.61" />
+    <PackageReference Include="OpenRpg.Items" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.13.80" />
   </ItemGroup>
 
 </Project>

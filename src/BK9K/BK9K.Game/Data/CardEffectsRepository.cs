@@ -8,24 +8,24 @@ using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.Data
 {
-    public class NamedEffectsRepository : InMemoryDataRepository<NamedEffects>, INamedEffectsRepository
+    public class CardEffectsRepository : InMemoryDataRepository<CardEffects>, ICardEffectsRepository
     {
-        public NamedEffectsRepository()
+        public CardEffectsRepository()
         {
-            Data = new List<NamedEffects>
+            Data = new List<CardEffects>
             {
                 MakeMinorStrengthEffects(),
                 MakeMinorIntelligenceEffects()
             };
         }
 
-        private NamedEffects MakeMinorStrengthEffects()
+        private CardEffects MakeMinorStrengthEffects()
         {
             var effects = new List<Effect>
             {
                 new() {EffectType = EffectTypes.StrengthBonusAmount, Potency = 1, Requirements = new Requirement[0]}
             };
-            return new NamedEffects
+            return new CardEffects
             {
                 Id = NamedEffectsTypes.MinorStrength,
                 NameLocaleId = "Minor Strength",
@@ -34,13 +34,13 @@ namespace BK9K.Game.Data
             };
         }
 
-        private NamedEffects MakeMinorIntelligenceEffects()
+        private CardEffects MakeMinorIntelligenceEffects()
         {
             var effects = new List<Effect>
             {
                 new() {EffectType = EffectTypes.IntelligenceBonusAmount, Potency = 1, Requirements = new Requirement[0]}
             };
-            return new NamedEffects
+            return new CardEffects
             {
                 Id = NamedEffectsTypes.MinorIntelligence,
                 NameLocaleId = "Minor Intelligence",

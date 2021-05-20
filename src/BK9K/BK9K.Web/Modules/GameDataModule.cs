@@ -9,11 +9,14 @@ namespace BK9K.Web.Modules
         public void Setup(IDependencyContainer container)
         {
             container.Bind<IAbilityHandlerRepository, AbilityHandlerRepository>();
-            container.Bind<INamedEffectsRepository, NamedEffectsRepository>();
+            container.Bind<ICardEffectsRepository, CardEffectsRepository>();
             container.Bind<IRaceTemplateRepository, RaceTemplateRepository>();
             container.Bind<IClassTemplateRepository, ClassTemplateRepository>();
             container.Bind<IItemTemplateRepository, ItemTemplateRepository>();
             container.Bind<IAbilityRepository, AbilityRepository>();
+            container.Bind<ISpellRepository, SpellRepository>();
+            container.Bind<ISpellHandlerRepository, SpellHandlerRepository>();
+            container.Bind<ITimedEffectRepository, TimedEffectRepository>();
         }
     }
 }
