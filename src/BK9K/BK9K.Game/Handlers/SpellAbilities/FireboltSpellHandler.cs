@@ -27,11 +27,11 @@ namespace BK9K.Game.Handlers.SpellAbilities
             StatsComputer = statsComputer;
             AttackGenerator = attackGenerator;
         }
-        
+
         public async Task<bool> ExecuteSpell(Spell spell, Position target)
         {
             var unit = Level.GetUnitAt(target);
-            if(unit == null) { return false; }
+            if (unit == null) { return false; }
 
             var stats = StatsComputer.ComputeStats(spell.Effects.ToArray());
             var attack = AttackGenerator.GenerateAttack(stats);

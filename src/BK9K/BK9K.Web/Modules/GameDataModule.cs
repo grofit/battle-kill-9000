@@ -16,6 +16,7 @@ namespace BK9K.Web.Modules
             container.Bind<IAbilityRepository, AbilityRepository>();
             container.Bind<ISpellRepository, SpellRepository>();
             container.Bind<ISpellHandlerRepository, SpellHandlerRepository>();
+            container.Bind<ITimedEffectRepository, TimedEffectRepository>();
         }
     }
 }

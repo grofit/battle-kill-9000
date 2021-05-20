@@ -88,6 +88,9 @@ namespace BK9K.Web.Applications
 
             var fireboltSpell = SpellRepository.Retrieve(SpellTypes.Firebolt);
             yield return new SpellCard(fireboltSpell);
+
+            var regenSpell = SpellRepository.Retrieve(SpellTypes.MinorRegen);
+            yield return new SpellCard(regenSpell);
         }
 
         protected override void BindSystems()
@@ -100,6 +103,7 @@ namespace BK9K.Web.Applications
             this.Container.Bind<ISystem, EnemyLootingSystem>();
             this.Container.Bind<ISystem, ApplyCardToTileSystem>();
             this.Container.Bind<ISystem, EffectTimingSystem>();
+            this.Container.Bind<ISystem, ActionTickedEffectSystem>();
         }
         
         protected override void ResolveApplicationDependencies()

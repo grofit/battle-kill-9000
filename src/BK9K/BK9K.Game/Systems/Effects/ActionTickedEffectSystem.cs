@@ -26,16 +26,12 @@ namespace BK9K.Game.Systems.Effects
 
         public void Process(EffectTickedEvent eventData)
         {
-            if (eventData.ActiveEffect.Effect.IsDamagingEffect())
-            {
-                if (eventData.ActiveEffect.Effect.EffectType == EffectTypes.LightBonusAmount)
-                { ApplyHealingEffect(eventData); }
-                else
-                { ApplyDamagingEffect(eventData); }
-            }
-
-            // I dont think we will have any other types
-            return;
+            var isHealingEffect = eventData.ActiveEffect.Effect.EffectType == EffectTypes.LightBonusAmount ||
+                                  eventData.ActiveEffect.Effect.EffectType == EffectTypes.HealthRestoreAmount;
+            if (isHealingEffect)
+            { ApplyHealingEffect(eventData); }
+            else if (eventData.ActiveEffect.Effect.IsDamagingEffect())
+            { ApplyDamagingEffect(eventData); }
         }
 
         public void ApplyDamagingEffect(EffectTickedEvent eventData)

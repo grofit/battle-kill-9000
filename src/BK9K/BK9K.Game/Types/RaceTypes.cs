@@ -1,6 +1,6 @@
 ﻿namespace BK9K.Game.Types
 {
-    public static class RaceTypes
+    public class RaceTypes
     {
         public static byte Unknown = 0;
 

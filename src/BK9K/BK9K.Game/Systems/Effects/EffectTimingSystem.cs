@@ -1,6 +1,8 @@
-﻿using SystemsRx.Events;
+﻿using System.Linq;
+using SystemsRx.Events;
 using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
+using BK9K.Framework.Extensions;
 using BK9K.Framework.Levels;
 using BK9K.Framework.Units;
 using BK9K.Game.Events.Effects;
@@ -20,17 +22,21 @@ namespace BK9K.Game.Systems.Effects
         }
 
         public void Execute(ElapsedTime elapsedTime)
-        { Level.Units.ForEach(unit => ProcessActiveEffects(unit, elapsedTime)); }
+        {
+            var aliveUnits = Level.Units.Where(x => !x.IsDead());
+            foreach (var unit in aliveUnits)
+            { ProcessActiveEffects(unit, elapsedTime); }
+        }
 
         public void ProcessActiveEffects(Unit unit, ElapsedTime elapsedTime)
         {
-            var deltaTimeInMilliseconds = elapsedTime.DeltaTime.Milliseconds;
+            var millisecondsPassed = (elapsedTime.DeltaTime.Milliseconds/1000.0f);
 
             for (var i = unit.ActiveEffects.Count - 1; i >= 0; i--)
             {
                 var activeBuff = unit.ActiveEffects[i];
-                activeBuff.ActiveTime += deltaTimeInMilliseconds;
-                activeBuff.TimeSinceTick += deltaTimeInMilliseconds;
+                activeBuff.ActiveTime += millisecondsPassed;
+                activeBuff.TimeSinceTick += millisecondsPassed;
 
                 if (activeBuff.ActiveTime >= activeBuff.Effect.Duration)
                 {
