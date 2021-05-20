@@ -5,7 +5,9 @@ using SystemsRx.Systems.Conventional;
 using BK9K.Framework.Extensions;
 using BK9K.Framework.Levels;
 using BK9K.Framework.Units;
+using BK9K.Game.Configuration;
 using BK9K.Game.Events.Effects;
+using BK9K.Game.Types;
 using OpenRpg.Combat.Extensions;
 
 namespace BK9K.Game.Systems.Effects
@@ -13,12 +15,14 @@ namespace BK9K.Game.Systems.Effects
     public class EffectTimingSystem : IBasicSystem
     {
         public IEventSystem EventSystem { get; }
+        public GameConfiguration GameConfiguration { get; }
         public Level Level { get; }
         
-        public EffectTimingSystem(IEventSystem eventSystem, Level level)
+        public EffectTimingSystem(IEventSystem eventSystem, Level level, GameConfiguration gameConfiguration)
         {
             EventSystem = eventSystem;
             Level = level;
+            GameConfiguration = gameConfiguration;
         }
 
         public void Execute(ElapsedTime elapsedTime)
@@ -30,13 +34,16 @@ namespace BK9K.Game.Systems.Effects
 
         public void ProcessActiveEffects(Unit unit, ElapsedTime elapsedTime)
         {
-            var millisecondsPassed = (elapsedTime.DeltaTime.Milliseconds/1000.0f);
+            if(GameConfiguration.GameSpeed == GameSpeedTypes.Paused)
+            { return; }
+
+            var scaledTimePassed = (elapsedTime.DeltaTime.Milliseconds/1000.0f) / GameConfiguration.GameSpeed;
 
             for (var i = unit.ActiveEffects.Count - 1; i >= 0; i--)
             {
                 var activeBuff = unit.ActiveEffects[i];
-                activeBuff.ActiveTime += millisecondsPassed;
-                activeBuff.TimeSinceTick += millisecondsPassed;
+                activeBuff.ActiveTime += scaledTimePassed;
+                activeBuff.TimeSinceTick += scaledTimePassed;
 
                 if (activeBuff.ActiveTime >= activeBuff.Effect.Duration)
                 {
