@@ -1,8 +1,8 @@
-﻿using BK9K.Game.Cards.Conventions;
-using BK9K.Game.Types;
+﻿using BK9K.Cards.Genres.Conventions;
+using BK9K.Cards.Types;
 using OpenRpg.Core.Classes;
 
-namespace BK9K.Game.Cards
+namespace BK9K.Cards.Genres
 {
     public class ClassCard : GenericDataCardWithEffects<IClassTemplate>
     {

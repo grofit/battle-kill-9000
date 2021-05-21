@@ -1,7 +1,7 @@
 ﻿using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
+using BK9K.Cards.Genres;
 using BK9K.Framework.Units;
-using BK9K.Game.Cards;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Cards;
 using BK9K.Game.Events.Units;

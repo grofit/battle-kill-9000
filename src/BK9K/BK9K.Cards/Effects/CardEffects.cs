@@ -2,7 +2,7 @@
 using OpenRpg.Core.Common;
 using OpenRpg.Core.Effects;
 
-namespace BK9K.Framework.Effects
+namespace BK9K.Cards.Effects
 {
     public class CardEffects : IHasDataId, IHasLocaleDescription, IHasEffects
     {

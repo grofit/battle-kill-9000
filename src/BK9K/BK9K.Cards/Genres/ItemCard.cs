@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using BK9K.Framework.Cards;
-using BK9K.Game.Types;
+using BK9K.Cards.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Items;
 
-namespace BK9K.Game.Cards
+namespace BK9K.Cards.Genres
 {
-    public class EquipmentCard : ICard
+    public class ItemCard : ICard
     {
         public Guid UniqueId { get; set; } = Guid.NewGuid();
 
-        public int CardType => CardTypes.EquipmentCard;
+        public int CardType => CardTypes.ItemCard;
         public IItem Item { get; }
 
-        public EquipmentCard(IItem item)
+        public ItemCard(IItem item)
         { Item = item; }
 
         public string NameLocaleId => Item.ItemTemplate.NameLocaleId;

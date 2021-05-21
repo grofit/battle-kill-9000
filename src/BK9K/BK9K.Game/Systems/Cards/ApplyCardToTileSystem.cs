@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
+using BK9K.Cards.Genres;
 using BK9K.Framework.Transforms;
-using BK9K.Game.Cards;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
 using BK9K.Game.Events.Cards;

@@ -2,7 +2,7 @@
 using OpenRpg.Core.Common;
 using OpenRpg.Core.Effects;
 
-namespace BK9K.Game.Cards.Conventions
+namespace BK9K.Cards.Genres.Conventions
 {
     public abstract class GenericDataCardWithEffects<T> : GenericDataCard<T>
         where T : IHasLocaleDescription, IHasEffects

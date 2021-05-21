@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Effects;
+using BK9K.Cards.Effects;
 using BK9K.Game.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;
