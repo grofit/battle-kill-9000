@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using BK9K.Framework.Equipment;
-using BK9K.Framework.Transforms;
-using BK9K.Framework.Units;
+using System.Numerics;
 using BK9K.Game.Data;
-using BK9K.Game.Extensions;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Equipment;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Units;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Stats;
@@ -31,7 +31,7 @@ namespace BK9K.Game.Builders
         private int _armourId = ItemTemplateLookups.Unknown;
         private int _abilityId = AbilityTypes.Attack;
 
-        private Position _position = Position.Zero;
+        private Vector2 _position = Vector2.Zero;
 
         public UnitBuilder(IRaceTemplateRepository raceTemplateRepository, IClassTemplateRepository classTemplateRepository, IStatsComputer statsComputer, IItemTemplateRepository itemTemplateRepository, IAbilityRepository abilityRepository)
         {
@@ -82,14 +82,14 @@ namespace BK9K.Game.Builders
             return this;
         }
 
-        public UnitBuilder WithPosition(Position position)
+        public UnitBuilder WithPosition(Vector2 position)
         {
             _position = position;
             return this;
         }
 
         public UnitBuilder WithPosition(int x, int y)
-        { return WithPosition(new Position(x, y)); }
+        { return WithPosition(new Vector2(x, y)); }
 
         public UnitBuilder WithWeapon(int itemId)
         {

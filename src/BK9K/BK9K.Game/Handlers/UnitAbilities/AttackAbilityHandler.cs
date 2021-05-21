@@ -2,15 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using SystemsRx.Events;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Levels;
-using BK9K.Framework.Units;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Units;
 using BK9K.Game.Extensions;
-using BK9K.Game.Types;
+using BK9K.Game.Levels;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Units;
 using OpenRpg.Combat.Processors;
-using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Handlers.UnitAbilities
 {

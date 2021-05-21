@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Abilities;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Abilities;
+using BK9K.Mechanics.Types;
 using OpenRpg.Data.Defaults;
 
 namespace BK9K.Game.Data

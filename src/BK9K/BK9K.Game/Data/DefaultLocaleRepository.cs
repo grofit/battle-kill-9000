@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BK9K.Cards.Types;
 using BK9K.Game.Extensions;
-using BK9K.Game.Types;
 using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Localization.Repositories;
 

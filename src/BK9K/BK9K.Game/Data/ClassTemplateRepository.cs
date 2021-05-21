@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Types;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;

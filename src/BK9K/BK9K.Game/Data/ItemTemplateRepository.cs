@@ -1,5 +1,4 @@
-﻿using BK9K.Game.Types;
-using OpenRpg.Core.Effects;
+﻿using OpenRpg.Core.Effects;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Data.Defaults;
@@ -7,6 +6,7 @@ using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Items.Extensions;
 using OpenRpg.Items.Templates;
 using System.Collections.Generic;
+using BK9K.Mechanics.Types;
 using ItemTypes = OpenRpg.Genres.Fantasy.Types.ItemTypes;
 
 namespace BK9K.Game.Data

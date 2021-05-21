@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BK9K.Cards.Types;
-using BK9K.Framework.Spells;
+using BK9K.Mechanics.Spells;
 using OpenRpg.Core.Effects;
 
 namespace BK9K.Cards.Genres

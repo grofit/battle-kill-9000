@@ -1,4 +1,4 @@
-﻿using BK9K.Framework.Abilities;
+﻿using BK9K.Mechanics.Abilities;
 using OpenRpg.Data.Repositories;
 
 namespace BK9K.Game.Data

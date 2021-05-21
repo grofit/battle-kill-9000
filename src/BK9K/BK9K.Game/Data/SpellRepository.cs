@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Spells;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Spells;
+using BK9K.Mechanics.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Data.Defaults;

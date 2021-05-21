@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using SystemsRx.Events;
-using BK9K.Framework.Levels;
-using BK9K.Framework.Units;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Units;
 using BK9K.Game.Handlers.Phases;
+using BK9K.Game.Levels;
+using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Handlers
 {

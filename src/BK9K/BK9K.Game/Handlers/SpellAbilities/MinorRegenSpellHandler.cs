@@ -1,16 +1,13 @@
 ﻿using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using SystemsRx.Events;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Levels;
-using BK9K.Framework.Spells;
-using BK9K.Framework.Transforms;
 using BK9K.Game.Events.Effects;
 using BK9K.Game.Extensions;
-using BK9K.Game.Types;
+using BK9K.Game.Levels;
+using BK9K.Mechanics.Spells;
+using BK9K.Mechanics.Types;
 using OpenRpg.Combat.Effects;
-using OpenRpg.Combat.Processors;
-using OpenRpg.Core.Stats;
 
 namespace BK9K.Game.Handlers.SpellAbilities
 {
@@ -27,7 +24,7 @@ namespace BK9K.Game.Handlers.SpellAbilities
             EventSystem = eventSystem;
         }
 
-        public async Task<bool> ExecuteSpell(Spell spell, Position target)
+        public async Task<bool> ExecuteSpell(Spell spell, Vector2 target)
         {
             var unit = Level.GetUnitAt(target);
             if(unit == null) { return false; }

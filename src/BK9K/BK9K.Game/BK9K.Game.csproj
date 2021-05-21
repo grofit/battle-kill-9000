@@ -5,14 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EcsRx" Version="4.0.87" />
-    <PackageReference Include="EcsRx.Plugins.ReactiveSystems" Version="4.0.87" />
-    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Core" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Data" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.13.61" />
+    <PackageReference Include="OpenRpg.Items" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.13.80" />
+    <PackageReference Include="SystemsRx.Infrastructure" Version="4.0.87" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BK9K.Cards\BK9K.Cards.csproj" />
-    <ProjectReference Include="..\BK9K.Framework\BK9K.Framework.csproj" />
   </ItemGroup>
 
 </Project>
