@@ -1,5 +1,5 @@
-﻿using BK9K.Framework.Cards;
-using BK9K.Framework.Units;
+﻿using BK9K.Cards;
+using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Events.Cards
 {

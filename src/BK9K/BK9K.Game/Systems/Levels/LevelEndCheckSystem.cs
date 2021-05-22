@@ -3,11 +3,11 @@ using SystemsRx.Attributes;
 using SystemsRx.Events;
 using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Levels;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Level;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Levels;
+using BK9K.Mechanics.Types;
 using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Systems.Levels

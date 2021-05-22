@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Grids;
-using BK9K.Framework.Levels;
-using BK9K.Framework.Loot;
-using BK9K.Framework.Transforms;
-using BK9K.Framework.Units;
-using BK9K.Game.Builders;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
+using BK9K.Game.Data.Builders;
+using BK9K.Game.Data.Repositories;
 using BK9K.Game.Events.Level;
-using BK9K.Game.Types;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Grids;
+using BK9K.Mechanics.Levels;
+using BK9K.Mechanics.Loot;
+using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Units;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Core.Utils;
@@ -61,17 +62,17 @@ namespace BK9K.Game.Systems.Levels
                 .Build();
         }
         
-        private IEnumerable<Position> GeneratePosition()
+        private IEnumerable<Vector2> GeneratePosition()
         {
             while (true)
             {
                 var x = Randomizer.Random(0, Level.Grid.XSize-1);
                 var y = Randomizer.Random(0, Level.Grid.YSize-1);
-                yield return new Position(x, y);
+                yield return new Vector2(x, y);
             }
         }
 
-        private Position FindOpenPosition()
+        private Vector2 FindOpenPosition()
         { return GeneratePosition().First(x => Level.GetUnitAt(x) == null); }
 
         private ILootTable GenerateLootTable()

@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Framework", "BK9K.Framework\BK9K.Framework.csproj", "{C458D2AD-95BF-497F-AF66-6FF023DD1911}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Web", "BK9K.Web\BK9K.Web.csproj", "{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Game", "BK9K.Game\BK9K.Game.csproj", "{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Cards", "BK9K.Cards\BK9K.Cards.csproj", "{8642251E-FE8A-4E1E-9D05-F7BEBE1548C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Mechanics", "BK9K.Mechanics\BK9K.Mechanics.csproj", "{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BK9K.Game.Data", "BK9K.Game.Data\BK9K.Game.Data.csproj", "{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C458D2AD-95BF-497F-AF66-6FF023DD1911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C458D2AD-95BF-497F-AF66-6FF023DD1911}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C458D2AD-95BF-497F-AF66-6FF023DD1911}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C458D2AD-95BF-497F-AF66-6FF023DD1911}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +27,18 @@ Global
 		{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D9737FB-59B8-4EFB-B54F-BBFF71B0FBBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8642251E-FE8A-4E1E-9D05-F7BEBE1548C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8642251E-FE8A-4E1E-9D05-F7BEBE1548C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8642251E-FE8A-4E1E-9D05-F7BEBE1548C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8642251E-FE8A-4E1E-9D05-F7BEBE1548C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

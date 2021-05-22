@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using BK9K.Framework.Cards;
-using BK9K.Framework.Units;
+using BK9K.Cards;
+using BK9K.Mechanics.Units;
 using OpenRpg.Core.Variables;
 using OpenRpg.Quests.States;
 

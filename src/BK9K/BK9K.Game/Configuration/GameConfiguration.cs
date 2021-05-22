@@ -1,4 +1,4 @@
-﻿using BK9K.Game.Types;
+﻿using BK9K.Mechanics.Types;
 
 namespace BK9K.Game.Configuration
 {

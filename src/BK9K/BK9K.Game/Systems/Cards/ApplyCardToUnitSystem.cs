@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Units;
-using BK9K.Game.Cards;
+using BK9K.Cards.Genres;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Cards;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Units;
 using OpenRpg.Core.Stats;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Genres.Fantasy.Types;

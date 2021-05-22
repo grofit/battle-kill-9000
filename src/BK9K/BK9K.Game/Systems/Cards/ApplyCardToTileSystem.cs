@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Numerics;
+using System.Threading.Tasks;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Transforms;
-using BK9K.Game.Cards;
+using BK9K.Cards.Genres;
 using BK9K.Game.Configuration;
-using BK9K.Game.Data;
+using BK9K.Game.Data.Repositories;
 using BK9K.Game.Events.Cards;
 
 namespace BK9K.Game.Systems.Cards
@@ -41,7 +41,7 @@ namespace BK9K.Game.Systems.Cards
             EventSystem.Publish(new PlayerCardsChangedEvent());
         }
 
-        public async Task<bool> ApplySpellCardToTile(SpellCard card, Position position)
+        public async Task<bool> ApplySpellCardToTile(SpellCard card, Vector2 position)
         {
             var spellHandler = SpellHandlerRepository.Retrieve(card.Data.Id);
             return await spellHandler.ExecuteSpell(card.Data, position);

@@ -4,7 +4,7 @@ using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Events.Effects;
 using BK9K.Game.Events.Units;
-using BK9K.Game.Extensions;
+using BK9K.Mechanics.Extensions;
 using OpenRpg.Combat.Attacks;
 using OpenRpg.Combat.Extensions;
 using OpenRpg.Combat.Processors;

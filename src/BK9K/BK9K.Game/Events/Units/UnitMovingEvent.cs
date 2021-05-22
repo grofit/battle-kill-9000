@@ -1,14 +1,14 @@
-﻿using BK9K.Framework.Transforms;
-using BK9K.Framework.Units;
+﻿using System.Numerics;
+using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Events.Units
 {
     public class UnitMovingEvent
     {
-        public Position OldPosition { get; set; }
+        public Vector2 OldPosition { get; set; }
         public Unit Unit { get; }
 
-        public UnitMovingEvent(Unit unit, Position oldPosition)
+        public UnitMovingEvent(Unit unit, Vector2 oldPosition)
         {
             Unit = unit;
             OldPosition = oldPosition;

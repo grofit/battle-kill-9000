@@ -5,13 +5,13 @@ using SystemsRx.Attributes;
 using SystemsRx.Events;
 using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
-using BK9K.Framework.Extensions;
-using BK9K.Framework.Levels;
-using BK9K.Framework.Units;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
-using BK9K.Game.Extensions;
 using BK9K.Game.Handlers;
+using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Handlers;
+using BK9K.Mechanics.Levels;
+using BK9K.Mechanics.Units;
 using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Systems.Combat
