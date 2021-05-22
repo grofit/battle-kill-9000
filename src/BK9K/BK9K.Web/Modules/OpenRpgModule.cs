@@ -2,6 +2,7 @@
 using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.Data;
+using BK9K.Game.Data.Repositories.Defaults;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Stats;
 using OpenRpg.Core.Utils;

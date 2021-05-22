@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using BK9K.Game.Extensions;
-using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Handlers;
+using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Spells;
 using BK9K.Mechanics.Types;
 using OpenRpg.Combat.Processors;

@@ -5,8 +5,8 @@ using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Level;
-using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
+using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using OpenRpg.Genres.Fantasy.Extensions;
 

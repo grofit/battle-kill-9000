@@ -1,6 +1,8 @@
 ﻿using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.Data;
+using BK9K.Game.Data.Repositories;
+using BK9K.Game.Data.Repositories.Defaults;
 
 namespace BK9K.Web.Modules
 {

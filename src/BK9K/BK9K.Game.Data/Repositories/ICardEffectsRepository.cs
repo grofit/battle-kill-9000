@@ -1,0 +1,9 @@
+﻿using BK9K.Cards.Effects;
+using OpenRpg.Data.Repositories;
+
+namespace BK9K.Game.Data.Repositories
+{
+    public interface ICardEffectsRepository : IReadRepository<CardEffects, int>
+    {
+    }
+}

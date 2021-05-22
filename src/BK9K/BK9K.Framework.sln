@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Cards", "BK9K.Cards\BK
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Mechanics", "BK9K.Mechanics\BK9K.Mechanics.csproj", "{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BK9K.Game.Data", "BK9K.Game.Data\BK9K.Game.Data.csproj", "{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA57F633-2B2D-4F96-8C78-ED58831E9AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

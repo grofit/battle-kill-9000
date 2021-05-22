@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BK9K.Cards\BK9K.Cards.csproj" />
+    <ProjectReference Include="..\BK9K.Game.Data\BK9K.Game.Data.csproj" />
   </ItemGroup>
 
 </Project>
