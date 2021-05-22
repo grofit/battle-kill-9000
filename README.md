@@ -18,8 +18,8 @@ It will evolve as we continue but the way I envision things evolving would be li
 
 1. Write framework/game level code in class libs (c#, rx, .net 5)
 2. Iteratively keep writing rubbish but functional web bits to quickly show functionality and iterate (blazor, bulma)
-3. Move to use OpenRpg to cope with the complexity being added for combat/units etc
-4. Move to use EcsRx to cope with the complexity being added for isolated game systems
+3. Move to use [OpenRpg](https://openrpg.github.io/OpenRpg.Demos.Web/) to cope with the complexity being added for combat/units etc
+4. Move to use [EcsRx](https://ecsrx.gitbook.io/project/) to cope with the complexity being added for isolated game systems
 5. End up with rubbish but functional game via web tech
 6. Move to MG/Unity and basically just change view level stuff and integrate game there
 ...
