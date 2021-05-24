@@ -3,6 +3,7 @@ using System.Numerics;
 using BK9K.Game.Data.Repositories;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Modifications;
@@ -25,11 +26,11 @@ namespace BK9K.Game.Data.Builders
         private int _initiative = 5;
         private int _level = 1;
         private int _factionType = FactionTypes.Enemy;
-        private int _raceType = RaceTypes.Human;
-        private int _classType = ClassTypes.Fighter;
+        private int _raceType = RaceLookups.Human;
+        private int _classType = ClassLookups.Fighter;
         private int _weaponId = ItemTemplateLookups.Unknown;
         private int _armourId = ItemTemplateLookups.Unknown;
-        private int _abilityId = AbilityTypes.Attack;
+        private int _abilityId = AbilityLookups.Attack;
 
         private Vector2 _position = Vector2.Zero;
 
@@ -143,13 +144,13 @@ namespace BK9K.Game.Data.Builders
         {
             if (_weaponId == ItemTemplateLookups.Unknown)
             {
-                if (_classType == ClassTypes.Fighter)
+                if (_classType == ClassLookups.Fighter)
                 { _weaponId = ItemTemplateLookups.Sword; }
 
-                if (_classType == ClassTypes.Rogue)
+                if (_classType == ClassLookups.Rogue)
                 { _weaponId = ItemTemplateLookups.Dagger; }
 
-                if (_classType == ClassTypes.Mage)
+                if (_classType == ClassLookups.Mage)
                 { _weaponId = ItemTemplateLookups.Staff; }
             }
 
@@ -170,13 +171,13 @@ namespace BK9K.Game.Data.Builders
         {
             if (_armourId == ItemTemplateLookups.Unknown)
             {
-                if (_classType == ClassTypes.Fighter)
+                if (_classType == ClassLookups.Fighter)
                 { _armourId = ItemTemplateLookups.PlateArmour; }
 
-                if (_classType == ClassTypes.Rogue)
+                if (_classType == ClassLookups.Rogue)
                 { _armourId = ItemTemplateLookups.Tunic; }
 
-                if (_classType == ClassTypes.Mage)
+                if (_classType == ClassLookups.Mage)
                 { _armourId = ItemTemplateLookups.Robe; }
             }
 

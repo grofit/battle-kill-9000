@@ -8,6 +8,7 @@ using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
 using OpenRpg.Combat.Processors;
 
@@ -18,7 +19,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
         public const int AttackActionTime = 500;
         public int ScaledAttackDelay => (int) (AttackActionTime * GameConfiguration.GameSpeed);
 
-        public int Id => AbilityTypes.Attack;
+        public int Id => AbilityLookups.Attack;
 
         public Level Level { get; }
         public GameConfiguration GameConfiguration { get; }

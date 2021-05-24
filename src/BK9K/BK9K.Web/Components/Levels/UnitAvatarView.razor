@@ -5,6 +5,7 @@
 @using BK9K.Game.Events.Effects
 @using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Types
+@using BK9K.Mechanics.Types.Lookups
 @using BK9K.Mechanics.Units
 @using BK9K.Web.Types
 @using global::OpenRpg.Genres.Fantasy.Extensions
@@ -49,9 +50,9 @@
 
     public string GetClassName(int classType)
     {
-        if (classType == ClassTypes.Mage) { return "mage"; }
-        if (classType == ClassTypes.Rogue) { return "rogue"; }
-        if (classType == ClassTypes.Fighter) { return "fighter"; }
+        if (classType == ClassLookups.Mage) { return "mage"; }
+        if (classType == ClassLookups.Rogue) { return "rogue"; }
+        if (classType == ClassLookups.Fighter) { return "fighter"; }
         return "peasant";
     }
 

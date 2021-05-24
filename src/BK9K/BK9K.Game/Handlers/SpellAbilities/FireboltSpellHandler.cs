@@ -6,6 +6,7 @@ using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Spells;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Stats;
 
@@ -13,7 +14,7 @@ namespace BK9K.Game.Handlers.SpellAbilities
 {
     public class FireboltSpellHandler : ISpellHandler
     {
-        public int Id => SpellTypes.Firebolt;
+        public int Id => SpellLookups.Firebolt;
 
         public Level Level { get; }
         public IAttackProcessor AttackProcessor { get; }

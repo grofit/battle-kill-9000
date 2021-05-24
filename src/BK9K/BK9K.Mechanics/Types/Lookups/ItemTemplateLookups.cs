@@ -1,4 +1,4 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
     public static class ItemTemplateLookups
     {

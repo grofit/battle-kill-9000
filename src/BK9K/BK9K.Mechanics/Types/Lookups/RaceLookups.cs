@@ -1,6 +1,6 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
-    public class RaceTypes
+    public class RaceLookups
     {
         public static byte Unknown = 0;
 

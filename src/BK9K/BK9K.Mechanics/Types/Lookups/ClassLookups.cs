@@ -1,6 +1,6 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
-    public class ClassTypes
+    public class ClassLookups
     {
         public static readonly int Unknown = 0;
 

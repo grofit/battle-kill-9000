@@ -1,6 +1,6 @@
 ﻿namespace BK9K.Mechanics.Types
 {
-    public class NamedEffectsTypes
+    public class CardEffectLookups
     {
         public static readonly int Unknown = 0;
 

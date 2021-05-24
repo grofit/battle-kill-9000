@@ -1,6 +1,6 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
-    public class AbilityTypes
+    public class AbilityLookups
     {
         public static readonly int Unknown = 0;
 

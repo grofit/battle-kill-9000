@@ -8,13 +8,14 @@ using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Spells;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using OpenRpg.Combat.Effects;
 
 namespace BK9K.Game.Handlers.SpellAbilities
 {
     public class MinorRegenSpellHandler : ISpellHandler
     {
-        public int Id => SpellTypes.MinorRegen;
+        public int Id => SpellLookups.MinorRegen;
 
         public Level Level { get; }
         public IEventSystem EventSystem { get; }
@@ -30,7 +31,7 @@ namespace BK9K.Game.Handlers.SpellAbilities
             var unit = Level.GetUnitAt(target);
             if(unit == null) { return false; }
 
-            var existingRegen = unit.ActiveEffects.SingleOrDefault(x => x.Effect.Id == TimedEffectTypes.MinorRegen);
+            var existingRegen = unit.ActiveEffects.SingleOrDefault(x => x.Effect.Id == TimedEffectLookups.MinorRegen);
             if (existingRegen != null)
             {
                 if (existingRegen.Stacks < existingRegen.Effect.MaxStack)

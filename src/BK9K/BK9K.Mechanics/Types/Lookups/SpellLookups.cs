@@ -1,6 +1,6 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
-    public class SpellTypes
+    public class SpellLookups
     {
         public static readonly int Unknown = 0;
 

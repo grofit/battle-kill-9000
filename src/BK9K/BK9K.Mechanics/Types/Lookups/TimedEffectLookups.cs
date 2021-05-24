@@ -1,6 +1,6 @@
-﻿namespace BK9K.Mechanics.Types
+﻿namespace BK9K.Mechanics.Types.Lookups
 {
-    public class TimedEffectTypes
+    public class TimedEffectLookups
     {
         public static byte Unknown = 0;
 

@@ -13,6 +13,7 @@ using BK9K.Mechanics.Grids;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
@@ -114,8 +115,8 @@ namespace BK9K.Game.Systems.Levels
             for (var i = 0; i < actualEnemies; i++)
             {
                 var randomInitiative = Randomizer.Random(1, 6);
-                var randomClass = Randomizer.Random(ClassTypes.Fighter, ClassTypes.Rogue-1);
-                var randomRace = Randomizer.Random(RaceTypes.Human, RaceTypes.Dwarf-1);
+                var randomClass = Randomizer.Random(ClassLookups.Fighter, ClassLookups.Rogue-1);
+                var randomRace = Randomizer.Random(RaceLookups.Human, RaceLookups.Dwarf-1);
                 var randomPosition = FindOpenPosition();
                 var loot = GenerateLootTable();
 

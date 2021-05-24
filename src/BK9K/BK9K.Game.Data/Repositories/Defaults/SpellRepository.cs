@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using BK9K.Mechanics.Spells;
-using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using OpenRpg.Core.Effects;
-using OpenRpg.Core.Requirements;
 using OpenRpg.Data.Defaults;
 using OpenRpg.Genres.Fantasy.Types;
 
@@ -12,7 +11,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
     {
         public ITimedEffectRepository TimedEffectRepository { get; }
 
-        public SpellRepository(IEnumerable<Spell> data, ITimedEffectRepository timedEffectRepository) : base(data)
+        public SpellRepository(ITimedEffectRepository timedEffectRepository)
         {
             TimedEffectRepository = timedEffectRepository;
             Data = new List<Spell>
@@ -27,13 +26,12 @@ namespace BK9K.Game.Data.Repositories.Defaults
             var fireEffect = new Effect()
             {
                 EffectType = EffectTypes.FireDamageAmount,
-                Potency = 30,
-                Requirements = new Requirement[0]
+                Potency = 30
             };
 
             return new Spell
             {
-                Id = SpellTypes.Firebolt,
+                Id = SpellLookups.Firebolt,
                 NameLocaleId = "Firebolt",
                 DescriptionLocaleId = "Incinerates a foe with a bolt of fire",
                 Effects = new []{ fireEffect }
@@ -42,10 +40,10 @@ namespace BK9K.Game.Data.Repositories.Defaults
 
         private Spell MakeMinorRegen()
         {
-            var timedEffect = TimedEffectRepository.Retrieve(TimedEffectTypes.MinorRegen);
+            var timedEffect = TimedEffectRepository.Retrieve(TimedEffectLookups.MinorRegen);
             return new Spell
             {
-                Id = SpellTypes.MinorRegen,
+                Id = SpellLookups.MinorRegen,
                 NameLocaleId = timedEffect.NameLocaleId,
                 DescriptionLocaleId = timedEffect.DescriptionLocaleId,
                 Effects = new[] { timedEffect }
@@ -54,10 +52,10 @@ namespace BK9K.Game.Data.Repositories.Defaults
 
         private Spell MakeMinorPosion()
         {
-            var timedEffect = TimedEffectRepository.Retrieve(TimedEffectTypes.MinorPoison);
+            var timedEffect = TimedEffectRepository.Retrieve(TimedEffectLookups.MinorPoison);
             return new Spell
             {
-                Id = SpellTypes.MinorPoison,
+                Id = SpellLookups.MinorPoison,
                 NameLocaleId = timedEffect.NameLocaleId,
                 DescriptionLocaleId = timedEffect.DescriptionLocaleId,
                 Effects = new[] { timedEffect }

@@ -12,6 +12,7 @@ using BK9K.Game.Systems.Levels;
 using BK9K.Mechanics.Cards;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
 using BK9K.Web.Modules;
 using DryIoc;
@@ -48,7 +49,7 @@ namespace BK9K.Web.Applications
             yield return UnitBuilder.Create()
                 .WithName("Gooch")
                 .WithFaction(FactionTypes.Player)
-                .WithClass(ClassTypes.Fighter)
+                .WithClass(ClassLookups.Fighter)
                 .WithInitiative(6)
                 .WithPosition(3, 2)
                 .Build();
@@ -56,7 +57,7 @@ namespace BK9K.Web.Applications
             yield return UnitBuilder.Create()
                 .WithName("Kate")
                 .WithFaction(FactionTypes.Player)
-                .WithClass(ClassTypes.Fighter)
+                .WithClass(ClassLookups.Fighter)
                 .WithInitiative(6)
                 .WithPosition(1, 1)
                 .Build();
@@ -64,7 +65,7 @@ namespace BK9K.Web.Applications
             yield return UnitBuilder.Create()
                 .WithName("Le Grandé Tudge")
                 .WithFaction(FactionTypes.Player)
-                .WithClass(ClassTypes.Rogue)
+                .WithClass(ClassLookups.Rogue)
                 .WithInitiative(6)
                 .WithWeapon(ItemTemplateLookups.DeadlySosig)
                 .WithPosition(1, 4)
@@ -81,12 +82,12 @@ namespace BK9K.Web.Applications
                 Variables = new DefaultItemVariables()
             });
 
-            yield return new EffectCard(CardEffectsRepository.Retrieve(NamedEffectsTypes.MinorStrength));
+            yield return new EffectCard(CardEffectsRepository.Retrieve(CardEffectLookups.MinorStrength));
 
-            var fireboltSpell = SpellRepository.Retrieve(SpellTypes.Firebolt);
+            var fireboltSpell = SpellRepository.Retrieve(SpellLookups.Firebolt);
             yield return new SpellCard(fireboltSpell);
 
-            var regenSpell = SpellRepository.Retrieve(SpellTypes.MinorRegen);
+            var regenSpell = SpellRepository.Retrieve(SpellLookups.MinorRegen);
             yield return new SpellCard(regenSpell);
         }
 
