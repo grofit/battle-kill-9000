@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using BK9K.Cards;
+using OpenRpg.Cards;
 
 namespace BK9K.Game.Events.Cards
 {

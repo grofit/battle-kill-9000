@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Numerics;
 using BK9K.Game.Data.Repositories;
-using BK9K.Mechanics.Equipment;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Stats;
+using OpenRpg.Genres.Fantasy.Defaults;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Items;
 

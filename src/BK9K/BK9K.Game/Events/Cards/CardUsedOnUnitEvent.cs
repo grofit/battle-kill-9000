@@ -1,5 +1,5 @@
-﻿using BK9K.Cards;
-using BK9K.Mechanics.Units;
+﻿using BK9K.Mechanics.Units;
+using OpenRpg.Cards;
 
 namespace BK9K.Game.Events.Cards
 {

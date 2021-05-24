@@ -3,6 +3,7 @@
 @using BK9K.Game.Events.Units
 @using System.Reactive.Linq
 @using BK9K.Game.Events.Effects
+@using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Types
 @using BK9K.Mechanics.Units
 @using BK9K.Web.Types
@@ -13,7 +14,7 @@
 
 <div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isTargetUnit ? "is-target" : "")" @onclick="() => OnUnitClick.InvokeAsync(Unit)" 
      ondragenter="OnCardDragEnter(event)" ondragleave="OnCardDragLeave(event)" ondragover="OnDragOver(event)" ondrop="OnCardDrop(event)" 
-     view-type="@ViewTypes.Unit" view-id="@Unit.UniqueId">
+     view-type="@ViewTypes.Unit" view-id="@Unit.Variables.UniqueId()">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
     <img class="@(_isBuffed ? "has-buffs" : "") @(_isDebuffed ? "has-debuff" : "")" src="./assets/sprites/@(className).png" alt="@className">

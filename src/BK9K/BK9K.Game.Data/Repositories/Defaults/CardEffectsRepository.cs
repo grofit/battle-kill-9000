@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using BK9K.Cards.Effects;
 using BK9K.Mechanics.Types;
+using OpenRpg.Cards.Effects;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Data.Defaults;

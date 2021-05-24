@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Modifications;
@@ -34,11 +35,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.Sword,
                 NameLocaleId = "Sword",
-                AssetCode = "sword",
                 DescriptionLocaleId = "A really bad looking sword, can slay things though",
                 ItemType = ItemTypes.GenericWeapon,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.SlashingDamageAmount, Potency = 2.0f }
@@ -46,6 +44,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("sword");
             return template;
         }
 
@@ -55,11 +54,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.Dagger,
                 NameLocaleId = "Dagger",
-                AssetCode = "dagger",
                 DescriptionLocaleId = "A pretty sweet dagger",
                 ItemType = ItemTypes.GenericWeapon,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 2.0f }
@@ -67,6 +63,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("dagger");
             return template;
         }
 
@@ -76,11 +73,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.Staff,
                 NameLocaleId = "Staff",
-                AssetCode = "staff",
                 DescriptionLocaleId = "A staff with magic runes on it",
                 ItemType = ItemTypes.GenericWeapon,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.FireBonusAmount, Potency = 2.0f }
@@ -88,6 +82,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("staff");
             return template;
         }
 
@@ -97,11 +92,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.PlateArmour,
                 NameLocaleId = "Plate Armour",
-                AssetCode = "plate-armour",
                 DescriptionLocaleId = "A metallic suit of armour",
                 ItemType = ItemTypes.UpperBodyArmour,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 2.0f }
@@ -109,6 +101,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("plate-armour");
             return template;
         }
 
@@ -118,11 +111,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.Robe,
                 NameLocaleId = "Robe",
-                AssetCode = "robe",
                 DescriptionLocaleId = "A cloth robe with runes",
                 ItemType = ItemTypes.UpperBodyArmour,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 0.5f },
@@ -131,6 +121,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("robe");
             return template;
         }
 
@@ -140,11 +131,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.Tunic,
                 NameLocaleId = "Tunic",
-                AssetCode = "tunic",
                 DescriptionLocaleId = "A leather Tunic",
                 ItemType = ItemTypes.UpperBodyArmour,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 1.0f },
@@ -153,6 +141,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("tunic");
             return template;
         }
 
@@ -162,11 +151,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.DeadlySosig,
                 NameLocaleId = "The Deadly Sosig",
-                AssetCode = "the-deadly-sosig",
                 DescriptionLocaleId = "Its a sosig",
                 ItemType = ItemTypes.GenericWeapon,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 5.0f },
@@ -175,6 +161,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("the-deadly-sosig");
             return template;
         }
 
@@ -184,7 +171,6 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.MinorHealthPotion,
                 NameLocaleId = "Minor Heal Potion",
-                AssetCode = "minor-heal-potion",
                 DescriptionLocaleId = "This potion can heal a small amount of Health to the consumer",
                 ItemType = ItemTypes.Potions,
                 ModificationAllowances = new ModificationAllowance[0],
@@ -196,6 +182,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("minor-heal-potion");
             return template;
         }
 
@@ -205,11 +192,8 @@ namespace BK9K.Game.Data.Repositories.Defaults
             {
                 Id = ItemTemplateLookups.MajorHealthPotion,
                 NameLocaleId = "Major Heal Potion",
-                AssetCode = "major-heal-potion",
                 DescriptionLocaleId = "This potion can heal a large amount of Health to the consumer",
                 ItemType = ItemTypes.Potions,
-                ModificationAllowances = new ModificationAllowance[0],
-                Requirements = new Requirement[0],
                 Effects = new[]
                 {
                     new Effect { EffectType = EffectTypes.HealthRestoreAmount, Potency = 50.0f }
@@ -217,6 +201,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
+            template.Variables.AssetCode("major-heal-potion");
             return template;
         }
     }

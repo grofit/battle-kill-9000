@@ -1,7 +1,8 @@
 ﻿@using BK9K.Web.Applications
 @using BK9K.Web.Types
 @using BK9K.Game.Events.Cards
-@using BK9K.Cards.Types
+@using BK9K.Mechanics.Extensions
+@using BK9K.Mechanics.Types
 
 <span id="interop-handler"></span>
 
@@ -19,11 +20,11 @@
     {
         var cardGuid = Guid.Parse(cardId);
         var viewGuid = Guid.Parse(viewId);
-        var card = GameApp.GameState.PlayerCards.Single(x => x.UniqueId == cardGuid);
+        var card = GameApp.GameState.PlayerCards.Single(x => x.Variables.UniqueId() == cardGuid);
 
         if (int.Parse(viewType) == ViewTypes.Unit)
         {
-            var unit = GameApp.Level.Units.Single(x => x.UniqueId == viewGuid);
+            var unit = GameApp.Level.Units.Single(x => x.Variables.UniqueId() == viewGuid);
 
             if (card.CardType != CardTypes.SpellCard)
             { GameApp.EventSystem.Publish(new CardUsedOnUnitEvent(card, unit)); }

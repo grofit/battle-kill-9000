@@ -1,11 +1,11 @@
 ﻿using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
-using BK9K.Cards.Genres;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Cards;
 using BK9K.Game.Events.Units;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
+using OpenRpg.Cards.Genres;
 using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Systems.Combat

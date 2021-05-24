@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Data" Version="0.13.80" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.13.80" />
+    <PackageReference Include="OpenRpg.Data" Version="0.14.88" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.14.88" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BK9K.Cards\BK9K.Cards.csproj" />
     <ProjectReference Include="..\BK9K.Mechanics\BK9K.Mechanics.csproj" />
   </ItemGroup>
 

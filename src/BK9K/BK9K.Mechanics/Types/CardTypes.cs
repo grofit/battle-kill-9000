@@ -1,4 +1,4 @@
-﻿namespace BK9K.Cards.Types
+﻿namespace BK9K.Mechanics.Types
 {
     public class CardTypes
     {

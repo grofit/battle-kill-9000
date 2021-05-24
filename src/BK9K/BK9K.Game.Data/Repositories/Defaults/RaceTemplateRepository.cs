@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Races;
@@ -29,15 +30,16 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 15, EffectType = EffectTypes.HealthBonusAmount}
             };
 
-            return new DefaultRaceTemplate
+            var template = new DefaultRaceTemplate
             {
                 Id = RaceTypes.Human,
-                AssetCode = "race-human",
                 NameLocaleId = "Human",
                 DescriptionLocaleId = "Humans are the most common of all races",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+
+            template.Variables.AssetCode("race-human");
+            return template;
         }
 
         private IRaceTemplate GenerateElfTemplate()
@@ -52,15 +54,16 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 10, EffectType = EffectTypes.HealthBonusAmount}
             };
 
-            return new DefaultRaceTemplate
+            var template = new DefaultRaceTemplate
             {
                 Id = RaceTypes.Elf,
-                AssetCode = "race-elf",
                 NameLocaleId = "Elf",
                 DescriptionLocaleId = "Elves are pretty common, have pointy ears too",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+
+            template.Variables.AssetCode("race-elf");
+            return template;
         }
 
         private IRaceTemplate GenerateDwarfTemplate()
@@ -75,30 +78,32 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 20, EffectType = EffectTypes.HealthBonusAmount},
             };
 
-            return new DefaultRaceTemplate
+            var template = new DefaultRaceTemplate
             {
                 Id = RaceTypes.Dwarf,
-                AssetCode = "race-dwarf",
                 NameLocaleId = "Dwarf",
                 DescriptionLocaleId = "Dwarves are strong and hardy",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+
+            template.Variables.AssetCode("race-dwarf");
+            return template;
         }
 
         private IRaceTemplate GenerateEnemyTemplate()
         {
             var effects = new Effect[0];
 
-            return new DefaultRaceTemplate
+            var template = new DefaultRaceTemplate
             {
                 Id = RaceTypes.Enemy,
-                AssetCode = "race-enemy",
                 NameLocaleId = "Enemy",
                 DescriptionLocaleId = "Enemies are always hostile",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+
+            template.Variables.AssetCode("race-enemy");
+            return template;
         }
     }
 }

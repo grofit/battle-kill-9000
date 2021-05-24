@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using SystemsRx.Infrastructure.Extensions;
 using SystemsRx.Systems;
-using BK9K.Cards;
-using BK9K.Cards.Genres;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data;
 using BK9K.Game.Data.Builders;
@@ -11,11 +9,14 @@ using BK9K.Game.Systems.Cards;
 using BK9K.Game.Systems.Combat;
 using BK9K.Game.Systems.Effects;
 using BK9K.Game.Systems.Levels;
+using BK9K.Mechanics.Cards;
 using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using BK9K.Web.Modules;
 using DryIoc;
+using OpenRpg.Cards;
+using OpenRpg.Cards.Genres;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Items;
 

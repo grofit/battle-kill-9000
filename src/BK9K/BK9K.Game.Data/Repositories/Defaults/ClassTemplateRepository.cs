@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Effects;
@@ -32,15 +33,16 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 10, EffectType = EffectTypes.HealthBonusAmount}
             };
 
-            return new DefaultClassTemplate
+            var template = new DefaultClassTemplate
             {
                 Id = ClassTypes.Fighter,
-                AssetCode = "class-fighter",
                 NameLocaleId = "Fighter",
                 DescriptionLocaleId = "Super tough, hits things",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+            template.Variables.AssetCode("class-fighter");
+
+            return template;
         }
 
         private IClassTemplate GenerateMageClass()
@@ -53,15 +55,15 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusPercentage}
             };
 
-            return new DefaultClassTemplate
+            var template = new DefaultClassTemplate
             {
                 Id = ClassTypes.Mage,
-                AssetCode = "class-mage",
                 NameLocaleId = "Mage",
                 DescriptionLocaleId = "Powerful magic users",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+            template.Variables.AssetCode("class-mage");
+            return template;
         }
         
         private IClassTemplate GenerateRogueClass()
@@ -75,28 +77,28 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 new Effect {Potency = 15, EffectType = EffectTypes.AllElementDefenseBonusPercentage}
             };
 
-            return new DefaultClassTemplate
+            var template = new DefaultClassTemplate
             {
                 Id = ClassTypes.Rogue,
-                AssetCode = "class-rogue",
                 NameLocaleId = "Rogue",
                 DescriptionLocaleId = "Stabby Stabby",
-                Effects = effects,
-                Requirements = new Requirement[0]
+                Effects = effects
             };
+            template.Variables.AssetCode("class-mage");
+            return template;
         }
 
         private IClassTemplate GenerateMonsterClass()
         {
-            return new DefaultClassTemplate
+            var template = new DefaultClassTemplate
             {
                 Id = ClassTypes.Monster,
-                AssetCode = "class-monster",
                 NameLocaleId = "Monster",
                 DescriptionLocaleId = "Monsters come in all shapes and sizes",
-                Effects = new Effect[0],
-                Requirements = new Requirement[0]
+                Effects = new Effect[0]
             };
+            template.Variables.AssetCode("class-monster");
+            return template;
         }
     }
 }

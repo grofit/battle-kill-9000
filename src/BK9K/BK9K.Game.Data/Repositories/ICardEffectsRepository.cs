@@ -1,4 +1,4 @@
-﻿using BK9K.Cards.Effects;
+﻿using OpenRpg.Cards.Effects;
 using OpenRpg.Data.Repositories;
 
 namespace BK9K.Game.Data.Repositories
