@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using OpenRpg.Combat.Effects;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Genres.Fantasy.Types;
 
-namespace BK9K.Game.Data.Datasets
+namespace BK9K.Game.Data.Loaders
 {
-    public class TimedEffectDataset : IDataset<TimedEffect>
+    public class TimedEffectDataLoader : IDataLoader<TimedEffect>
     {
-        public List<TimedEffect> GetDataset()
+        public IEnumerable<TimedEffect> LoadData()
         {
             return new List<TimedEffect>
             {

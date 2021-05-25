@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using BK9K.Mechanics.Extensions;
-using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
-using OpenRpg.Cards.Effects;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
@@ -10,11 +8,11 @@ using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Items.Extensions;
 using OpenRpg.Items.Templates;
 
-namespace BK9K.Game.Data.Datasets
+namespace BK9K.Game.Data.Loaders
 {
-    public class ItemTemplateDataset : IDataset<IItemTemplate>
+    public class ItemTemplateDataLoader : IDataLoader<IItemTemplate>
     {
-        public List<IItemTemplate> GetDataset()
+        public IEnumerable<IItemTemplate> LoadData()
         {
             return new List<IItemTemplate>
             {

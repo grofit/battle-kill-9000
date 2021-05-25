@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using BK9K.Mechanics.Extensions;
-using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
-using OpenRpg.Cards.Effects;
 using OpenRpg.Core.Effects;
 using OpenRpg.Core.Races;
 using OpenRpg.Genres.Fantasy.Types;
 
-namespace BK9K.Game.Data.Datasets
+namespace BK9K.Game.Data.Loaders
 {
-    public class RaceTemplateDataset : IDataset<IRaceTemplate>
+    public class RaceTemplateDataLoader : IDataLoader<IRaceTemplate>
     {
-        public List<IRaceTemplate> GetDataset()
+        public IEnumerable<IRaceTemplate> LoadData()
         {
             return new List<IRaceTemplate>
             {

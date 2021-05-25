@@ -5,11 +5,11 @@ using OpenRpg.Core.Effects;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Genres.Fantasy.Types;
 
-namespace BK9K.Game.Data.Datasets
+namespace BK9K.Game.Data.Loaders
 {
-    public class CardEffectsDataset : IDataset<CardEffects>
+    public class CardEffectsDataLoader : IDataLoader<CardEffects>
     {
-        public List<CardEffects> GetDataset()
+        public IEnumerable<CardEffects> LoadData()
         {
             return new List<CardEffects>
             {
