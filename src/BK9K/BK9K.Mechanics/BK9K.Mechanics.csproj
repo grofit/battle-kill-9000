@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Cards" Version="0.14.88" />
+    <PackageReference Include="OpenRpg.Cards" Version="0.14.91" />
     <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.14.65" />
   </ItemGroup>
 

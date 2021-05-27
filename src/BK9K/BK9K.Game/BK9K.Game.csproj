@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Combat" Version="0.14.88" />
-    <PackageReference Include="OpenRpg.Core" Version="0.14.88" />
-    <PackageReference Include="OpenRpg.Data" Version="0.14.88" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.14.91" />
+    <PackageReference Include="OpenRpg.Core" Version="0.14.91" />
+    <PackageReference Include="OpenRpg.Data" Version="0.14.91" />
     <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.14.65" />
-    <PackageReference Include="OpenRpg.Items" Version="0.14.88" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.14.88" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.14.88" />
+    <PackageReference Include="OpenRpg.Items" Version="0.14.91" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.14.91" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.14.91" />
     <PackageReference Include="SystemsRx.Infrastructure" Version="4.0.95" />
   </ItemGroup>
 

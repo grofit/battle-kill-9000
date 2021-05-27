@@ -6,12 +6,13 @@
 
     <ItemGroup>
       <PackageReference Include="EcsRx.MicroRx" Version="4.0.95" />
-      <PackageReference Include="OpenRpg.Core" Version="0.14.88" />
+      <PackageReference Include="OpenRpg.Core" Version="0.14.91" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
+      <PackageReference Include="SystemsRx" Version="4.0.95" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Builders" />
-      <Folder Include="Context" />
     </ItemGroup>
 
 </Project>

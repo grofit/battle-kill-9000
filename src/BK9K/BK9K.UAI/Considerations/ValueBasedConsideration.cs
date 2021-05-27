@@ -2,6 +2,7 @@ using System;
 using BK9K.UAI.Accessors;
 using BK9K.UAI.Clampers;
 using BK9K.UAI.Evaluators;
+using BK9K.UAI.Variables;
 
 namespace BK9K.UAI.Considerations
 {
@@ -18,7 +19,7 @@ namespace BK9K.UAI.Considerations
             Evaluator = evaluator;
         }
 
-        public float CalculateUtility()
+        public float CalculateUtility(IUtilityVariables utilityVariables)
         {
             var value = ValueAccessor.GetValue();
             var clampedValue = Clamper.Clamp(value);

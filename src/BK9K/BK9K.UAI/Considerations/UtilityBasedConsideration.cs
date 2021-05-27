@@ -7,18 +7,16 @@ namespace BK9K.UAI.Considerations
     {
         public int UtilityId { get; }
         public IEvaluator Evaluator { get; }
-        public IConsiderationVariables ConsiderationVariables { get; }
 
-        public UtilityBasedConsideration(IConsiderationVariables considerationVariables, int utilityId, IEvaluator evaluator = null)
+        public UtilityBasedConsideration(int utilityId, IEvaluator evaluator = null)
         {
-            ConsiderationVariables = considerationVariables;
             UtilityId = utilityId;
             Evaluator = evaluator;
         }
 
-        public float CalculateUtility()
+        public float CalculateUtility(IUtilityVariables utilityVariables)
         {
-            var existingUtility = ConsiderationVariables[UtilityId];
+            var existingUtility = utilityVariables[UtilityId];
             if (Evaluator == null) { return existingUtility; }
             return Evaluator.Evaluate(existingUtility);
         }

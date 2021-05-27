@@ -1,4 +1,5 @@
 using System;
+using EcsRx.MicroRx;
 
 namespace BK9K.UAI.Accessors
 {
@@ -7,7 +8,7 @@ namespace BK9K.UAI.Accessors
         public int Id => 0;
         
         public Func<float> GetValueFunction { get; }
-            
+
         public ManualValueAccessor(Func<float> getValueFunction)
         { GetValueFunction = getValueFunction; }
 

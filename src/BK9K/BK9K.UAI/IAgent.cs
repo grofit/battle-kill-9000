@@ -1,9 +1,12 @@
+using System;
+using BK9K.UAI.Handlers;
 using BK9K.UAI.Variables;
 
 namespace BK9K.UAI
 {
-    public interface IAgent
+    public interface IAgent : IDisposable
     {
-        IConsiderationVariables Considerations { get; }
+        IUtilityVariables UtilityVariables { get; }
+        IConsiderationHandler ConsiderationHandler { get; }
     }
 }
