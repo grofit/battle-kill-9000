@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EcsRx.MicroRx" Version="4.0.95" />
+      <PackageReference Include="OpenRpg.Core" Version="0.14.88" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Builders" />
+      <Folder Include="Context" />
+    </ItemGroup>
+
+</Project>

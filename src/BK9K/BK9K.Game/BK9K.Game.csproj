@@ -12,7 +12,7 @@
     <PackageReference Include="OpenRpg.Items" Version="0.14.88" />
     <PackageReference Include="OpenRpg.Localization" Version="0.14.88" />
     <PackageReference Include="OpenRpg.Quests" Version="0.14.88" />
-    <PackageReference Include="SystemsRx.Infrastructure" Version="4.0.93" />
+    <PackageReference Include="SystemsRx.Infrastructure" Version="4.0.95" />
   </ItemGroup>
 
   <ItemGroup>
