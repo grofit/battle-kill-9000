@@ -5,6 +5,7 @@ using BK9K.Mechanics.Extensions;
 using OpenRpg.Combat.Abilities;
 using OpenRpg.Combat.Effects;
 using OpenRpg.Core.Effects;
+using OpenRpg.Genres.Fantasy.Characters;
 using OpenRpg.Genres.Fantasy.Defaults;
 
 namespace BK9K.Mechanics.Units

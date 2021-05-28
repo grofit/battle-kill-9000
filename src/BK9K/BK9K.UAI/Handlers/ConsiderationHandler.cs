@@ -13,6 +13,14 @@ namespace BK9K.UAI.Handlers
         public IUtilityVariables UtilityVariables { get; protected set; }
         private bool _isRunning = false;
 
+        private readonly IDictionary<int, IConsideration> _considerations = new Dictionary<int, IConsideration>();
+        private readonly IDictionary<int, IDisposable> _explicitUpdateSchedules = new Dictionary<int, IDisposable>();
+        private readonly IList<int> _generalUpdateConsiderations = new List<int>();
+        private readonly IDisposable _generalUpdateSub;
+        
+        public ConsiderationHandler(IConsiderationScheduler scheduler)
+        { _generalUpdateSub = scheduler.DefaultRefreshPeriod.Subscribe(x => GeneralRefreshConsiderations()); }
+        
         public void StartHandler(IUtilityVariables variables)
         {
             _isRunning = true;
@@ -22,16 +30,6 @@ namespace BK9K.UAI.Handlers
         public void StopHandler()
         {
             _isRunning = false;
-        }
-
-        private readonly IDictionary<int, IConsideration> _considerations = new Dictionary<int, IConsideration>();
-        private readonly IDictionary<int, IDisposable> _explicitUpdateSchedules = new Dictionary<int, IDisposable>();
-        private readonly IList<int> _generalUpdateConsiderations = new List<int>();
-        private readonly IDisposable _generalUpdateSub;
-        
-        public ConsiderationHandler()
-        {
-            _generalUpdateSub = Observable.Timer(TimeSpan.FromSeconds(0.5)).Subscribe(x => GeneralRefreshConsiderations());
         }
         
         public void AddConsideration(int utilityId, IConsideration consideration, IObservable<Unit> explicitUpdateTrigger = null)
@@ -81,7 +79,7 @@ namespace BK9K.UAI.Handlers
         private void HandleDefaultSchedulingForUtilityConsideration(int utilityId, IUtilityBasedConsideration consideration)
         {
             var sub = Observable
-                .FromEventPattern<VariableChangedEventHandler<float>, VariableChangedEventArgs<float>>(
+                .FromEventPattern<VariableChangedEventHandler<int, float>, VariableChangedEventArgs<int, float>>(
                     x => UtilityVariables.OnVariableChanged += x,
                     x => UtilityVariables.OnVariableChanged -= x)
                 .Where(x => x.EventArgs.VariableType == utilityId)

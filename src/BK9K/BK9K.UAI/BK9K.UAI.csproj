@@ -6,7 +6,7 @@
 
     <ItemGroup>
       <PackageReference Include="EcsRx.MicroRx" Version="4.0.95" />
-      <PackageReference Include="OpenRpg.Core" Version="0.14.91" />
+      <PackageReference Include="OpenRpg.Core" Version="0.14.93" />
       <PackageReference Include="System.Reactive" Version="5.0.0" />
       <PackageReference Include="SystemsRx" Version="4.0.95" />
     </ItemGroup>
