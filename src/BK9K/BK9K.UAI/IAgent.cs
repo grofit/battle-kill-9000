@@ -6,6 +6,7 @@ namespace BK9K.UAI
 {
     public interface IAgent : IDisposable
     {
+        object RelatedContext { get; }
         IUtilityVariables UtilityVariables { get; }
         IConsiderationHandler ConsiderationHandler { get; }
     }

@@ -8,9 +8,9 @@ using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
 using BK9K.Game.Handlers;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Units;
 using OpenRpg.Genres.Fantasy.Extensions;
 
@@ -37,7 +37,7 @@ namespace BK9K.Game.Systems.Combat
             UnitTurnHandler = unitTurnHandler;
         }
 
-        public IEnumerable<Unit> UnitsInTurnOrder => Level.Units.OrderBy(x => x.Stats.Initiative());
+        public IEnumerable<Unit> UnitsInTurnOrder => Level.GameUnits.OrderBy(x => x.Unit.Stats.Initiative()).Select(x => x.Unit);
 
         public void Execute(ElapsedTime elapsed)
         {

@@ -3,9 +3,10 @@ using System.Numerics;
 using System.Threading.Tasks;
 using SystemsRx.Events;
 using BK9K.Game.Events.Effects;
+using BK9K.Game.Extensions;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Spells;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
@@ -31,7 +32,7 @@ namespace BK9K.Game.Handlers.SpellAbilities
             var unit = Level.GetUnitAt(target);
             if(unit == null) { return false; }
 
-            var existingRegen = unit.ActiveEffects.SingleOrDefault(x => x.Effect.Id == TimedEffectLookups.MinorRegen);
+            var existingRegen = unit.Unit.ActiveEffects.SingleOrDefault(x => x.Effect.Id == TimedEffectLookups.MinorRegen);
             if (existingRegen != null)
             {
                 if (existingRegen.Stacks < existingRegen.Effect.MaxStack)
@@ -48,9 +49,9 @@ namespace BK9K.Game.Handlers.SpellAbilities
                 Effect = spell.Effects.First() as TimedEffect,
                 Stacks = 1
             };
-            unit.ActiveEffects.Add(activeRegenEffect);
+            unit.Unit.ActiveEffects.Add(activeRegenEffect);
 
-            EventSystem.Publish(new EffectAddedEvent { ActiveEffect = activeRegenEffect, Unit = unit });
+            EventSystem.Publish(new EffectAddedEvent { ActiveEffect = activeRegenEffect, Unit = unit.Unit });
             return true;
         }
     }

@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using SystemsRx.Events;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Units;
+using BK9K.Game.Extensions;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
@@ -51,7 +52,8 @@ namespace BK9K.Game.Handlers.UnitAbilities
 
         public Unit FindTarget(Unit unit)
         {
-            return Level.GetAliveUnits().FirstOrDefault(x => x.FactionType != unit.FactionType);
+            var possibleUnit = Level.GetAliveUnits().FirstOrDefault(x => x.Unit.FactionType != unit.FactionType);
+            return possibleUnit?.Unit;
         }
 
         private async Task AttackTarget(Unit unit, Unit target)

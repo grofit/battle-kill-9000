@@ -20,7 +20,10 @@ namespace BK9K.UAI.Tester.Variables.Extensions
         public static void PrintVariables(this IUtilityVariables utilityVariables)
         {
             foreach (var (key, value) in utilityVariables)
-            { Console.WriteLine($"{TextLookups[key]} : {value}"); }
+            {
+                var keyText = key.RelatedId == 0 ? TextLookups[key.UtilityId] : $"{TextLookups[key.UtilityId]}:{key.RelatedId}";
+                Console.WriteLine($"{keyText} = {value}");
+            }
         }
     }
 }

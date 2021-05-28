@@ -4,8 +4,8 @@ using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Effects;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.Combat.Extensions;
@@ -27,9 +27,9 @@ namespace BK9K.Game.Systems.Effects
 
         public void Execute(ElapsedTime elapsedTime)
         {
-            var aliveUnits = Level.Units.Where(x => !x.IsDead());
+            var aliveUnits = Level.GameUnits.Where(x => !x.Unit.IsDead());
             foreach (var unit in aliveUnits)
-            { ProcessActiveEffects(unit, elapsedTime); }
+            { ProcessActiveEffects(unit.Unit, elapsedTime); }
         }
 
         public void ProcessActiveEffects(Unit unit, ElapsedTime elapsedTime)

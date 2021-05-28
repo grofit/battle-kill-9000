@@ -1,7 +1,8 @@
 ﻿@using BK9K.Game
 @using System.Numerics
+@using BK9K.Game.Extensions
+@using BK9K.Game.Levels
 @using BK9K.Mechanics.Extensions
-@using BK9K.Mechanics.Levels
 @using BK9K.Mechanics.Units
 
 <div>
@@ -14,9 +15,9 @@
                     <span class="grid-tag tag is-info">Pos [@x,@y]</span>
                     @{
                         var possibleUnit = Level.GetUnitAt(new Vector2(x, y));
-                        if (possibleUnit != null && !possibleUnit.IsDead())
+                        if (possibleUnit != null && !possibleUnit.Unit.IsDead())
                         {
-                            <UnitAvatarView Unit="possibleUnit" OnUnitClick=@OnUnitClicked />
+                            <UnitAvatarView Unit="possibleUnit.Unit" OnUnitClick=@OnUnitClicked />
                         }
                     }
                 </div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using BK9K.UAI.Considerations;
+using BK9K.UAI.Keys;
 using BK9K.UAI.Variables;
 using OpenRpg.Core.Variables;
 
@@ -13,9 +14,9 @@ namespace BK9K.UAI.Handlers
         public IUtilityVariables UtilityVariables { get; protected set; }
         private bool _isRunning = false;
 
-        private readonly IDictionary<int, IConsideration> _considerations = new Dictionary<int, IConsideration>();
-        private readonly IDictionary<int, IDisposable> _explicitUpdateSchedules = new Dictionary<int, IDisposable>();
-        private readonly IList<int> _generalUpdateConsiderations = new List<int>();
+        private readonly IDictionary<UtilityKey, IConsideration> _considerations = new Dictionary<UtilityKey, IConsideration>();
+        private readonly IDictionary<UtilityKey, IDisposable> _explicitUpdateSchedules = new Dictionary<UtilityKey, IDisposable>();
+        private readonly IList<UtilityKey> _generalUpdateConsiderations = new List<UtilityKey>();
         private readonly IDisposable _generalUpdateSub;
         
         public ConsiderationHandler(IConsiderationScheduler scheduler)
@@ -32,69 +33,69 @@ namespace BK9K.UAI.Handlers
             _isRunning = false;
         }
         
-        public void AddConsideration(int utilityId, IConsideration consideration, IObservable<Unit> explicitUpdateTrigger = null)
+        public void AddConsideration(UtilityKey utilityKey, IConsideration consideration, IObservable<Unit> explicitUpdateTrigger = null)
         {
-            _considerations.Add(utilityId, consideration);
-            UtilityVariables[utilityId] = 0;
-            HandleSchedulingForConsideration(utilityId, explicitUpdateTrigger);
-            RefreshConsideration(utilityId);
+            _considerations.Add(utilityKey, consideration);
+            UtilityVariables[utilityKey] = 0;
+            HandleSchedulingForConsideration(utilityKey, explicitUpdateTrigger);
+            RefreshConsideration(utilityKey);
         }
 
-        public void RemoveConsideration(int utilityId)
+        public void RemoveConsideration(UtilityKey utilityKey)
         {
-            if (_explicitUpdateSchedules.ContainsKey(utilityId))
+            if (_explicitUpdateSchedules.ContainsKey(utilityKey))
             {
-                _explicitUpdateSchedules[utilityId].Dispose();
-                _explicitUpdateSchedules.Remove(utilityId);
+                _explicitUpdateSchedules[utilityKey].Dispose();
+                _explicitUpdateSchedules.Remove(utilityKey);
             }
 
-            if (_generalUpdateConsiderations.Contains(utilityId))
-            { _generalUpdateConsiderations.Remove(utilityId); }
+            if (_generalUpdateConsiderations.Contains(utilityKey))
+            { _generalUpdateConsiderations.Remove(utilityKey); }
 
-            _considerations.Remove(utilityId);
-            UtilityVariables.RemoveVariable(utilityId);
+            _considerations.Remove(utilityKey);
+            UtilityVariables.RemoveVariable(utilityKey);
         }
 
-        private void HandleSchedulingForConsideration(int utilityId, IObservable<Unit> explicitUpdateTrigger = null)
+        private void HandleSchedulingForConsideration(UtilityKey utilityKey, IObservable<Unit> explicitUpdateTrigger = null)
         {
             if (explicitUpdateTrigger != null)
             {
-                var sub = explicitUpdateTrigger.Subscribe(x => RefreshConsideration(utilityId));
-                _explicitUpdateSchedules[utilityId] = sub;
+                var sub = explicitUpdateTrigger.Subscribe(x => RefreshConsideration(utilityKey));
+                _explicitUpdateSchedules[utilityKey] = sub;
                 return;
             }
             
-            if (_considerations[utilityId] is IValueBasedConsideration valueConsideration)
-            { HandleDefaultSchedulingForValueConsideration(utilityId, valueConsideration); }
-            else if(_considerations[utilityId] is IUtilityBasedConsideration utilityConsideration)
-            { HandleDefaultSchedulingForUtilityConsideration(utilityId, utilityConsideration); }
+            if (_considerations[utilityKey] is IValueBasedConsideration valueConsideration)
+            { HandleDefaultSchedulingForValueConsideration(utilityKey, valueConsideration); }
+            else if(_considerations[utilityKey] is IUtilityBasedConsideration utilityConsideration)
+            { HandleDefaultSchedulingForUtilityConsideration(utilityKey, utilityConsideration); }
             
         }
 
-        private void HandleDefaultSchedulingForValueConsideration(int utilityId, IValueBasedConsideration consideration)
+        private void HandleDefaultSchedulingForValueConsideration(UtilityKey utilityKey, IValueBasedConsideration consideration)
         {
-            _generalUpdateConsiderations.Add(utilityId);
+            _generalUpdateConsiderations.Add(utilityKey);
         }
         
-        private void HandleDefaultSchedulingForUtilityConsideration(int utilityId, IUtilityBasedConsideration consideration)
+        private void HandleDefaultSchedulingForUtilityConsideration(UtilityKey utilityKey, IUtilityBasedConsideration consideration)
         {
             var sub = Observable
-                .FromEventPattern<VariableChangedEventHandler<int, float>, VariableChangedEventArgs<int, float>>(
+                .FromEventPattern<VariableChangedEventHandler<UtilityKey, float>, VariableChangedEventArgs<UtilityKey, float>>(
                     x => UtilityVariables.OnVariableChanged += x,
                     x => UtilityVariables.OnVariableChanged -= x)
-                .Where(x => x.EventArgs.VariableType == utilityId)
+                .SingleAsync(x => x.EventArgs.VariableType.Equals(utilityKey))
                 .Subscribe(x => RefreshConsideration(x.EventArgs.VariableType));
 
-            _explicitUpdateSchedules[utilityId] = sub;
+            _explicitUpdateSchedules[utilityKey] = sub;
         }
 
-        private void RefreshConsideration(int utilityId)
+        private void RefreshConsideration(UtilityKey utilityKey)
         {
             if(!_isRunning) { return; }
             
-            var consideration = _considerations[utilityId];
+            var consideration = _considerations[utilityKey];
             var newUtility = consideration.CalculateUtility(UtilityVariables);
-            UtilityVariables[utilityId] = newUtility;
+            UtilityVariables[utilityKey] = newUtility;
         }
 
         private void GeneralRefreshConsiderations()

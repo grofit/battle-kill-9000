@@ -24,12 +24,12 @@
 
         if (int.Parse(viewType) == ViewTypes.Unit)
         {
-            var unit = GameApp.Level.Units.Single(x => x.Variables.UniqueId() == viewGuid);
+            var unit = GameApp.Level.GameUnits.Single(x => x.Unit.Variables.UniqueId() == viewGuid);
 
             if (card.CardType != CardTypes.SpellCard)
-            { GameApp.EventSystem.Publish(new CardUsedOnUnitEvent(card, unit)); }
+            { GameApp.EventSystem.Publish(new CardUsedOnUnitEvent(card, unit.Unit)); }
 
-            GameApp.EventSystem.Publish(new CardUsedOnTileEvent(card, unit.Position));
+            GameApp.EventSystem.Publish(new CardUsedOnTileEvent(card, unit.Unit.Position));
         }
     }
 

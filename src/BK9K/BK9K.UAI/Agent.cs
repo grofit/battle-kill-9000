@@ -5,11 +5,13 @@ namespace BK9K.UAI
 {
     public class Agent : IAgent
     {
+        public object RelatedContext { get; set; }
         public IUtilityVariables UtilityVariables { get; } = new UtilityVariables();
         public IConsiderationHandler ConsiderationHandler { get; }
 
-        public Agent(IConsiderationHandler handler)
+        public Agent(object relatedContext, IConsiderationHandler handler)
         {
+            RelatedContext = relatedContext;
             ConsiderationHandler = handler;
             ConsiderationHandler.StartHandler(UtilityVariables);
         }

@@ -4,17 +4,19 @@ using System.Numerics;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
-using BK9K.Game.Data;
 using BK9K.Game.Data.Builders;
 using BK9K.Game.Data.Repositories;
 using BK9K.Game.Events.Level;
-using BK9K.Mechanics.Extensions;
+using BK9K.Game.Extensions;
+using BK9K.Game.Levels;
+using BK9K.Game.Units;
 using BK9K.Mechanics.Grids;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
+using BK9K.UAI;
+using BK9K.UAI.Handlers;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Core.Utils;
@@ -46,14 +48,33 @@ namespace BK9K.Game.Systems.Levels
 
         public void Process(RequestLevelLoadEvent eventData)
         {
+            DisposeExistingData();
+            
             Level.Grid = SetupGrid();
-            Level.Units = GameState.PlayerUnits.ToList();
+            var unitList = new List<Unit>();
+            unitList = GameState.PlayerUnits.ToList();
 
             foreach (var enemy in SetupEnemies(eventData.LevelId))
-            { Level.Units.Add(enemy); }
+            { unitList.Add(enemy); }
 
+            Level.GameUnits = SetupAI(unitList).ToList();
             Level.HasLevelFinished = false;
             EventSystem.Publish(new LevelLoadedEvent());
+        }
+
+        public void DisposeExistingData()
+        {
+            if (Level.GameUnits.Count != 0)
+            { Level.GameUnits.ForEach(x => x.Agent.Dispose()); }
+        }
+
+        public IEnumerable<GameUnit> SetupAI(IEnumerable<Unit> units)
+        {
+            foreach (var unit in units)
+            {
+                var agent = new Agent(unit, new ConsiderationHandler(new DefaultConsiderationScheduler()));
+                yield return new GameUnit(unit, agent);
+            }
         }
 
         public Grid SetupGrid()
