@@ -1,0 +1,33 @@
+@using BK9K.Game.Units
+<div>
+    <div class="tabs">
+        <ul>
+            <li class="@(IsActive(1) ? "is-active" : "")"><a @onclick="() => ChangeTab(1)">Character Details</a></li>
+            <li class="@(IsActive(2) ? "is-active" : "")"><a @onclick="() => ChangeTab(2)">Character Equipment</a></li>
+            <li class="@(IsActive(3) ? "is-active" : "")"><a @onclick="() => ChangeTab(3)">Character AI</a></li>
+        </ul>
+    </div>
+    <div>
+        @if (IsActive(1))
+        {
+            <UnitDetails Unit="Unit.Unit"></UnitDetails>
+        }
+        
+        @if (IsActive(3))
+        {
+            <AgentDetails Agent="Unit.Agent"></AgentDetails>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public GameUnit Unit { get; set; }
+    
+    private int _activeTab = 1;
+
+    public void ChangeTab(int tabIndex)
+    { _activeTab = tabIndex;}
+    
+    public bool IsActive(int tabIndex) 
+    { return tabIndex == _activeTab; }
+}

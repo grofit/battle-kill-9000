@@ -7,6 +7,7 @@
 @using BK9K.Game.Events.Level
 @using SystemsRx.Extensions
 @using BK9K.Game.Levels
+@using BK9K.Game.Units
 @using BK9K.Mechanics.Units
 
 @implements IDisposable
@@ -24,7 +25,7 @@
             <div>
                 @if (!DidPlayerWin.HasValue)
                 {
-                    <LevelView Level="Level" OnUnitSelected="(Unit unit) => SelectedUnit = unit"/>
+                    <LevelView Level="Level" OnUnitSelected="(GameUnit unit) => SelectedUnit = unit"/>
                     <div>
                         <GameSpeed Configuration="@GameApp.GameConfiguration"/>
                     </div>
@@ -49,7 +50,7 @@
         <div class="column is-four">
             @if (!DidPlayerWin.HasValue && SelectedUnit != null)
             {
-                <UnitDetails Unit="SelectedUnit"></UnitDetails>
+                <UnitsSection Unit="SelectedUnit" />
             }
         </div>
     </div>
@@ -65,7 +66,7 @@
 
     public Level Level => GameApp.Level;
     public bool isLoaded = false;
-    public Unit SelectedUnit = null;
+    public GameUnit SelectedUnit = null;
 
     protected override async Task OnInitializedAsync()
     {

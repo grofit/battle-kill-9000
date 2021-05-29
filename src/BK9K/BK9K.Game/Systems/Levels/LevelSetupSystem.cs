@@ -3,20 +3,20 @@ using System.Linq;
 using System.Numerics;
 using SystemsRx.Events;
 using SystemsRx.Systems.Conventional;
+using BK9K.Game.AI;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data.Builders;
 using BK9K.Game.Data.Repositories;
 using BK9K.Game.Events.Level;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
+using BK9K.Game.Pools;
 using BK9K.Game.Units;
 using BK9K.Mechanics.Grids;
 using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Handlers;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Core.Utils;
@@ -32,17 +32,21 @@ namespace BK9K.Game.Systems.Levels
         public Level Level { get; }
         public IEventSystem EventSystem { get; }
         public UnitBuilder UnitBuilder { get; }
+        public AgentBuilder AgentBuilder { get; }
         public IRandomizer Randomizer { get; }
         public GameState GameState { get; }
         public IItemTemplateRepository ItemTemplateRepository { get; }
+        public IUnitIdPool UnitIdPool { get; }
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository)
+        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool)
         {
             UnitBuilder = unitBuilder;
             Level = level;
             EventSystem = eventSystem;
             Randomizer = randomizer;
             ItemTemplateRepository = itemTemplateRepository;
+            AgentBuilder = agentBuilder;
+            UnitIdPool = unitIdPool;
             GameState = gameState;
         }
 
@@ -65,14 +69,20 @@ namespace BK9K.Game.Systems.Levels
         public void DisposeExistingData()
         {
             if (Level.GameUnits.Count != 0)
-            { Level.GameUnits.ForEach(x => x.Agent.Dispose()); }
+            { Level.GameUnits.ForEach(x =>
+            {
+                x.Agent.Dispose();
+                UnitIdPool.ReleaseInstance(x.Unit.Id);
+            }); }
         }
 
         public IEnumerable<GameUnit> SetupAI(IEnumerable<Unit> units)
         {
             foreach (var unit in units)
             {
-                var agent = new Agent(unit, new ConsiderationHandler(new DefaultConsiderationScheduler()));
+                var agent = AgentBuilder.Create()
+                    .ForUnit(unit)
+                    .Build();
                 yield return new GameUnit(unit, agent);
             }
         }
@@ -142,6 +152,7 @@ namespace BK9K.Game.Systems.Levels
                 var loot = GenerateLootTable();
 
                 var enemyUnit = UnitBuilder.Create()
+                    .WithId(UnitIdPool.AllocateInstance())
                     .WithName($"Enemy Person {enemyIndex++}")
                     .WithInitiative(randomInitiative)
                     .WithFaction(FactionTypes.Enemy)

@@ -6,9 +6,9 @@ namespace BK9K.Game.Units
     public class GameUnit
     {
         public Unit Unit { get; }
-        public Agent Agent { get; }
+        public IAgent Agent { get; }
 
-        public GameUnit(Unit unit, Agent agent)
+        public GameUnit(Unit unit, IAgent agent)
         {
             Unit = unit;
             Agent = agent;

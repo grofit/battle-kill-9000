@@ -2,6 +2,7 @@
 @using System.Numerics
 @using BK9K.Game.Extensions
 @using BK9K.Game.Levels
+@using BK9K.Game.Units
 @using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Units
 
@@ -29,13 +30,14 @@
 @code {
 
     [Parameter]
-    public EventCallback<Unit> OnUnitSelected { get; set; }
+    public EventCallback<GameUnit> OnUnitSelected { get; set; }
 
     [Parameter]
     public Level Level { get; set; }
 
     public async Task OnUnitClicked(Unit unit)
     {
-        await OnUnitSelected.InvokeAsync(unit);
+        var gameUnit = Level.GameUnits.Single(x => x.Unit.Id == unit.Id);
+        await OnUnitSelected.InvokeAsync(gameUnit);
     }
 }

@@ -1,0 +1,25 @@
+@using OpenRpg.Core.Races
+@using OpenRpg.Core.Classes
+@using BK9K.UAI
+@using BK9K.Game.Data.Repositories.Defaults
+@using OpenRpg.Localization.Repositories
+
+@inject ILocaleRepository LocaleRepository;
+
+<div class="has-text-centered">
+    @foreach (var (key, value) in Agent.ConsiderationHandler.UtilityVariables)
+    {
+        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
+        var lookupText = LocaleRepository.Retrieve(lookupKey);
+        var keyText = key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
+        
+        <p>
+            <span>@keyText</span>
+            <span>@value</span>
+        </p>
+    }
+</div>
+
+@code {
+    [Parameter] public IAgent Agent { get; set; }
+}

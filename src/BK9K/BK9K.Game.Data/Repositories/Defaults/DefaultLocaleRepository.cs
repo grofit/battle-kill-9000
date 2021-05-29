@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
+using BK9K.Mechanics.Types.Variables;
+using BK9K.Mechanics.Variables;
 using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Localization.Repositories;
 
@@ -22,6 +24,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
         public static readonly string DamageTypesTextKey = "types-damage-";
         public static readonly string AssociatedTypesTextKey = "types-associated-";
         public static readonly string CardTypesTextKey = "types-cards-";
+        public static readonly string UtilityTypesTextKey = "types-ai-utility-";
         
         public static string GetKeyFor(string typeKey, int typeValue)
         { return $"{typeKey}{typeValue}"; }
@@ -41,6 +44,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             GenerateQuestStateTypeLocaleText();
             GenerateRewardTypeLocaleText();
             GenerateCardTypeLocaleText();
+            GenerateUtilityTypeLocaleText();
         }
 
         private IDictionary<int, string> GetTypeFieldsDictionary<T>()
@@ -118,6 +122,12 @@ namespace BK9K.Game.Data.Repositories.Defaults
         {
             GetTypeFieldsDictionary<CardTypes>()
                 .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(CardTypesTextKey, key), value.Replace("Card", "")));
+        }
+        
+        private void GenerateUtilityTypeLocaleText()
+        {
+            GetTypeFieldsDictionary<UtilityVariableTypes>()
+                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(UtilityTypesTextKey, key), value));
         }
     }
 }

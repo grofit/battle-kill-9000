@@ -23,6 +23,7 @@ namespace BK9K.Game.Data.Builders
         public IStatsComputer StatsComputer { get; }
 
         private string _name = "Randy Random";
+        private int _id = 0;
         private int _initiative = 5;
         private int _level = 1;
         private int _factionType = FactionTypes.Enemy;
@@ -46,6 +47,12 @@ namespace BK9K.Game.Data.Builders
         public UnitBuilder Create()
         { return new(RaceTemplateRepository, ClassTemplateRepository, StatsComputer, ItemTemplateRepository, AbilityRepository); }
 
+        public UnitBuilder WithId(int id)
+        {
+            _id = id;
+            return this;
+        }
+        
         public UnitBuilder WithName(string name)
         {
             _name = name;
@@ -118,6 +125,7 @@ namespace BK9K.Game.Data.Builders
             
             var unit = _factionType == FactionTypes.Enemy ? new EnemyUnit() : new Unit();
 
+            unit.Id = _id;
             unit.NameLocaleId = _name;
             unit.FactionType = _factionType;
             unit.Position = _position;
