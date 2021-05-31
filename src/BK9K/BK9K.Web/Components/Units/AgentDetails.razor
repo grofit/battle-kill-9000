@@ -3,23 +3,54 @@
 @using BK9K.UAI
 @using BK9K.Game.Data.Repositories.Defaults
 @using OpenRpg.Localization.Repositories
+@using SystemsRx.Events
+@using BK9K.Game.Events.Units
 
 @inject ILocaleRepository LocaleRepository;
+@inject IEventSystem EventSystem;
+@implements IDisposable;
 
 <div class="has-text-centered">
-    @foreach (var (key, value) in Agent.ConsiderationHandler.UtilityVariables)
-    {
-        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
-        var lookupText = LocaleRepository.Retrieve(lookupKey);
-        var keyText = key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
+
+    <div class="field is-grouped is-grouped-multiline">
+        @foreach (var (key, value) in Agent.ConsiderationHandler.UtilityVariables)
+        {
+            var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
+            var lookupText = LocaleRepository.Retrieve(lookupKey);
+            var keyText = key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
         
-        <p>
-            <span>@keyText</span>
-            <span>@value</span>
-        </p>
-    }
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">@keyText</span>
+                    <span class="tag @GetValueClass(value)">@value</span>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @code {
     [Parameter] public IAgent Agent { get; set; }
+
+    private IDisposable _sub;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _sub = EventSystem.Receive<UnitEndTurn>().Subscribe(x => StateHasChanged());
+    }
+
+    public string GetValueClass(float value)
+    {
+        if(value > 0.75f) { return "is-danger"; }  
+        else if(value < 0.25f) { return "is-success"; }
+        
+        return "is-info"; 
+    }
+
+    public void Dispose()
+    {
+        _sub?.Dispose();
+    }
+
 }

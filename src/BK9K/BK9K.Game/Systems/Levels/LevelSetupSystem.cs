@@ -76,13 +76,16 @@ namespace BK9K.Game.Systems.Levels
             }); }
         }
 
-        public IEnumerable<GameUnit> SetupAI(IEnumerable<Unit> units)
+        public IEnumerable<GameUnit> SetupAI(List<Unit> units)
         {
+            var agentConsiderations = new AgentConsiderations();
             foreach (var unit in units)
             {
                 var agent = AgentBuilder.Create()
                     .ForUnit(unit)
                     .Build();
+                
+                agentConsiderations.PopulateConsiderations(agent, unit, units);
                 yield return new GameUnit(unit, agent);
             }
         }
@@ -141,8 +144,6 @@ namespace BK9K.Game.Systems.Levels
             var maxEnemies = levelId;
 
             var actualEnemies = Randomizer.Random(minEnemies, maxEnemies);
-            var enemyIndex = 1;
-
             for (var i = 0; i < actualEnemies; i++)
             {
                 var randomInitiative = Randomizer.Random(1, 6);
@@ -151,9 +152,10 @@ namespace BK9K.Game.Systems.Levels
                 var randomPosition = FindOpenPosition();
                 var loot = GenerateLootTable();
 
+                var enemyId = UnitIdPool.AllocateInstance();
                 var enemyUnit = UnitBuilder.Create()
-                    .WithId(UnitIdPool.AllocateInstance())
-                    .WithName($"Enemy Person {enemyIndex++}")
+                    .WithId(enemyId)
+                    .WithName($"Enemy Person {enemyId}")
                     .WithInitiative(randomInitiative)
                     .WithFaction(FactionTypes.Enemy)
                     .WithRace(randomRace)

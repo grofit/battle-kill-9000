@@ -19,6 +19,9 @@ namespace BK9K.Game.Extensions
 
         public static IEnumerable<GameUnit> GetAllUnitsInFaction(this Level level, int factionType)
         { return level.GameUnits.Where(x => x.Unit.FactionType == factionType);}
+
+        public static IEnumerable<Unit> GetAllUnitsInFaction(this IEnumerable<Unit> units, int factionType)
+        { return units.Where(x => x.FactionType == factionType); }
             
         public static IEnumerable<GameUnit> GetAllEnemies(this Level level)
         { return GetAllUnitsInFaction(level, FactionTypes.Enemy); }
