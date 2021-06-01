@@ -37,8 +37,9 @@ namespace BK9K.Game.Systems.Levels
         public GameState GameState { get; }
         public IItemTemplateRepository ItemTemplateRepository { get; }
         public IUnitIdPool UnitIdPool { get; }
+        public ConsiderationGenerator ConsiderationGenerator;
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool)
+        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool, ConsiderationGenerator considerationGenerator)
         {
             UnitBuilder = unitBuilder;
             Level = level;
@@ -47,6 +48,7 @@ namespace BK9K.Game.Systems.Levels
             ItemTemplateRepository = itemTemplateRepository;
             AgentBuilder = agentBuilder;
             UnitIdPool = unitIdPool;
+            ConsiderationGenerator = considerationGenerator;
             GameState = gameState;
         }
 
@@ -62,6 +64,7 @@ namespace BK9K.Game.Systems.Levels
             { unitList.Add(enemy); }
 
             Level.GameUnits = SetupAI(unitList).ToList();
+            ProcessAgentLevelConsiderations();
             Level.HasLevelFinished = false;
             EventSystem.Publish(new LevelLoadedEvent());
         }
@@ -78,15 +81,22 @@ namespace BK9K.Game.Systems.Levels
 
         public IEnumerable<GameUnit> SetupAI(List<Unit> units)
         {
-            var agentConsiderations = new AgentConsiderations();
             foreach (var unit in units)
             {
                 var agent = AgentBuilder.Create()
                     .ForUnit(unit)
                     .Build();
                 
-                agentConsiderations.PopulateConsiderations(agent, unit, units);
+                ConsiderationGenerator.PopulateLocalConsiderations(agent);
                 yield return new GameUnit(unit, agent);
+            }
+        }
+
+        public void ProcessAgentLevelConsiderations()
+        {
+            foreach (var gameUnits in Level.GameUnits)
+            {
+                ConsiderationGenerator.PopulateExternalConsiderations(gameUnits.Agent, Level);
             }
         }
 

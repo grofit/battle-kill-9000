@@ -34,6 +34,8 @@ namespace BK9K.Web.Modules
             container.Bind<IAbilityHandler, AttackAbilityHandler>();
             container.Bind<ISpellHandler, FireboltSpellHandler>();
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();
+            
+            container.Bind<ConsiderationGenerator>();
         }
     }
 }

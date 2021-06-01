@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using SystemsRx.Events;
 using BK9K.Game.Scheduler;
 using BK9K.Mechanics.Units;
 using BK9K.UAI;
+using BK9K.UAI.Considerations;
 using BK9K.UAI.Handlers;
 
 namespace BK9K.Game.AI
@@ -26,6 +29,7 @@ namespace BK9K.Game.AI
             _relatedUnit = relatedUnit;
             return this;
         }
+        
 
         public IAgent Build()
         {
@@ -34,8 +38,9 @@ namespace BK9K.Game.AI
 
             if (_relatedUnit.Id == 0)
             { throw new Exception("Unit must have a valid Id"); }
-            
-            var agent = new Agent(_relatedUnit, new ConsiderationHandler(new CustomConsiderationScheduler(EventSystem)));
+
+            var considerationHandler = new ConsiderationHandler(new CustomConsiderationScheduler(EventSystem));
+            var agent = new Agent(_relatedUnit, considerationHandler);
             return agent;
         }
     }
