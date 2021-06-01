@@ -26,11 +26,20 @@
                 </div>
             </div>
             <div class="has-text-centered">
-                <h5 class="title is-5">Local Agent Utilities</h5>
+                <h5 class="title is-5">Agent Advice</h5>
+                <div class="field is-grouped is-grouped-multiline">
+                    @foreach (var advice in GameUnit.Agent.AdviceHandler.GetAdvice())
+                    {
+                        <AdviceValue Text="@GetAdviceText(advice.AdviceId)" Value="@advice.UtilityValue"/>
+                    }
+                </div>
+            </div>
+            <div class="has-text-centered">
+                <h5 class="title is-5">Agent Utilities</h5>
                 <div class="field is-grouped is-grouped-multiline">
                     @foreach (var (key, value) in GetLocalUtilities())
                     {
-                        <UtilityValue Text="@GetKeyText(key)" Value="@value"/>
+                        <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
                     }
                 </div>
                 <h5 class="title is-5">Grouped Agent Utilities</h5>
@@ -43,7 +52,7 @@
                         <div class="field is-grouped is-grouped-multiline">
                             @foreach (var (key, value) in unitUtilities)
                             {
-                                <UtilityValue Text="@GetKeyText(key)" Value="@value"/>
+                                <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
                             }
                         </div>
                     }
@@ -75,11 +84,17 @@
     public IEnumerable<GameUnit> EnemyUnits => AllUnitsForFaction(GetEnemyFactionType());
     public IEnumerable<GameUnit> AllyUnits => AllUnitsForFaction(GetAllyFactionType());
 
-    public string GetKeyText(UtilityKey key)
+    public string GetUtilityText(UtilityKey key)
     {
         var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
         var lookupText = LocaleRepository.Retrieve(lookupKey);
         return key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
+    }
+    
+    public string GetAdviceText(int adviceKey)
+    {
+        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.AdviceTypesTextKey, adviceKey);
+        return LocaleRepository.Retrieve(lookupKey);
     }
     
     protected override void OnInitialized()

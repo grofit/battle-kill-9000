@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using SystemsRx.Events;
 using BK9K.Game.Scheduler;
 using BK9K.Mechanics.Units;
 using BK9K.UAI;
-using BK9K.UAI.Considerations;
-using BK9K.UAI.Handlers;
+using BK9K.UAI.Handlers.Advisors;
 using BK9K.UAI.Handlers.Considerations;
 
 namespace BK9K.Game.AI
@@ -31,7 +28,6 @@ namespace BK9K.Game.AI
             return this;
         }
         
-
         public IAgent Build()
         {
             if (_relatedUnit == null)
@@ -41,7 +37,8 @@ namespace BK9K.Game.AI
             { throw new Exception("Unit must have a valid Id"); }
 
             var considerationHandler = new ConsiderationHandler(new CustomRefreshScheduler(EventSystem));
-            var agent = new Agent(_relatedUnit, considerationHandler);
+            var adviceHandler = new AdviceHandler(new CustomRefreshScheduler(EventSystem));
+            var agent = new Agent(_relatedUnit, considerationHandler, adviceHandler);
             return agent;
         }
     }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BK9K.Game.Data.Variables;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Variables;
-using BK9K.Mechanics.Variables;
 using OpenRpg.Genres.Fantasy.Types;
 using OpenRpg.Localization.Repositories;
 
@@ -25,6 +25,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
         public static readonly string AssociatedTypesTextKey = "types-associated-";
         public static readonly string CardTypesTextKey = "types-cards-";
         public static readonly string UtilityTypesTextKey = "types-ai-utility-";
+        public static readonly string AdviceTypesTextKey = "types-ai-advice-";
         
         public static string GetKeyFor(string typeKey, int typeValue)
         { return $"{typeKey}{typeValue}"; }
@@ -45,6 +46,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
             GenerateRewardTypeLocaleText();
             GenerateCardTypeLocaleText();
             GenerateUtilityTypeLocaleText();
+            GenerateAdviceTypeLocaleText();
         }
 
         private IDictionary<int, string> GetTypeFieldsDictionary<T>()
@@ -128,6 +130,12 @@ namespace BK9K.Game.Data.Repositories.Defaults
         {
             GetTypeFieldsDictionary<UtilityVariableTypes>()
                 .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(UtilityTypesTextKey, key), value));
+        }
+        
+        private void GenerateAdviceTypeLocaleText()
+        {
+            GetTypeFieldsDictionary<AdviceVariableTypes>()
+                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(AdviceTypesTextKey, key), value));
         }
     }
 }

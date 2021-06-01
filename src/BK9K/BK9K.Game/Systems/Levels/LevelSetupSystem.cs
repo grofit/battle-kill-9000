@@ -38,8 +38,9 @@ namespace BK9K.Game.Systems.Levels
         public IItemTemplateRepository ItemTemplateRepository { get; }
         public IUnitIdPool UnitIdPool { get; }
         public ConsiderationGenerator ConsiderationGenerator;
+        public AdviceGenerator AdviceGenerator;
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool, ConsiderationGenerator considerationGenerator)
+        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool, ConsiderationGenerator considerationGenerator, AdviceGenerator adviceGenerator)
         {
             UnitBuilder = unitBuilder;
             Level = level;
@@ -49,6 +50,7 @@ namespace BK9K.Game.Systems.Levels
             AgentBuilder = agentBuilder;
             UnitIdPool = unitIdPool;
             ConsiderationGenerator = considerationGenerator;
+            AdviceGenerator = adviceGenerator;
             GameState = gameState;
         }
 
@@ -65,6 +67,7 @@ namespace BK9K.Game.Systems.Levels
 
             Level.GameUnits = SetupAI(unitList).ToList();
             ProcessAgentLevelConsiderations();
+            ProcessAgentAdvice();
             Level.HasLevelFinished = false;
             EventSystem.Publish(new LevelLoadedEvent());
         }
@@ -97,6 +100,14 @@ namespace BK9K.Game.Systems.Levels
             foreach (var gameUnits in Level.GameUnits)
             {
                 ConsiderationGenerator.PopulateExternalConsiderations(gameUnits.Agent, Level);
+            }
+        }
+
+        public void ProcessAgentAdvice()
+        {
+            foreach (var gameUnits in Level.GameUnits)
+            {
+                AdviceGenerator.PopulateAdvice(gameUnits.Agent, Level);
             }
         }
 

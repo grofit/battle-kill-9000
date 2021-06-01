@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Units;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
-using BK9K.Mechanics.Variables;
 using BK9K.UAI;
 using BK9K.UAI.Accessors;
 using BK9K.UAI.Clampers;

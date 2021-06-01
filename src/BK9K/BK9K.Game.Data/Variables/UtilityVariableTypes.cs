@@ -1,4 +1,4 @@
-namespace BK9K.Mechanics.Variables
+namespace BK9K.Game.Data.Variables
 {
     public class UtilityVariableTypes
     {

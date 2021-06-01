@@ -11,8 +11,4 @@
       <PackageReference Include="SystemsRx" Version="4.0.95" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Builders" />
-    </ItemGroup>
-
 </Project>

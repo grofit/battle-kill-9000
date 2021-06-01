@@ -36,6 +36,7 @@ namespace BK9K.Web.Modules
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();
             
             container.Bind<ConsiderationGenerator>();
+            container.Bind<AdviceGenerator>();
         }
     }
 }

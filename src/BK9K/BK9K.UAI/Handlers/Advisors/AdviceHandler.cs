@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using BK9K.UAI.Advisors;
 using BK9K.UAI.Extensions;
-using BK9K.UAI.Handlers.Advisors;
 using BK9K.UAI.Variables;
 
-namespace BK9K.UAI.Handlers.Considerations
+namespace BK9K.UAI.Handlers.Advisors
 {
     public class AdviceHandler : IAdviceHandler
     {
@@ -16,7 +15,7 @@ namespace BK9K.UAI.Handlers.Considerations
         private readonly IDisposable _generalUpdateSub;
         
         public AdviceHandler(IRefreshScheduler scheduler)
-        { _generalUpdateSub = scheduler.DefaultRefreshPeriod.Subscribe(x => GeneralRefreshConsiderations()); }
+        { _generalUpdateSub = scheduler.DefaultRefreshPeriod.Subscribe(x => GeneralRefreshAdvice()); }
         
         public void StartHandler(IUtilityVariables variables)
         {
@@ -32,8 +31,11 @@ namespace BK9K.UAI.Handlers.Considerations
         public void AddAdvice(IAdvice advice)
         { _advisories.Add(advice); }
 
-        public void RemoveConsideration(IAdvice advice)
+        public void RemoveAdvice(IAdvice advice)
         { _advisories.Remove(advice); }
+
+        public IEnumerable<IAdvice> GetAdvice()
+        { return _advisories; }
 
         private void RefreshAdvice(IAdvice advice)
         {
@@ -49,7 +51,7 @@ namespace BK9K.UAI.Handlers.Considerations
             advice.UtilityValue = utilityValues.CalculateScore();
         }
 
-        private void GeneralRefreshConsiderations()
+        private void GeneralRefreshAdvice()
         {
             foreach (var advice in _advisories)
             { RefreshAdvice(advice); }

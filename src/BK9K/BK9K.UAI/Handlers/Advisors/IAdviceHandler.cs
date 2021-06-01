@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BK9K.UAI.Advisors;
 using BK9K.UAI.Variables;
 
@@ -13,5 +14,6 @@ namespace BK9K.UAI.Handlers.Advisors
         
         void AddAdvice(IAdvice advice);
         void RemoveAdvice(IAdvice advice);
+        IEnumerable<IAdvice> GetAdvice();
     }
 }
