@@ -9,5 +9,7 @@ namespace BK9K.Mechanics.Variables
         public static int PartyHealth = 3;
         public static int IsPowerful = 4;
         public static int IsDefensive = 5;
+        public static int IsADanger = 6;
+        public static int IsInDanger = 7;
     }
 }

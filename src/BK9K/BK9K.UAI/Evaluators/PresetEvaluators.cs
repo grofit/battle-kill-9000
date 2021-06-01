@@ -19,5 +19,8 @@ namespace BK9K.UAI.Evaluators
         public static IEvaluator InverseBellCurve = new NormalEvaluator(-1.0f, 0, 1.0f, 1.0f);
         public static IEvaluator SineWave = new SineEvaluator(1.0f, 0, 0);
         public static IEvaluator InverseSineWave = new SineEvaluator(-1.0f, 0, 0);
+        public static IEvaluator GreaterThanHalf = new StepEvaluator(0.5f);
+        public static IEvaluator LessThanHalf = new StepEvaluator(0.5f, 1.0f, 0.0f);
+        public static IEvaluator PassThrough = new PassThroughlEvaluator();
     }
 }

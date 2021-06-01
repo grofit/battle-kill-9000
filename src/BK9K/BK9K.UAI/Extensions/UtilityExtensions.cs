@@ -21,5 +21,18 @@ namespace BK9K.UAI.Extensions
             }
             return score;
         }
+        
+        public static float CalculateScore(params float[] utilities)
+        {
+            var score = 1.0f;
+            var compensationFactor = (float)(1.0 - 1.0 / utilities.Length);
+            foreach (var utility in utilities)
+            {
+                var modification = (float)((1.0 - utility) * compensationFactor);
+                var scaledUtility = utility + (modification * utility);
+                score *= scaledUtility;
+            }
+            return score;
+        }
     }
 }

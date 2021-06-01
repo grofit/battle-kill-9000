@@ -94,7 +94,12 @@ namespace BK9K.UAI.Handlers
             if(!_isRunning) { return; }
             
             var consideration = _considerations[utilityKey];
-            var newUtility = consideration.CalculateUtility(UtilityVariables);
+
+            var newUtility = 0.0f;
+            if (consideration is ExternalUtilityBasedConsideration externalUtilityBasedConsideration)
+            { newUtility = consideration.CalculateUtility(externalUtilityBasedConsideration.ExternalVariableAccessor()); }
+            else
+            { newUtility = consideration.CalculateUtility(UtilityVariables); }
             UtilityVariables[utilityKey] = newUtility;
         }
 

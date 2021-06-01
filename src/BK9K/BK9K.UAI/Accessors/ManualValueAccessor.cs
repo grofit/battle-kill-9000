@@ -8,15 +8,12 @@ namespace BK9K.UAI.Accessors
         public int Id => 0;
         
         public Func<float> GetValueFunction { get; }
-        public Func<object> GetRelatedContextFunction { get; }
 
-        public ManualValueAccessor(Func<float> getValueFunction, Func<object> getRelatedContextFunction)
+        public ManualValueAccessor(Func<float> getValueFunction)
         {
             GetValueFunction = getValueFunction;
-            GetRelatedContextFunction = getRelatedContextFunction;
         }
 
         public float GetValue() => GetValueFunction();
-        public object GetRelatedContext() => GetRelatedContextFunction();
     }
 }
