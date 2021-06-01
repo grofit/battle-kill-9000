@@ -10,12 +10,16 @@
     <div>
         @if (IsActive(1))
         {
-            <UnitDetails Unit="Unit.Unit"></UnitDetails>
+            <UnitCharacterDetails Unit="Unit.Unit"></UnitCharacterDetails>
+        }
+        @if (IsActive(2))
+        {
+            <UnitCombatDetails Unit="Unit.Unit"></UnitCombatDetails>
         }
         
         @if (IsActive(3))
         {
-            <AgentDetails Agent="Unit.Agent"></AgentDetails>
+            <AgentDetails GameUnit="Unit"></AgentDetails>
         }
     </div>
 </div>

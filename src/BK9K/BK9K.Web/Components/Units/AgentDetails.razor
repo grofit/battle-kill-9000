@@ -5,47 +5,87 @@
 @using OpenRpg.Localization.Repositories
 @using SystemsRx.Events
 @using BK9K.Game.Events.Units
+@using BK9K.Game.Levels
+@using BK9K.Game.Units
+@using BK9K.Mechanics.Extensions
+@using BK9K.Mechanics.Types
+@using BK9K.UAI.Keys
 
 @inject ILocaleRepository LocaleRepository;
 @inject IEventSystem EventSystem;
+@inject Level Level;
 @implements IDisposable;
 
-<div class="has-text-centered">
-
-    <div class="field is-grouped is-grouped-multiline">
-        @foreach (var (key, value) in Agent.ConsiderationHandler.UtilityVariables)
+<CardSection>
+    <div class="container">
+        @if (GameUnit != null)
         {
-            var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
-            var lookupText = LocaleRepository.Retrieve(lookupKey);
-            var keyText = key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
-        
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark">@keyText</span>
-                    <span class="tag @GetValueClass(value)">@value</span>
+            <div class="columns">
+                <div class="column">
+                    <CharacterDetails Name="@GameUnit.Unit.NameLocaleId" RaceTemplate="@GameUnit.Unit.Race" Class="@GameUnit.Unit.Class"/>
                 </div>
+            </div>
+            <div class="has-text-centered">
+                <h5 class="title is-5">Local Agent Utilities</h5>
+                <div class="field is-grouped is-grouped-multiline">
+                    @foreach (var (key, value) in GetLocalUtilities())
+                    {
+                        <UtilityValue Text="@GetKeyText(key)" Value="@value"/>
+                    }
+                </div>
+                <h5 class="title is-5">Grouped Agent Utilities</h5>
+                    @foreach (var enemy in Level.GameUnits.Where(x => x.Unit.Id != GameUnit.Unit.Id))
+                    {
+                        var unitUtilities = GetOtherUnitUtilities(enemy.Unit.Id); 
+                        if(!unitUtilities.Any()) { continue; }
+                        
+                        <h6 class="title is-6">@enemy.Unit.NameLocaleId [@enemy.Unit.Id]- Related Utilities</h6>
+                        <div class="field is-grouped is-grouped-multiline">
+                            @foreach (var (key, value) in unitUtilities)
+                            {
+                                <UtilityValue Text="@GetKeyText(key)" Value="@value"/>
+                            }
+                        </div>
+                    }
             </div>
         }
     </div>
-</div>
+</CardSection>
 
 @code {
-    [Parameter] public IAgent Agent { get; set; }
+    [Parameter] public GameUnit GameUnit { get; set; }
 
     private IDisposable _sub;
 
+    public IEnumerable<KeyValuePair<UtilityKey, float>> GetLocalUtilities()
+    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == 0); }
+
+    public IEnumerable<KeyValuePair<UtilityKey, float>> GetOtherUnitUtilities(int unitId)
+    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == unitId); }
+
+    public int GetAllyFactionType()
+    { return GameUnit.Unit.FactionType; }
+    
+    public int GetEnemyFactionType()
+    { return GameUnit.Unit.FactionType == FactionTypes.Player ? FactionTypes.Enemy : FactionTypes.Player; }
+    
+    public IEnumerable<GameUnit> AllUnitsForFaction(int factionType)
+    { return Level.GameUnits.Where(x => x.Unit.FactionType == factionType && !x.Unit.IsDead()); }
+
+    public IEnumerable<GameUnit> EnemyUnits => AllUnitsForFaction(GetEnemyFactionType());
+    public IEnumerable<GameUnit> AllyUnits => AllUnitsForFaction(GetAllyFactionType());
+
+    public string GetKeyText(UtilityKey key)
+    {
+        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
+        var lookupText = LocaleRepository.Retrieve(lookupKey);
+        return key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
+    }
+    
     protected override void OnInitialized()
     {
         base.OnInitialized();
         _sub = EventSystem.Receive<UnitEndTurn>().Subscribe(x => StateHasChanged());
-    }
-
-    public string GetValueClass(float value)
-    {
-        if(value > 0.75f) { return "is-danger"; }  
-        else if(value < 0.25f) { return "is-success"; }
-        
-        return "is-info"; 
     }
 
     public void Dispose()

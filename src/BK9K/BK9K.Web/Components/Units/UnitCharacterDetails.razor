@@ -29,21 +29,6 @@
                 <div class="column">
                     <GameCard Card="@ClassCard"/>
                 </div>
-                <div class="column">
-                    <GameCard Card="@EffectsCard"/>
-                </div>
-            </div>
-            <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
-            <div class="columns">
-                <div class="column">
-                    <GameCard Card="@AbilityCard"/>
-                </div>
-                <div class="column">
-                    <GameCard Card="@WeaponCard"/>
-                </div>
-                <div class="column">
-                    <GameCard Card="@ArmourCard"/>
-                </div>
             </div>
         }
     </div>
@@ -56,28 +41,11 @@
 
     public RaceCard RaceCard { get; set; }
     public ClassCard ClassCard { get; set; }
-    public EquipmentCard WeaponCard { get; set; }
-    public EquipmentCard ArmourCard { get; set; }
-    public EffectCard EffectsCard { get; set; }
-    public AbilityCard AbilityCard { get; set; }
 
     protected override void OnInitialized()
     {
         RaceCard = new RaceCard(Unit.Race);
         ClassCard = new ClassCard(Unit.Class.ClassTemplate);
-        WeaponCard = new EquipmentCard(Unit.Equipment.MainHandSlot.SlottedItem);
-        ArmourCard = new EquipmentCard(Unit.Equipment.UpperBodySlot.SlottedItem);
-        AbilityCard = new AbilityCard(Unit.ActiveAbility);
-
-        var effectsWrapper = new CardEffects
-        {
-            NameLocaleId = "Passive Effects",
-            DescriptionLocaleId = "Passive effects on the unit",
-            Effects = Unit.PassiveEffects
-        };
-
-        EffectsCard = new EffectCard(effectsWrapper);
-
     }
 
 }

@@ -1,0 +1,69 @@
+@using BK9K.Mechanics.Units
+@using OpenRpg.Cards.Effects
+@using OpenRpg.Cards.Genres
+
+<CardSection>
+    <div class="container">
+        @if (Unit != null)
+        {
+            <div class="columns">
+                <div class="column">
+                    <CharacterDetails Name="@Unit.NameLocaleId" RaceTemplate="@Unit.Race" Class="@Unit.Class"/>
+                </div>
+            </div>
+            <h4 class="subtitle mb-2 has-text-dark has-text-centered">Equipment</h4>
+            <div class="columns">
+                <div class="column">
+                    <GameCard Card="@WeaponCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@ArmourCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@EffectsCard"/>
+                </div>
+            </div>
+            <h4 class="subtitle mb-2 has-text-dark has-text-centered">Abilities</h4>
+            <div class="columns">
+                <div class="column">
+                    <GameCard Card="@AbilityCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@AbilityCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@AbilityCard"/>
+                </div>
+            </div>
+        }
+    </div>
+</CardSection>
+
+@code {
+
+    [Parameter]
+    public Unit Unit { get; set; }
+
+    public EquipmentCard WeaponCard { get; set; }
+    public EquipmentCard ArmourCard { get; set; }
+    public EffectCard EffectsCard { get; set; }
+    public AbilityCard AbilityCard { get; set; }
+
+    protected override void OnInitialized()
+    {
+        WeaponCard = new EquipmentCard(Unit.Equipment.MainHandSlot.SlottedItem);
+        ArmourCard = new EquipmentCard(Unit.Equipment.UpperBodySlot.SlottedItem);
+        AbilityCard = new AbilityCard(Unit.ActiveAbility);
+
+        var effectsWrapper = new CardEffects
+        {
+            NameLocaleId = "Passive Effects",
+            DescriptionLocaleId = "Passive effects on the unit",
+            Effects = Unit.PassiveEffects
+        };
+
+        EffectsCard = new EffectCard(effectsWrapper);
+
+    }
+
+}
