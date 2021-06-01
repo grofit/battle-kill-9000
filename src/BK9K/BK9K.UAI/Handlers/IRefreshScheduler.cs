@@ -3,7 +3,7 @@ using System.Reactive;
 
 namespace BK9K.UAI.Handlers
 {
-    public interface IConsiderationScheduler
+    public interface IRefreshScheduler
     {
         IObservable<Unit> DefaultRefreshPeriod { get; }
     }

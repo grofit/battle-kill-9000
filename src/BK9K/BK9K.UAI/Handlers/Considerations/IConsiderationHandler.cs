@@ -4,7 +4,7 @@ using BK9K.UAI.Considerations;
 using BK9K.UAI.Keys;
 using BK9K.UAI.Variables;
 
-namespace BK9K.UAI.Handlers
+namespace BK9K.UAI.Handlers.Considerations
 {
     public interface IConsiderationHandler : IDisposable
     {

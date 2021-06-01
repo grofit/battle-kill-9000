@@ -7,6 +7,7 @@ using BK9K.Mechanics.Units;
 using BK9K.UAI;
 using BK9K.UAI.Considerations;
 using BK9K.UAI.Handlers;
+using BK9K.UAI.Handlers.Considerations;
 
 namespace BK9K.Game.AI
 {
@@ -39,7 +40,7 @@ namespace BK9K.Game.AI
             if (_relatedUnit.Id == 0)
             { throw new Exception("Unit must have a valid Id"); }
 
-            var considerationHandler = new ConsiderationHandler(new CustomConsiderationScheduler(EventSystem));
+            var considerationHandler = new ConsiderationHandler(new CustomRefreshScheduler(EventSystem));
             var agent = new Agent(_relatedUnit, considerationHandler);
             return agent;
         }

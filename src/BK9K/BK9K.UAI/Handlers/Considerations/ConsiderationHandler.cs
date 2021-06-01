@@ -7,9 +7,9 @@ using BK9K.UAI.Keys;
 using BK9K.UAI.Variables;
 using OpenRpg.Core.Variables;
 
-namespace BK9K.UAI.Handlers
+namespace BK9K.UAI.Handlers.Considerations
 {
-    public class ConsiderationHandler : IDisposable, IConsiderationHandler
+    public class ConsiderationHandler : IConsiderationHandler
     {
         public IUtilityVariables UtilityVariables { get; protected set; }
         private bool _isRunning = false;
@@ -19,7 +19,7 @@ namespace BK9K.UAI.Handlers
         private readonly IList<UtilityKey> _generalUpdateConsiderations = new List<UtilityKey>();
         private readonly IDisposable _generalUpdateSub;
         
-        public ConsiderationHandler(IConsiderationScheduler scheduler)
+        public ConsiderationHandler(IRefreshScheduler scheduler)
         { _generalUpdateSub = scheduler.DefaultRefreshPeriod.Subscribe(x => GeneralRefreshConsiderations()); }
         
         public void StartHandler(IUtilityVariables variables)
