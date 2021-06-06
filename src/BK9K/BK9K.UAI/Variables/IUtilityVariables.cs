@@ -8,7 +8,7 @@ namespace BK9K.UAI.Variables
     {
         IReadOnlyCollection<KeyValuePair<UtilityKey, float>> GetRelatedUtilities(int utilityId);
         void RemoveVariable(int utilityId);
-        bool HasVariable(int utilityId);
+        bool ContainsKey(int utilityId);
 
         float this[int utilityId] { get; set; }
     }

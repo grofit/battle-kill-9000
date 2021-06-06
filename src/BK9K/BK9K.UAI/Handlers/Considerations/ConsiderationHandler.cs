@@ -80,7 +80,7 @@ namespace BK9K.UAI.Handlers.Considerations
         private void HandleDefaultSchedulingForUtilityConsideration(UtilityKey utilityKey, IUtilityBasedConsideration consideration)
         {
             var sub = Observable
-                .FromEventPattern<VariableChangedEventHandler<UtilityKey, float>, VariableChangedEventArgs<UtilityKey, float>>(
+                .FromEventPattern<VariableChangedEventHandler<UtilityKey, float>, VariableEventArgs<UtilityKey, float>>(
                     x => UtilityVariables.OnVariableChanged += x,
                     x => UtilityVariables.OnVariableChanged -= x)
                 .SingleAsync(x => x.EventArgs.VariableType.Equals(utilityKey))

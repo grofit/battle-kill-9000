@@ -8,7 +8,7 @@ namespace BK9K.Mechanics.Extensions
     {
         public static Guid UniqueId(this IVariables<object> variables)
         {
-            if (!variables.HasVariable(CustomVariableTypes.UniqueId))
+            if (!variables.ContainsKey(CustomVariableTypes.UniqueId))
             { variables[CustomVariableTypes.UniqueId] = Guid.NewGuid(); }
 
             return (Guid)variables[CustomVariableTypes.UniqueId];

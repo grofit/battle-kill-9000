@@ -5,8 +5,8 @@ using System.Reflection;
 using BK9K.Game.Data.Variables;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
-using BK9K.Mechanics.Types.Variables;
 using OpenRpg.Genres.Fantasy.Types;
+using OpenRpg.Localization;
 using OpenRpg.Localization.Repositories;
 
 namespace BK9K.Game.Data.Repositories.Defaults
@@ -29,26 +29,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
         
         public static string GetKeyFor(string typeKey, int typeValue)
         { return $"{typeKey}{typeValue}"; }
-
-        public DefaultLocaleRepository()
-        {
-            LocaleCode = "en-gb";
-
-            GenerateEffectLocaleText();
-            GenerateRequirementLocaleText();
-            GenerateItemTypeLocaleText();
-            GenerateItemQualityTypeLocaleText();
-            GenerateModificationTypeLocaleText();
-            GenerateAssociatedTypeLocaleText();
-            GenerateDamageTypeLocaleText();
-            GenerateObjectiveTypeLocaleText();
-            GenerateQuestStateTypeLocaleText();
-            GenerateRewardTypeLocaleText();
-            GenerateCardTypeLocaleText();
-            GenerateUtilityTypeLocaleText();
-            GenerateAdviceTypeLocaleText();
-        }
-
+        
         private IDictionary<int, string> GetTypeFieldsDictionary<T>()
         { return GetTypeFieldsDictionary(typeof(T)); }
 
@@ -63,79 +44,98 @@ namespace BK9K.Game.Data.Repositories.Defaults
         {
             var effectWordRemovals = new[] { "Bonus", "Amount", "Percentage", "  " };
             GetTypeFieldsDictionary<EffectTypes>()
-                    .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(EffectTextKey, key), value.ReplaceAll(effectWordRemovals, "")));
+                    .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(EffectTextKey, key), value.ReplaceAll(effectWordRemovals, "")));
         }
 
         private void GenerateRequirementLocaleText()
         {
             GetTypeFieldsDictionary<RequirementTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(RequirementTextKey, key), value.Replace("Requirement", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(RequirementTextKey, key), value.Replace("Requirement", "")));
         }
 
         private void GenerateItemTypeLocaleText()
         {
             GetTypeFieldsDictionary<ItemTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(ItemTypesTextKey, key), value.Replace("Generic", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(ItemTypesTextKey, key), value.Replace("Generic", "")));
         }
 
         private void GenerateItemQualityTypeLocaleText()
         {
             GetTypeFieldsDictionary<ItemQualityTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(ItemQualityTextKey, key), value));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(ItemQualityTextKey, key), value));
         }
 
         private void GenerateModificationTypeLocaleText()
         {
             GetTypeFieldsDictionary<ModificationTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(ModificationTextKey, key), value.Replace("Modification", "s")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(ModificationTextKey, key), value.Replace("Modification", "s")));
         }
 
         private void GenerateQuestStateTypeLocaleText()
         {
             GetTypeFieldsDictionary<QuestStateTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(QuestStateTextKey, key), value));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(QuestStateTextKey, key), value));
         }
 
         private void GenerateObjectiveTypeLocaleText()
         {
             GetTypeFieldsDictionary<ObjectiveTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(ObjectivesTextKey, key), value.Replace("Objective", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(ObjectivesTextKey, key), value.Replace("Objective", "")));
         }
 
         private void GenerateRewardTypeLocaleText()
         {
             GetTypeFieldsDictionary<RewardTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(RewardsTextKey, key), value.Replace("Reward", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(RewardsTextKey, key), value.Replace("Reward", "")));
         }
 
         private void GenerateDamageTypeLocaleText()
         {
             GetTypeFieldsDictionary<DamageTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(DamageTypesTextKey, key), value));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(DamageTypesTextKey, key), value));
         }
         
         private void GenerateAssociatedTypeLocaleText()
         {
             GetTypeFieldsDictionary<AssociatedTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(AssociatedTypesTextKey, key), value.Replace("Association", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(AssociatedTypesTextKey, key), value.Replace("Association", "")));
         }
 
         private void GenerateCardTypeLocaleText()
         {
             GetTypeFieldsDictionary<CardTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(CardTypesTextKey, key), value.Replace("Card", "")));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(CardTypesTextKey, key), value.Replace("Card", "")));
         }
         
         private void GenerateUtilityTypeLocaleText()
         {
             GetTypeFieldsDictionary<UtilityVariableTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(UtilityTypesTextKey, key), value));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(UtilityTypesTextKey, key), value));
         }
         
         private void GenerateAdviceTypeLocaleText()
         {
             GetTypeFieldsDictionary<AdviceVariableTypes>()
-                .ForEach((key, value) => LocaleDatastore.Add(GetKeyFor(AdviceTypesTextKey, key), value));
+                .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(AdviceTypesTextKey, key), value));
+        }
+
+        public DefaultLocaleRepository(LocaleDataset localeDataset = null) : base(localeDataset)
+        {
+            LocaleDataset.LocaleCode = "en-gb";
+
+            GenerateEffectLocaleText();
+            GenerateRequirementLocaleText();
+            GenerateItemTypeLocaleText();
+            GenerateItemQualityTypeLocaleText();
+            GenerateModificationTypeLocaleText();
+            GenerateAssociatedTypeLocaleText();
+            GenerateDamageTypeLocaleText();
+            GenerateObjectiveTypeLocaleText();
+            GenerateQuestStateTypeLocaleText();
+            GenerateRewardTypeLocaleText();
+            GenerateCardTypeLocaleText();
+            GenerateUtilityTypeLocaleText();
+            GenerateAdviceTypeLocaleText();
         }
     }
 }

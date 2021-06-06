@@ -78,7 +78,7 @@ namespace BK9K.Game.AI
             var isADangerAccessor = new ManualValueAccessor(() =>
             {
                 var utilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, enemy.Unit.Id);
-                if (!agent.UtilityVariables.HasVariable(utilityKey))
+                if (!agent.UtilityVariables.ContainsKey(utilityKey))
                 { return 0.0f; }
 
                 var distanceUtility = agent.UtilityVariables[utilityKey];

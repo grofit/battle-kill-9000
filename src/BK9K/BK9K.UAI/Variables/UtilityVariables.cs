@@ -13,8 +13,8 @@ namespace BK9K.UAI.Variables
         public void RemoveVariable(int utilityId)
         { RemoveVariable(new UtilityKey(utilityId)); }
 
-        public bool HasVariable(int utilityId)
-        { return HasVariable(new UtilityKey(utilityId)); }
+        public bool ContainsKey(int utilityId)
+        { return ContainsKey(new UtilityKey(utilityId)); }
 
         public float this[int utilityId]
         {
