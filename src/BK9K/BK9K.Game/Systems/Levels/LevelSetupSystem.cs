@@ -59,6 +59,7 @@ namespace BK9K.Game.Systems.Levels
             DisposeExistingData();
             
             Level.Grid = SetupGrid();
+            Level.GameUnits.Clear();
             var unitList = new List<Unit>();
             unitList = GameState.PlayerUnits.ToList();
 
@@ -128,8 +129,8 @@ namespace BK9K.Game.Systems.Levels
             }
         }
 
-        private Vector2 FindOpenPosition()
-        { return GeneratePosition().First(x => Level.GetUnitAt(x) == null); }
+        private Vector2 FindOpenPosition(IReadOnlyCollection<Unit> nonLevelUnits)
+        { return GeneratePosition().First(x => Level.GetUnitAt(x) == null && nonLevelUnits.All(y => y.Position != x)); }
 
         private ILootTable GenerateLootTable()
         {
@@ -164,13 +165,14 @@ namespace BK9K.Game.Systems.Levels
             if(minEnemies == 0) { minEnemies = 1; }
             var maxEnemies = levelId;
 
+            var enemies = new List<EnemyUnit>();
             var actualEnemies = Randomizer.Random(minEnemies, maxEnemies);
             for (var i = 0; i < actualEnemies; i++)
             {
                 var randomInitiative = Randomizer.Random(1, 6);
                 var randomClass = Randomizer.Random(ClassLookups.Fighter, ClassLookups.Rogue-1);
                 var randomRace = Randomizer.Random(RaceLookups.Human, RaceLookups.Dwarf-1);
-                var randomPosition = FindOpenPosition();
+                var randomPosition = FindOpenPosition(enemies);
                 var loot = GenerateLootTable();
 
                 var enemyId = UnitIdPool.AllocateInstance();
@@ -186,8 +188,10 @@ namespace BK9K.Game.Systems.Levels
 
                 enemyUnit.LootTable = loot;
 
-                yield return enemyUnit;
+                enemies.Add(enemyUnit);
             }
+
+            return enemies;
         }
     }
 }

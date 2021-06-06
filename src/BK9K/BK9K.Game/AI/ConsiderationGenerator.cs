@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Numerics;
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Units;
-using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
-using BK9K.Mechanics.Units;
 using BK9K.UAI;
 using BK9K.UAI.Accessors;
 using BK9K.UAI.Clampers;
@@ -37,28 +34,28 @@ namespace BK9K.Game.AI
         {
             var healthValueAccessor = new ManualValueAccessor(() => agent.GetRelatedUnit().Stats.Health());
             var healthClamper = new DynamicClamper(() => 0, () => agent.GetRelatedUnit().Stats.MaxHealth());
-            return new ValueBasedConsideration(healthValueAccessor, healthClamper, PresetEvaluators.InverseLinear);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.NeedsHealing), healthValueAccessor, healthClamper, PresetEvaluators.InverseLinear);
         }
         
         private IConsideration GetIsPowerfulConsideration(IAgent agent)
         {
             var attackOutputAccessor = new ManualValueAccessor(() =>
                 agent.GetRelatedUnit().Stats.GetDamageReferences().Sum(x => x.StatValue));
-            return new ValueBasedConsideration(attackOutputAccessor, _damageClamper, PresetEvaluators.Linear);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsPowerful), attackOutputAccessor, _damageClamper, PresetEvaluators.Linear);
         }
         
         private IConsideration GetIsDefensiveConsideration(IAgent agent)
         {
             var defenseOutputAccessor = new ManualValueAccessor(() => 
                 agent.GetRelatedUnit().Stats.GetDefenseReferences().Sum(x => x.StatValue));
-            return new ValueBasedConsideration(defenseOutputAccessor, _damageClamper, PresetEvaluators.Linear);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsDefensive), defenseOutputAccessor, _damageClamper, PresetEvaluators.Linear);
         }
         
         private IConsideration GetEnemyDistanceConsideration(IAgent agent, GameUnit enemy)
         {
-            var enemyDistanceAccessor =
-                new ManualValueAccessor(() => Vector2.Distance(enemy.Unit.Position, agent.GetRelatedUnit().Position));
-            return new ValueBasedConsideration(enemyDistanceAccessor, _distanceClamper, PresetEvaluators.QuadraticLowerLeft);
+            var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, enemy.Unit.Id);
+            var enemyDistanceAccessor = new ManualValueAccessor(() => Vector2.Distance(enemy.Unit.Position, agent.GetRelatedUnit().Position));
+            return new ValueBasedConsideration(distanceUtilityKey, enemyDistanceAccessor, _distanceClamper, PresetEvaluators.QuadraticLowerLeft);
         }
 
         private IConsideration IsInDangerConsideration(IAgent agent)
@@ -70,11 +67,12 @@ namespace BK9K.Game.AI
                     .Max(x => x.Value);
             });
 
-            return new ValueBasedConsideration(dangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsInDanger), dangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
         }
         
         private IConsideration IsADangerConsideration(IAgent agent, GameUnit enemy)
         {
+            var isDangerUtilityKey = new UtilityKey(UtilityVariableTypes.IsADanger, enemy.Unit.Id);
             var isADangerAccessor = new ManualValueAccessor(() =>
             {
                 var utilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, enemy.Unit.Id);
@@ -86,14 +84,14 @@ namespace BK9K.Game.AI
                 return UtilityExtensions.CalculateScore(distanceUtility, powerfulUtility);
             });
             
-            return new ValueBasedConsideration(isADangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
+            return new ValueBasedConsideration(isDangerUtilityKey, isADangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
         }
 
         public void PopulateLocalConsiderations(IAgent agent)
         {
-            agent.AddConsideration(UtilityVariableTypes.NeedsHealing, GetNeedsHealingConsideration(agent));
-            agent.AddConsideration(UtilityVariableTypes.IsPowerful, GetIsPowerfulConsideration(agent));
-            agent.AddConsideration(UtilityVariableTypes.IsDefensive, GetIsDefensiveConsideration(agent));
+            agent.AddConsideration(GetNeedsHealingConsideration(agent));
+            agent.AddConsideration(GetIsPowerfulConsideration(agent));
+            agent.AddConsideration(GetIsDefensiveConsideration(agent));
         }
         
         private int GetOpposingFaction(int factionType)
@@ -110,16 +108,14 @@ namespace BK9K.Game.AI
             foreach (var enemy in enemies)
             {
                 var enemyDistanceConsideration = GetEnemyDistanceConsideration(agent, enemy);
-                var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, enemy.Unit.Id);
-                agent.AddConsideration(distanceUtilityKey, enemyDistanceConsideration);
+                agent.AddConsideration(enemyDistanceConsideration);
 
                 var enemyIsDangerConsideration = IsADangerConsideration(agent, enemy);
-                var isDangerUtilityKey = new UtilityKey(UtilityVariableTypes.IsADanger, enemy.Unit.Id);
-                agent.AddConsideration(isDangerUtilityKey, enemyIsDangerConsideration);
+                agent.AddConsideration(enemyIsDangerConsideration);
             }
 
             var isInDangerConsideration = IsInDangerConsideration(agent);
-            agent.AddConsideration(UtilityVariableTypes.IsInDanger, isInDangerConsideration);
+            agent.AddConsideration(isInDangerConsideration);
         }
     }
 }

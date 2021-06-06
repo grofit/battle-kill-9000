@@ -1,19 +1,12 @@
 <div class="control">
-    <div class="tags has-addons">
+    <div class="tags has-addons @(IsBestAdvice ? "" : "is-not-best-advice")">
         <span class="tag is-white">@Text</span>
-        <span class="tag @GetValueClass(Value)">@Value</span>
+        <span class="tag is-info">@Value</span>
     </div>
 </div>
 
 @code {
+    [Parameter] public bool IsBestAdvice { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public float Value { get; set; }
-    
-    public string GetValueClass(float value)
-    {
-        if(value > 0.75f) { return "is-success"; }  
-        else if(value < 0.25f) { return "is-danger"; }
-        
-        return "is-info"; 
-    }
 }

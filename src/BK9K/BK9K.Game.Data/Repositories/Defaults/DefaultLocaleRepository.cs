@@ -119,7 +119,7 @@ namespace BK9K.Game.Data.Repositories.Defaults
                 .ForEach((key, value) => LocaleDataset.LocaleData.Add(GetKeyFor(AdviceTypesTextKey, key), value));
         }
 
-        public DefaultLocaleRepository(LocaleDataset localeDataset = null) : base(localeDataset)
+        public DefaultLocaleRepository() : base(new LocaleDataset())
         {
             LocaleDataset.LocaleCode = "en-gb";
 

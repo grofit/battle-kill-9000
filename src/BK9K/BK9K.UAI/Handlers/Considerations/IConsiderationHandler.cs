@@ -13,7 +13,7 @@ namespace BK9K.UAI.Handlers.Considerations
         void StartHandler(IUtilityVariables variables);
         void StopHandler();
         
-        void AddConsideration(UtilityKey utilityKey, IConsideration consideration, IObservable<Unit> explicitUpdateTrigger = null);
+        void AddConsideration(IConsideration consideration, IObservable<Unit> explicitUpdateTrigger = null);
         void RemoveConsideration(UtilityKey utilityKey);
     }
 }
