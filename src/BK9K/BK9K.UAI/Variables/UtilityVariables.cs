@@ -15,7 +15,7 @@ namespace BK9K.UAI.Variables
 
         public bool ContainsKey(int utilityId)
         { return ContainsKey(new UtilityKey(utilityId)); }
-
+        
         public float this[int utilityId]
         {
             get => InternalVariables[new UtilityKey(utilityId)];

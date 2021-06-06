@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using BK9K.UAI.Advisors;
 using BK9K.UAI.Extensions;
 using BK9K.UAI.Variables;
@@ -44,7 +46,10 @@ namespace BK9K.UAI.Handlers.Advisors
             var utilityValues = new List<float>();
             foreach (var utilityKey in advice.UtilityKeys)
             {
-                var value = UtilityVariables[utilityKey];
+               var value = utilityKey.RelatedId == 0 ? 
+                    UtilityVariables.GetRelatedUtilities(utilityKey.UtilityId).Max(x => x.Value) : 
+                    UtilityVariables[utilityKey];
+
                 utilityValues.Add(value);
             }
 

@@ -8,7 +8,7 @@
 @using BK9K.Mechanics.Types.Lookups
 @using BK9K.Mechanics.Units
 @using BK9K.Web.Types
-@using global::OpenRpg.Genres.Fantasy.Extensions
+@using OpenRpg.Genres.Fantasy.Extensions
 
 @inject IEventSystem EventSystem
 @implements IDisposable
@@ -61,13 +61,13 @@
         base.OnInitialized();
 
         EventSystem.Receive<UnitStartTurn>().Where(x => x.Unit == Unit).Subscribe(OnUnitTurnStarted).AddTo(_sub);
-        EventSystem.Receive<UnitEndTurn>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
+        EventSystem.Receive<UnitEndTurnEvent>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
         EventSystem.Receive<UnitAttackedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitTargetted).AddTo(_sub);
         EventSystem.Receive<EffectAddedEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectAdded).AddTo(_sub);
         EventSystem.Receive<EffectExpiredEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectRemoved).AddTo(_sub);
     }
 
-    public void OnUnitTurnEnded(UnitEndTurn args)
+    public void OnUnitTurnEnded(UnitEndTurnEvent args)
     {
         _isActiveUnit = false;
         _isTargetUnit = false;

@@ -31,7 +31,7 @@ namespace BK9K.Game.Handlers
             EventSystem.Publish(new UnitStartTurn(unit));
             await MovementPhaseHandler.ExecutePhase(unit);
             await ActionPhaseHandler.ExecutePhase(unit);
-            EventSystem.Publish(new UnitEndTurn(unit));
+            EventSystem.Publish(new UnitEndTurnEvent(unit));
         }
     }
 }

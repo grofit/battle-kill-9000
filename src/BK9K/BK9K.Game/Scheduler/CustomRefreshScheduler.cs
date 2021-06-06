@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using SystemsRx.Events;
 using BK9K.Game.Events.Units;
 using BK9K.UAI.Handlers;
-using BK9K.UAI.Handlers.Considerations;
 
 namespace BK9K.Game.Scheduler
 {
@@ -17,7 +16,7 @@ namespace BK9K.Game.Scheduler
         public CustomRefreshScheduler(IEventSystem eventSystem)
         {
             EventSystem = eventSystem;
-            DefaultRefreshPeriod = EventSystem.Receive<UnitEndTurn>().Select(x => Unit.Default);
+            DefaultRefreshPeriod = EventSystem.Receive<UnitEndTurnEvent>().Select(x => Unit.Default);
         }
     }
 }

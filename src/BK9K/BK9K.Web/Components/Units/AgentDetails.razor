@@ -9,6 +9,7 @@
 @using BK9K.Game.Units
 @using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Types
+@using BK9K.Mechanics.Units
 @using BK9K.UAI.Keys
 
 @inject ILocaleRepository LocaleRepository;
@@ -31,7 +32,10 @@
                     @{var index = 0;}
                     @foreach (var advice in GameUnit.Agent.AdviceHandler.GetAdvice().OrderByDescending(x => x.UtilityValue))
                     {
-                        <AdviceValue Text="@GetAdviceText(advice.AdviceId)" IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue"/>
+                        var relatedUnit = advice.GetRelatedContext() as Unit;
+                        <AdviceValue Text="@GetAdviceText(advice.AdviceId)" 
+                                     ContextText="@relatedUnit.NameLocaleId"
+                                     IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue"/>
                     }
                 </div>
             </div>
@@ -101,7 +105,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _sub = EventSystem.Receive<UnitEndTurn>().Subscribe(x => StateHasChanged());
+        _sub = EventSystem.Receive<UnitEndTurnEvent>().Subscribe(x => StateHasChanged());
     }
 
     public void Dispose()

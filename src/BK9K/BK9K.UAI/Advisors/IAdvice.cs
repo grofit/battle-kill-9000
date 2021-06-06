@@ -8,7 +8,6 @@ namespace BK9K.UAI.Advisors
         int AdviceId { get; }
         float UtilityValue { get; set; }
         IEnumerable<UtilityKey> UtilityKeys { get; set; }
-
         object GetRelatedContext();
     }
 }

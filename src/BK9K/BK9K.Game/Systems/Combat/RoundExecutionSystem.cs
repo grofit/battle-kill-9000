@@ -7,7 +7,6 @@ using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
-using BK9K.Game.Handlers;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
