@@ -28,7 +28,7 @@ namespace BK9K.Game.Systems.Levels
 
         public void Execute(ElapsedTime elapsed)
         {
-            if (Level.GameUnits.Count == 0 || Level.HasLevelFinished)
+            if (Level.GameUnits.Count == 0 || Level.HasLevelFinished || Level.IsLevelLoading)
             { return; }
 
             if (HasPlayerWon())

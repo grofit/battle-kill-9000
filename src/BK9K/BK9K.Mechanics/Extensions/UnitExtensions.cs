@@ -44,5 +44,14 @@ namespace BK9K.Mechanics.Extensions
 
             target.Stats.AddHealth(totalHealing);
         }
+
+        public static bool HasHealAbility(this Unit unit)
+        { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage); }
+        
+        public static bool HasHealOtherAbility(this Unit unit)
+        { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Range > 0); }
+        
+        public static bool HasAoeHealAbilty(this Unit unit)
+        { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Size > 1); }
     }
 }

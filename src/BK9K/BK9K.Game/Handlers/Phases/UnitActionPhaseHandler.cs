@@ -20,7 +20,7 @@ namespace BK9K.Game.Handlers.Phases
 
         public async Task ExecutePhase(Unit unit)
         {
-            var abilityToUse = AbilityHandlerRepository.Retrieve(unit.ActiveAbility.Id);
+            var abilityToUse = AbilityHandlerRepository.Retrieve(unit.ActiveAbilities[0].Id);
             await abilityToUse.ExecuteAbility(unit);
         }
     }

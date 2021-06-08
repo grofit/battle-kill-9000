@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using SystemsRx.Events;
@@ -12,7 +13,6 @@ using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Pools;
 using BK9K.Game.Units;
-using BK9K.Mechanics.Grids;
 using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
@@ -27,7 +27,7 @@ using OpenRpg.Items.Templates;
 
 namespace BK9K.Game.Systems.Levels
 {
-    public class LevelSetupSystem : IReactToEventSystem<RequestLevelLoadEvent>
+    public class LevelUnitSetupSystem : IReactToEventSystem<LevelGridSetupCompleteEvent>
     {
         public Level Level { get; }
         public IEventSystem EventSystem { get; }
@@ -37,10 +37,8 @@ namespace BK9K.Game.Systems.Levels
         public GameState GameState { get; }
         public IItemTemplateRepository ItemTemplateRepository { get; }
         public IUnitIdPool UnitIdPool { get; }
-        public ConsiderationGenerator ConsiderationGenerator;
-        public AdviceGenerator AdviceGenerator;
         
-        public LevelSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool, ConsiderationGenerator considerationGenerator, AdviceGenerator adviceGenerator)
+        public LevelUnitSetupSystem(UnitBuilder unitBuilder, Level level, IEventSystem eventSystem, GameState gameState, IRandomizer randomizer, IItemTemplateRepository itemTemplateRepository, AgentBuilder agentBuilder, IUnitIdPool unitIdPool)
         {
             UnitBuilder = unitBuilder;
             Level = level;
@@ -49,28 +47,29 @@ namespace BK9K.Game.Systems.Levels
             ItemTemplateRepository = itemTemplateRepository;
             AgentBuilder = agentBuilder;
             UnitIdPool = unitIdPool;
-            ConsiderationGenerator = considerationGenerator;
-            AdviceGenerator = adviceGenerator;
             GameState = gameState;
         }
 
-        public void Process(RequestLevelLoadEvent eventData)
+        public void Process(LevelGridSetupCompleteEvent eventData)
         {
             DisposeExistingData();
             
-            Level.Grid = SetupGrid();
             Level.GameUnits.Clear();
             var unitList = new List<Unit>();
             unitList = GameState.PlayerUnits.ToList();
 
-            foreach (var enemy in SetupEnemies(eventData.LevelId))
+            foreach (var enemy in SetupEnemies(Level.Id))
             { unitList.Add(enemy); }
 
-            Level.GameUnits = SetupAI(unitList).ToList();
-            ProcessAgentLevelConsiderations();
-            ProcessAgentAdvice();
-            Level.HasLevelFinished = false;
-            EventSystem.Publish(new LevelLoadedEvent());
+            SetupUnitPositions(unitList);
+            
+            foreach (var unit in unitList)
+            {
+                Console.WriteLine($"{unit.NameLocaleId} is at {unit.Position.X},{unit.Position.Y}");
+            }
+            
+            Level.GameUnits = SetupGameUnits(unitList).ToList();
+            EventSystem.Publish(new LevelUnitsSetupCompleteEvent());
         }
 
         public void DisposeExistingData()
@@ -83,7 +82,7 @@ namespace BK9K.Game.Systems.Levels
             }); }
         }
 
-        public IEnumerable<GameUnit> SetupAI(List<Unit> units)
+        public IEnumerable<GameUnit> SetupGameUnits(List<Unit> units)
         {
             foreach (var unit in units)
             {
@@ -91,34 +90,10 @@ namespace BK9K.Game.Systems.Levels
                     .ForUnit(unit)
                     .Build();
                 
-                ConsiderationGenerator.PopulateLocalConsiderations(agent);
                 yield return new GameUnit(unit, agent);
             }
         }
 
-        public void ProcessAgentLevelConsiderations()
-        {
-            foreach (var gameUnits in Level.GameUnits)
-            {
-                ConsiderationGenerator.PopulateExternalConsiderations(gameUnits.Agent, Level);
-            }
-        }
-
-        public void ProcessAgentAdvice()
-        {
-            foreach (var gameUnits in Level.GameUnits)
-            {
-                AdviceGenerator.PopulateAdvice(gameUnits.Agent, Level);
-            }
-        }
-
-        public Grid SetupGrid()
-        {
-            return GridBuilder.Create()
-                .WithSize(5, 5)
-                .Build();
-        }
-        
         private IEnumerable<Vector2> GeneratePosition()
         {
             while (true)
@@ -130,8 +105,17 @@ namespace BK9K.Game.Systems.Levels
         }
 
         private Vector2 FindOpenPosition(IReadOnlyCollection<Unit> nonLevelUnits)
-        { return GeneratePosition().First(x => Level.GetUnitAt(x) == null && nonLevelUnits.All(y => y.Position != x)); }
+        { return GeneratePosition().First(position => Level.GetUnitAt(position) == null && nonLevelUnits.All(y => y.Position != position)); }
 
+        private void SetupUnitPositions(IReadOnlyCollection<Unit> units)
+        {
+            foreach (var unit in units)
+            {
+                var randomPosition = FindOpenPosition(units);
+                unit.Position = randomPosition;
+            }
+        }
+        
         private ILootTable GenerateLootTable()
         {
             var potionItemTemplate = ItemTemplateRepository.Retrieve(ItemTemplateLookups.MinorHealthPotion);
@@ -172,7 +156,6 @@ namespace BK9K.Game.Systems.Levels
                 var randomInitiative = Randomizer.Random(1, 6);
                 var randomClass = Randomizer.Random(ClassLookups.Fighter, ClassLookups.Rogue-1);
                 var randomRace = Randomizer.Random(RaceLookups.Human, RaceLookups.Dwarf-1);
-                var randomPosition = FindOpenPosition(enemies);
                 var loot = GenerateLootTable();
 
                 var enemyId = UnitIdPool.AllocateInstance();
@@ -183,7 +166,6 @@ namespace BK9K.Game.Systems.Levels
                     .WithFaction(FactionTypes.Enemy)
                     .WithRace(randomRace)
                     .WithClass(randomClass)
-                    .WithPosition(randomPosition)
                     .Build() as EnemyUnit;
 
                 enemyUnit.LootTable = loot;

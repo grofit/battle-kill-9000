@@ -2,6 +2,7 @@
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Units;
 using BK9K.UAI;
 using BK9K.UAI.Advisors;
@@ -11,9 +12,17 @@ namespace BK9K.Game.AI
 {
     public class AdviceGenerator
     {
-        public IAdvice CreateGoHealAdvice(IAgent agent)
+        public IAdvice CreateHealSelfAdvice(IAgent agent)
         {
-            return new DefaultAdvice(AdviceVariableTypes.GoHeal, new[]
+            return new DefaultAdvice(AdviceVariableTypes.HealSelf, new[]
+            {
+                new UtilityKey(UtilityVariableTypes.NeedsHealing)
+            }, agent.GetRelatedUnit);
+        }
+        
+        public IAdvice CreateHealOtherAdvice(IAgent agent)
+        {
+            return new DefaultAdvice(AdviceVariableTypes.HealOther, new[]
             {
                 new UtilityKey(UtilityVariableTypes.NeedsHealing)
             }, agent.GetRelatedUnit);
@@ -39,8 +48,19 @@ namespace BK9K.Game.AI
         
         public void PopulateAdvice(IAgent agent, Level level)
         {
-            var goHealAdvice = CreateGoHealAdvice(agent);
-            agent.AdviceHandler.AddAdvice(goHealAdvice);
+            var unit = agent.GetRelatedUnit();
+
+            if (unit.HasHealAbility())
+            {
+                var healSelfAdvice = CreateHealSelfAdvice(agent);
+                agent.AdviceHandler.AddAdvice(healSelfAdvice);
+            }
+            
+            if (unit.HasHealOtherAbility())
+            {
+                var healSelfAdvice = CreateHealSelfAdvice(agent);
+                agent.AdviceHandler.AddAdvice(healSelfAdvice);
+            }
 
             var goAttackAdvice = CreateGoAttackAdvice(agent, level);
             agent.AdviceHandler.AddAdvice(goAttackAdvice);

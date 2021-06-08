@@ -4,6 +4,7 @@ using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Units;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.UAI;
 using BK9K.UAI.Accessors;
@@ -34,7 +35,7 @@ namespace BK9K.Game.AI
         {
             var healthValueAccessor = new ManualValueAccessor(() => agent.GetRelatedUnit().Stats.Health());
             var healthClamper = new DynamicClamper(() => 0, () => agent.GetRelatedUnit().Stats.MaxHealth());
-            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.NeedsHealing), healthValueAccessor, healthClamper, PresetEvaluators.InverseLinear);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.NeedsHealing), healthValueAccessor, healthClamper, PresetEvaluators.StandardRuntime);
         }
         
         private IConsideration GetIsPowerfulConsideration(IAgent agent)
@@ -56,6 +57,20 @@ namespace BK9K.Game.AI
             var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, enemy.Unit.Id);
             var enemyDistanceAccessor = new ManualValueAccessor(() => Vector2.Distance(enemy.Unit.Position, agent.GetRelatedUnit().Position));
             return new ValueBasedConsideration(distanceUtilityKey, enemyDistanceAccessor, _distanceClamper, PresetEvaluators.QuadraticLowerLeft);
+        }
+        
+        private IConsideration GetPartyLowHealthConsideration(IAgent agent, GameUnit ally)
+        {
+            var partyNeedsHealingUtilityKey = new UtilityKey(UtilityVariableTypes.PartyLowHealth, ally.Unit.Id);
+            var allyNeedsHealingAccessor = new ManualValueAccessor(() => ally.Agent.UtilityVariables[UtilityVariableTypes.NeedsHealing]);
+            return new ValueBasedConsideration(partyNeedsHealingUtilityKey, allyNeedsHealingAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
+        }
+        
+        private IConsideration GetEnemyLowHealthConsideration(IAgent agent, GameUnit enemy)
+        {
+            var enemyNeedsHealingUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyLowHealth, enemy.Unit.Id);
+            var enemyNeedsHealingAccessor = new ManualValueAccessor(() => enemy.Agent.UtilityVariables[UtilityVariableTypes.NeedsHealing]);
+            return new ValueBasedConsideration(enemyNeedsHealingUtilityKey, enemyNeedsHealingAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
         }
 
         private IConsideration IsInDangerConsideration(IAgent agent)
@@ -104,6 +119,8 @@ namespace BK9K.Game.AI
             var localUnit = agent.GetRelatedUnit();
             var opposingFaction = GetOpposingFaction(localUnit.FactionType);
             var enemies = level.GetAllUnitsInFaction(opposingFaction);
+            var allies = level.GetAllUnitsInFaction(localUnit.FactionType);
+            var agentUnit = agent.GetRelatedUnit();
             
             foreach (var enemy in enemies)
             {
@@ -112,6 +129,18 @@ namespace BK9K.Game.AI
 
                 var enemyIsDangerConsideration = IsADangerConsideration(agent, enemy);
                 agent.AddConsideration(enemyIsDangerConsideration);
+                
+                var enemyLowHealthConsideration = GetEnemyLowHealthConsideration(agent, enemy);
+                agent.AddConsideration(enemyLowHealthConsideration);
+            }
+
+            foreach (var ally in allies)
+            {
+                if (agentUnit.HasHealOtherAbility())
+                {
+                    var partyLowHealthConsideration = GetPartyLowHealthConsideration(agent, ally);
+                    agent.AddConsideration(partyLowHealthConsideration);
+                }
             }
 
             var isInDangerConsideration = IsInDangerConsideration(agent);

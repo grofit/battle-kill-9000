@@ -98,7 +98,9 @@ namespace BK9K.Web.Applications
         protected override void BindSystems()
         {
             base.BindSystems();
-            Container.Bind<ISystem, LevelSetupSystem>();
+            Container.Bind<ISystem, LevelGridSetupSystem>();
+            Container.Bind<ISystem, LevelUnitSetupSystem>();
+            Container.Bind<ISystem, LevelAgentSetupSystem>();
             Container.Bind<ISystem, RoundExecutionSystem>();
             Container.Bind<ISystem, LevelEndCheckSystem>();
             Container.Bind<ISystem, ApplyCardToUnitSystem>();

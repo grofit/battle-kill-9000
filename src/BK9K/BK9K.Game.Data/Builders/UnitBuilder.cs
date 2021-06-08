@@ -130,7 +130,7 @@ namespace BK9K.Game.Data.Builders
             unit.FactionType = _factionType;
             unit.Position = _position;
             unit.Race = raceTemplate;
-            unit.ActiveAbility = ability;
+            unit.ActiveAbilities.Add(ability);
             unit.Class = new DefaultClass(_level, classTemplate);
             unit.Equipment = new DefaultEquipment();
 
