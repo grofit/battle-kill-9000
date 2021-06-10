@@ -25,7 +25,6 @@ namespace BK9K.Game.AI
         private static IClamper _distanceClamper = new Clamper(0, 5.0f);
         private static IClamper _damageClamper = new Clamper(0, 40);
 
-        
         public ConsiderationGenerator(IAttackGenerator attackGenerator)
         {
             AttackGenerator = attackGenerator;

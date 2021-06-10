@@ -40,7 +40,7 @@ namespace BK9K.Game.Systems.Combat
 
         public void Execute(ElapsedTime elapsed)
         {
-            if (_isRoundActive || Configuration.GameSpeed == 0) 
+            if (_isRoundActive || Level.IsLevelLoading || Configuration.GameSpeed == 0)
             { return; }
 
             var task = ProcessRound();

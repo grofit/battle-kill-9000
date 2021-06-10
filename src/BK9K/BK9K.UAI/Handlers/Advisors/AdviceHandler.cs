@@ -45,7 +45,8 @@ namespace BK9K.UAI.Handlers.Advisors
             var utilityValues = new List<float>();
             foreach (var utilityKey in advice.UtilityKeys)
             {
-               var value = utilityKey.RelatedId == 0 ? 
+                Console.WriteLine($"Checking Advice {utilityKey.UtilityId}:{utilityKey.RelatedId}");
+                var value = utilityKey.RelatedId == 0 ? 
                     UtilityVariables.GetRelatedUtilities(utilityKey.UtilityId).Max(x => x.Value) : 
                     UtilityVariables[utilityKey];
 
@@ -57,8 +58,13 @@ namespace BK9K.UAI.Handlers.Advisors
 
         private void GeneralRefreshAdvice()
         {
-            foreach (var advice in _advisories)
-            { RefreshAdvice(advice); }
+            try
+            {
+                foreach (var advice in _advisories)
+                { RefreshAdvice(advice); }
+            }
+            catch(Exception e)
+            { Console.WriteLine($"Error {e.Message}"); }
         }
 
         public void Dispose()

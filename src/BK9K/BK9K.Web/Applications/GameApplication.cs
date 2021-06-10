@@ -6,9 +6,11 @@ using BK9K.Game.Data.Builders;
 using BK9K.Game.Data.Repositories;
 using BK9K.Game.Levels;
 using BK9K.Game.Pools;
+using BK9K.Game.Systems.AI;
 using BK9K.Game.Systems.Cards;
 using BK9K.Game.Systems.Combat;
 using BK9K.Game.Systems.Effects;
+using BK9K.Game.Systems.EventTranslation;
 using BK9K.Game.Systems.Levels;
 using BK9K.Mechanics.Cards;
 using BK9K.Mechanics.Types;
@@ -98,9 +100,8 @@ namespace BK9K.Web.Applications
         protected override void BindSystems()
         {
             base.BindSystems();
-            Container.Bind<ISystem, LevelGridSetupSystem>();
-            Container.Bind<ISystem, LevelUnitSetupSystem>();
-            Container.Bind<ISystem, LevelAgentSetupSystem>();
+            Container.Bind<ISystem, LevelLoadingSystem>();
+            Container.Bind<ISystem, UnitDeathTranslationSystem>();
             Container.Bind<ISystem, RoundExecutionSystem>();
             Container.Bind<ISystem, LevelEndCheckSystem>();
             Container.Bind<ISystem, ApplyCardToUnitSystem>();
@@ -108,6 +109,7 @@ namespace BK9K.Web.Applications
             Container.Bind<ISystem, ApplyCardToTileSystem>();
             Container.Bind<ISystem, EffectTimingSystem>();
             Container.Bind<ISystem, ActionTickedEffectSystem>();
+            Container.Bind<ISystem, AgentConsiderationUpdateSystem>();
         }
         
         protected override void ResolveApplicationDependencies()
@@ -126,6 +128,7 @@ namespace BK9K.Web.Applications
         protected override void LoadModules()
         {
             base.LoadModules();
+            
             Container.LoadModule(new OpenRpgModule());
             Container.LoadModule(new GameModule());
             Container.LoadModule(new GameDataModule());

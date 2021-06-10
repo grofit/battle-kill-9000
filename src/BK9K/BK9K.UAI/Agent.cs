@@ -1,4 +1,3 @@
-using BK9K.UAI.Handlers;
 using BK9K.UAI.Handlers.Advisors;
 using BK9K.UAI.Handlers.Considerations;
 using BK9K.UAI.Variables;
@@ -24,6 +23,7 @@ namespace BK9K.UAI
         public void Dispose()
         {
             ConsiderationHandler.Dispose();
+            AdviceHandler.Dispose();
         }
     }
 }
