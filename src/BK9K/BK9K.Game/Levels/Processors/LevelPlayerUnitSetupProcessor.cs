@@ -11,17 +11,17 @@ namespace BK9K.Game.Levels.Processors
         public int Priority => 3;
         
         public GameState GameState { get; }
-        public AgentBuilder AgentBuilder { get; }
+        public AgentFactory AgentFactory { get; }
 
-        public LevelPlayerUnitSetupProcessor(GameState gameState, AgentBuilder agentBuilder)
+        public LevelPlayerUnitSetupProcessor(GameState gameState, AgentFactory agentFactory)
         {
             GameState = gameState;
-            AgentBuilder = agentBuilder;
+            AgentFactory = agentFactory;
         }
 
         public Task Process(Level context)
         {
-            var playerGameUnits = AgentBuilder.GenerateGameUnits(GameState.PlayerUnits);
+            var playerGameUnits = AgentFactory.GenerateGameUnits(GameState.PlayerUnits);
             context.GameUnits.AddRange(playerGameUnits);
             return Task.CompletedTask;
         }

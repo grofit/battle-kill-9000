@@ -5,16 +5,13 @@ using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Extensions
 {
-    public static class AgentBuilderExtensions
+    public static class AgentFactoryExtensions
     {
-        public static IEnumerable<GameUnit> GenerateGameUnits(this AgentBuilder builder, IEnumerable<Unit> units)
+        public static IEnumerable<GameUnit> GenerateGameUnits(this AgentFactory factory, IEnumerable<Unit> units)
         {
             foreach (var unit in units)
             {
-                var agent = builder.Create()
-                    .ForUnit(unit)
-                    .Build();
-            
+                var agent = factory.CreateFor(unit);
                 yield return new GameUnit(unit, agent);
             }
         }

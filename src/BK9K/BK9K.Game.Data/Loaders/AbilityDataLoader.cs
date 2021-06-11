@@ -17,9 +17,10 @@ namespace BK9K.Game.Data.Loaders
 
         private UnitAbility MakeAttack()
         {
-            return new UnitAbility()
+            return new()
             {
                 Id = AbilityLookups.Attack,
+                IsPassive = false,
                 NameLocaleId = "Attack",
                 DescriptionLocaleId = "Uses the default weapon to attack a nearby unit",
                 DamageType = DamageTypes.UnknownDamage,

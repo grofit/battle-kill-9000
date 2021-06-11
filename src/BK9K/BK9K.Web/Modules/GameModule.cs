@@ -25,7 +25,7 @@ namespace BK9K.Web.Modules
             
             container.Bind<GridBuilder>();
             container.Bind<UnitBuilder>();
-            container.Bind<AgentBuilder>();
+            container.Bind<AgentFactory>();
             container.Bind<Level>();
             container.Bind<GameConfiguration>();
             container.Bind<GameState>();
@@ -44,9 +44,6 @@ namespace BK9K.Web.Modules
             container.Bind<IAbilityHandler, AttackAbilityHandler>();
             container.Bind<ISpellHandler, FireboltSpellHandler>();
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();
-            
-            container.Bind<ConsiderationGenerator>();
-            container.Bind<AdviceGenerator>();
         }
     }
 }

@@ -24,15 +24,15 @@ namespace BK9K.Game.Levels.Processors
     {
         public int Priority => 4;
         
-        public AgentBuilder AgentBuilder { get; }
+        public AgentFactory AgentFactory { get; }
         public IItemTemplateRepository ItemTemplateRepository { get; }
         public IRandomizer Randomizer { get; }
         public IUnitIdPool UnitIdPool { get; }
         public UnitBuilder UnitBuilder { get; }
 
-        public LevelEnemyUnitSetupProcessor(AgentBuilder agentBuilder, IItemTemplateRepository itemTemplateRepository, IRandomizer randomizer, IUnitIdPool unitIdPool, UnitBuilder unitBuilder)
+        public LevelEnemyUnitSetupProcessor(AgentFactory agentFactory, IItemTemplateRepository itemTemplateRepository, IRandomizer randomizer, IUnitIdPool unitIdPool, UnitBuilder unitBuilder)
         {
-            AgentBuilder = agentBuilder;
+            AgentFactory = agentFactory;
             ItemTemplateRepository = itemTemplateRepository;
             Randomizer = randomizer;
             UnitIdPool = unitIdPool;
@@ -42,7 +42,7 @@ namespace BK9K.Game.Levels.Processors
         public Task Process(Level context)
         {
             var enemyUnits = SetupEnemies(context.Id);
-            var playerGameUnits = AgentBuilder.GenerateGameUnits(enemyUnits);
+            var playerGameUnits = AgentFactory.GenerateGameUnits(enemyUnits);
             context.GameUnits.AddRange(playerGameUnits);
             return Task.CompletedTask;
         }

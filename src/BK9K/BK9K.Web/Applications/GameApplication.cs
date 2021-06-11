@@ -131,6 +131,7 @@ namespace BK9K.Web.Applications
             
             Container.LoadModule(new OpenRpgModule());
             Container.LoadModule(new GameModule());
+            Container.LoadModule(new GameAIModule());
             Container.LoadModule(new GameDataModule());
         }
     }

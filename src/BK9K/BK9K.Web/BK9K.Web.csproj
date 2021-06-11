@@ -9,13 +9,13 @@
     <PackageReference Include="EcsRx.Infrastructure.DryIoc" Version="3.12.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.5" PrivateAssets="all" />
-    <PackageReference Include="OpenRpg.Combat" Version="0.17.107" />
-    <PackageReference Include="OpenRpg.Core" Version="0.17.107" />
-    <PackageReference Include="OpenRpg.Data" Version="0.17.107" />
-    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.17.75" />
-    <PackageReference Include="OpenRpg.Items" Version="0.17.107" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.17.107" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.17.107" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.17.115" />
+    <PackageReference Include="OpenRpg.Core" Version="0.17.115" />
+    <PackageReference Include="OpenRpg.Data" Version="0.17.115" />
+    <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.18.79" />
+    <PackageReference Include="OpenRpg.Items" Version="0.17.115" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.17.115" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.17.115" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />

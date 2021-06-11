@@ -2,7 +2,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace BK9K.UAI.Handlers.Considerations
+namespace BK9K.UAI.Handlers
 {
     public class DefaultRefreshScheduler : IRefreshScheduler
     {

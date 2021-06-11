@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
-using BK9K.Game.AI;
+using BK9K.Game.AI.Applicators;
 using BK9K.Game.Processors;
+using BK9K.UAI.Advisors.Applicators.Registries;
+using BK9K.UAI.Considerations.Applicators.Registries;
 
 namespace BK9K.Game.Levels.Processors
 {
@@ -8,38 +10,37 @@ namespace BK9K.Game.Levels.Processors
     {
         public int Priority => 6;
         
-        public ConsiderationGenerator ConsiderationGenerator { get; }
-        public AdviceGenerator AdviceGenerator { get; }
-        
+        public IConsiderationApplicatorRegistry ConsiderationApplicatorRegistry { get; }
+        public IAdviceApplicatorRegistry AdviceApplicatorRegistry { get; }
+
+        public LevelAgentSetupProcessor(IConsiderationApplicatorRegistry considerationApplicatorRegistry, IAdviceApplicatorRegistry adviceApplicatorRegistry)
+        {
+            ConsiderationApplicatorRegistry = considerationApplicatorRegistry;
+            AdviceApplicatorRegistry = adviceApplicatorRegistry;
+        }
+
         public Task Process(Level context)
         {
-            ProcessAgentLocalConsiderations(context);
-            ProcessAgentLevelConsiderations(context);
-            ProcessAgentAdvice(context);
+            ApplyConsiderationsForPriority(context, ApplicatorPriorities.Local);
+            ApplyConsiderationsForPriority(context, ApplicatorPriorities.DependenciesOnLocal);
+            ApplyConsiderationsForPriority(context, ApplicatorPriorities.DependenciesOnExternal);
+            ApplyAdvice(context);
             return Task.CompletedTask;
         }
 
-        public void ProcessAgentLocalConsiderations(Level level)
+        public void ApplyConsiderationsForPriority(Level level, int priorityLevel)
         {
             foreach (var gameUnit in level.GameUnits)
             {
-                ConsiderationGenerator.PopulateLocalConsiderations(gameUnit.Agent);
+                ConsiderationApplicatorRegistry.ApplyOnlyPriority(gameUnit.Agent, priorityLevel);
             }
         }
-
-        public void ProcessAgentLevelConsiderations(Level level)
+        
+        public void ApplyAdvice(Level level)
         {
-            foreach (var gameUnits in level.GameUnits)
+            foreach (var gameUnit in level.GameUnits)
             {
-                ConsiderationGenerator.PopulateExternalConsiderations(gameUnits.Agent, level);
-            }
-        }
-
-        public void ProcessAgentAdvice(Level level)
-        {
-            foreach (var gameUnits in level.GameUnits)
-            {
-                AdviceGenerator.PopulateAdvice(gameUnits.Agent, level);
+                AdviceApplicatorRegistry.ApplyAll(gameUnit.Agent);
             }
         }
     }

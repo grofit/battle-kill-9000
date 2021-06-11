@@ -51,7 +51,13 @@ namespace BK9K.Mechanics.Extensions
         public static bool HasHealOtherAbility(this Unit unit)
         { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Range > 0); }
         
-        public static bool HasAoeHealAbilty(this Unit unit)
+        public static bool HasAoeHealAbility(this Unit unit)
         { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Size > 1); }
+        
+        public static bool HasActiveAttackAbility(this Unit unit)
+        { return unit.ActiveAbilities.Any(x => x.DamageType != DamageTypes.LightDamage && !x.IsPassive); }
+        
+        public static bool HasPassiveAbility(this Unit unit)
+        { return unit.ActiveAbilities.Any(x => x.IsPassive); }
     }
 }

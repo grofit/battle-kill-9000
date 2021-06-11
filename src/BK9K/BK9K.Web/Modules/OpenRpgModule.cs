@@ -31,7 +31,7 @@ namespace BK9K.Web.Modules
             container.Bind<IRandomizer>(x =>  x.ToInstance(new DefaultRandomizer(new Random())));
             container.Bind<IAttackGenerator, BasicAttackGenerator>();
             container.Bind<IAttackProcessor, DefaultAttackProcessor>();
-            container.Bind<IRequirementChecker, DefaultRequirementChecker>();
+            container.Bind<ICharacterRequirementChecker, DefaultCharacterRequirementChecker>();
             container.Bind<ILocaleRepository, DefaultLocaleRepository>();
         }
     }
