@@ -25,7 +25,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         public override IConsideration CreateConsideration(IAgent agent, GameUnit otherUnit)
         {
             var partyNeedsHealingUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyLowHealth, otherUnit.Unit.Id);
-            var dependentUtilityId = new UtilityKey(UtilityVariableTypes.ShouldHealSelf);
+            var dependentUtilityId = new UtilityKey(UtilityVariableTypes.HasLowHealth);
             return new ExternalUtilityBasedConsideration(partyNeedsHealingUtilityKey, dependentUtilityId, () => otherUnit.Agent.UtilityVariables);
         }
     }

@@ -19,7 +19,7 @@ namespace BK9K.UAI.Considerations
 
         public float CalculateUtility(IUtilityVariables utilityVariables)
         {
-            var existingUtility = utilityVariables[UtilityId];
+            var existingUtility = utilityVariables[DependentUtilityId];
             if (Evaluator == null) { return existingUtility; }
             return Evaluator.Evaluate(existingUtility);
         }

@@ -105,7 +105,10 @@ namespace BK9K.UAI.Handlers.Considerations
             
             var newUtility = 0.0f;
             if (consideration is ExternalUtilityBasedConsideration externalUtilityBasedConsideration)
-            { newUtility = consideration.CalculateUtility(externalUtilityBasedConsideration.ExternalVariableAccessor()); }
+            {
+                var externalVariables = externalUtilityBasedConsideration.ExternalVariableAccessor();
+                newUtility = consideration.CalculateUtility(externalVariables);
+            }
             else
             { newUtility = consideration.CalculateUtility(UtilityVariables); }
             UtilityVariables[consideration.UtilityId] = newUtility;

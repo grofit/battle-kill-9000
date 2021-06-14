@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.Data.Variables;
@@ -21,10 +22,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
     {
         private static readonly IClamper DamageClamper = new Clamper(0, 30);
         
-        public override IEnumerable<Requirement> Requirements { get; } = new[]
-        {
-            new Requirement { RequirementType = CustomRequirementTypes.CanAttack }
-        };
+        public override IEnumerable<Requirement> Requirements { get; } = Array.Empty<Requirement>();
 
         public IsPowerfulConsiderationApplicator(IRequirementChecker<Unit> requirementChecker) : base(requirementChecker)
         {}

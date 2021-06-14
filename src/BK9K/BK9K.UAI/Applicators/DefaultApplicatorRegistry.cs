@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace BK9K.UAI.Applicators
             var applicatorsForPriority = Applicators.Where(x => x.Priority == specificPriority);
             foreach (var applicator in applicatorsForPriority)
             {
-                if(applicator.CanApplyTo(context))
+                if (applicator.CanApplyTo(context))
                 { applicator.ApplyTo(context); }
             }
         }

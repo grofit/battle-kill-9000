@@ -4,7 +4,7 @@ namespace BK9K.Game.Data.Variables
     {
         public static int Unknown = 0;
 
-        public static int ShouldHealSelf = 1;
+        public static int HasLowHealth = 1;
         public static int IsPowerful = 2;
         public static int IsDefensive = 3;
 

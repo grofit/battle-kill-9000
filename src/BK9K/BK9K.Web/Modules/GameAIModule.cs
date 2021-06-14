@@ -1,5 +1,7 @@
 
 
+using System;
+using System.Linq;
 using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.AI.Applicators.Advisories;
@@ -16,15 +18,17 @@ namespace BK9K.Web.Modules
     {
         public void Setup(IDependencyContainer container)
         {
-            container.Bind<IConsiderationApplicator, NeedsHealingConsiderationApplicator>();
+            container.Bind<IConsiderationApplicator, HasLowHealthConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, IsPowerfulConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, IsInDangerConsideration>();
             container.Bind<IConsiderationApplicator, IsDefensiveConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, EnemyDistanceConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, AllyDistanceConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, IsADangerConsiderationApplicator>();
-            container.Bind<IConsiderationApplicator, PartyNeedsHealingConsiderationApplicator>();
+            container.Bind<IConsiderationApplicator, PartyLowHealthConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, EnemyLowHealthConsiderationApplicator>();
+
+            var applicators = container.ResolveAll<IConsiderationApplicator>();
             container.Bind<IConsiderationApplicatorRegistry, DefaultConsiderationApplicatorRegistry>();
             
             container.Bind<IAdviceApplicator, ShouldAttackAdviceApplicator>();

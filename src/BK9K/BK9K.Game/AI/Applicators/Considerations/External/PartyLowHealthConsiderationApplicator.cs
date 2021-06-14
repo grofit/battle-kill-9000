@@ -12,11 +12,11 @@ using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Considerations.External
 {
-    public class PartyNeedsHealingConsiderationApplicator : LevelExternalConsiderationApplicator
+    public class PartyLowHealthConsiderationApplicator : LevelExternalConsiderationApplicator
     {
         public override IEnumerable<Requirement> Requirements { get; } = Array.Empty<Requirement>();
 
-        public PartyNeedsHealingConsiderationApplicator(IRequirementChecker<Unit> requirementChecker, Level level) : base(requirementChecker, level)
+        public PartyLowHealthConsiderationApplicator(IRequirementChecker<Unit> requirementChecker, Level level) : base(requirementChecker, level)
         {}
 
         public override bool ShouldConsiderUnit(IAgent agent, GameUnit otherUnit)
@@ -25,7 +25,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         public override IConsideration CreateConsideration(IAgent agent, GameUnit otherUnit)
         {
             var partyNeedsHealingUtilityKey = new UtilityKey(UtilityVariableTypes.PartyLowHealth, otherUnit.Unit.Id);
-            var dependentUtilityId = new UtilityKey(UtilityVariableTypes.ShouldHealSelf);
+            var dependentUtilityId = new UtilityKey(UtilityVariableTypes.HasLowHealth);
             return new ExternalUtilityBasedConsideration(partyNeedsHealingUtilityKey, dependentUtilityId, () => otherUnit.Agent.UtilityVariables);
         }
     }
