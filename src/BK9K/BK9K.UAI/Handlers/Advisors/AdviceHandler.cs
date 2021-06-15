@@ -47,7 +47,7 @@ namespace BK9K.UAI.Handlers.Advisors
             {
                 Console.WriteLine($"Checking Advice {utilityKey.UtilityId}:{utilityKey.RelatedId}");
                 var value = utilityKey.RelatedId == 0 ? 
-                    UtilityVariables.GetRelatedUtilities(utilityKey.UtilityId).Max(x => x.Value) : 
+                    UtilityVariables.GetRelatedUtilities(utilityKey.UtilityId).Select(x => x.Value).DefaultIfEmpty(0).Max() : 
                     UtilityVariables[utilityKey];
 
                 utilityValues.Add(value);

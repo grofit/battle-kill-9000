@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemsRx.Attributes;
@@ -43,18 +44,25 @@ namespace BK9K.Game.Systems.Combat
             if (_isRoundActive || Level.IsLevelLoading || Configuration.GameSpeed == 0)
             { return; }
 
-            var task = ProcessRound();
-            task.Wait();
-            if (task.Exception != null)
-            { throw task.Exception; }
+            var task = Task.Run(ProcessRound);
+            if(task.Exception != null)
+            { Console.WriteLine($"EXCEPTION: {task.Exception}");}
         }
 
         public async Task ProcessRound()
         {
             _isRoundActive = true;
-            await PlayRound();
-            EventSystem.Publish(new RoundConcludedEvent());
-            await Task.Delay(RoundTimeDelay);
+            try
+            {
+                await PlayRound();
+                EventSystem.Publish(new RoundConcludedEvent());
+                await Task.Delay(RoundTimeDelay);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"EXCEPTION {e.Message} {Environment.NewLine} {Environment.NewLine} {e.StackTrace}");
+            }
+
             _isRoundActive = false;
         }
 

@@ -28,10 +28,16 @@ namespace BK9K.Game.Handlers
 
         public async Task TakeTurn(Unit unit)
         {
+            if (ShouldStopTurn()) { return; }
             EventSystem.Publish(new UnitStartTurn(unit));
             await MovementPhaseHandler.ExecutePhase(unit);
             await ActionPhaseHandler.ExecutePhase(unit);
             EventSystem.Publish(new UnitEndTurnEvent(unit));
+        }
+
+        public bool ShouldStopTurn()
+        {
+            return (Level.HasLevelFinished || Level.IsLevelLoading) ;
         }
     }
 }
