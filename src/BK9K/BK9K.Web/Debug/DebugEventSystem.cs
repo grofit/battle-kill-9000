@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using SystemsRx.Events;
 using EcsRx.MicroRx.Events;
 
@@ -14,7 +15,16 @@ namespace BK9K.Web.Debug
         public new void Publish<T>(T message)
         {
             Console.WriteLine($"Event Published For {message.GetType().Name}");
-            base.Publish(message);
+
+                try
+                {
+                    base.Publish(message);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
         }
     }
 }

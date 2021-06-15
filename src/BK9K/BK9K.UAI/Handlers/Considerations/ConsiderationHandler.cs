@@ -85,7 +85,7 @@ namespace BK9K.UAI.Handlers.Considerations
             Observable.FromEventPattern<VariableChangedEventHandler<UtilityKey, float>, VariableEventArgs<UtilityKey, float>>(
                     x => UtilityVariables.OnVariableChanged += x,
                     x => UtilityVariables.OnVariableChanged -= x)
-                .SingleAsync(x => x.EventArgs.VariableType.Equals(consideration.DependentUtilityId))
+                .Where(x => x.EventArgs.VariableType.Equals(consideration.DependentUtilityId))
                 .Subscribe(x => RefreshConsideration(consideration))
                 .AddTo(compositeDisposable);
             
@@ -111,7 +111,16 @@ namespace BK9K.UAI.Handlers.Considerations
             }
             else
             { newUtility = consideration.CalculateUtility(UtilityVariables); }
-            UtilityVariables[consideration.UtilityId] = newUtility;
+
+            try
+            {
+                UtilityVariables[consideration.UtilityId] = newUtility;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e.Message} - {consideration.UtilityId.UtilityId}:{consideration.UtilityId.RelatedId} - {UtilityVariables.ContainsKey(consideration.UtilityId).ToString()}");
+            }
         }
 
         private void GeneralRefreshConsiderations()

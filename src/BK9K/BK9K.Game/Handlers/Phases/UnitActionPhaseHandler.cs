@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using SystemsRx.Events;
-using BK9K.Game.Data;
 using BK9K.Game.Data.Repositories;
 using BK9K.Mechanics.Handlers.Phases;
 using BK9K.Mechanics.Units;

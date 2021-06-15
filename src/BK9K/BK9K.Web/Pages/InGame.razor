@@ -105,7 +105,7 @@
         StateHasChanged();
 
         if(args.DidPlayerWin)
-        { LoadLevel(3000).Start(); }
+        { Task.Run(() => LoadLevel(3000)); }
     }
 
     public void ResolveGame(LevelEndedEvent args)

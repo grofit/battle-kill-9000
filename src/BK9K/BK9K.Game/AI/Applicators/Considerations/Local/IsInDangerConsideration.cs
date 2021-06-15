@@ -30,7 +30,9 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
             {
                 return agent.UtilityVariables
                     .GetRelatedUtilities(UtilityVariableTypes.IsADanger)
-                    .Max(x => x.Value);
+                    .Select(x => x.Value)
+                    .DefaultIfEmpty(0)
+                    .Max();
             });
 
             return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsInDanger), dangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);

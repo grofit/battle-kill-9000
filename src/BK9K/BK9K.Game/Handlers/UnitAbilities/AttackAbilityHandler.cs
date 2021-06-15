@@ -6,7 +6,6 @@ using BK9K.Game.Data.Variables;
 using BK9K.Game.Events.Units;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
-using BK9K.Game.Units;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Types.Lookups;
@@ -58,7 +57,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
 
             if (attackAdvice != null)
             {
-                return attackAdvice.GetRelatedContext() as Unit ;
+                return attackAdvice.GetRelatedContext() as Unit;
             }
             
             var possibleUnit = Level.GetAliveUnits().FirstOrDefault(x => x.Unit.FactionType != unit.FactionType);
