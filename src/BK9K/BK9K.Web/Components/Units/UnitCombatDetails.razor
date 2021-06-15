@@ -26,13 +26,22 @@
             <h4 class="subtitle mb-2 has-text-dark has-text-centered">Abilities</h4>
             <div class="columns">
                 <div class="column">
-                    <GameCard Card="@AbilityCard"/>
+                    @if(AbilityCards.Count >= 1)
+                    { <GameCard Card="@AbilityCards[0]"/> }
+                    else
+                    { <EmptyCard /> }
                 </div>
                 <div class="column">
-                    <GameCard Card="@AbilityCard"/>
+                    @if(AbilityCards.Count >= 2)
+                    { <GameCard Card="@AbilityCards[1]"/> }
+                    else
+                    { <EmptyCard /> }
                 </div>
                 <div class="column">
-                    <GameCard Card="@AbilityCard"/>
+                   @if(AbilityCards.Count >= 3)
+                   { <GameCard Card="@AbilityCards[2]"/> }
+                   else
+                   { <EmptyCard /> }
                 </div>
             </div>
         }
@@ -47,13 +56,15 @@
     public EquipmentCard WeaponCard { get; set; }
     public EquipmentCard ArmourCard { get; set; }
     public EffectCard EffectsCard { get; set; }
-    public AbilityCard AbilityCard { get; set; }
+    public List<AbilityCard> AbilityCards { get; } = new();
 
     protected override void OnInitialized()
     {
         WeaponCard = new EquipmentCard(Unit.Equipment.MainHandSlot.SlottedItem);
         ArmourCard = new EquipmentCard(Unit.Equipment.UpperBodySlot.SlottedItem);
-        AbilityCard = new AbilityCard(Unit.ActiveAbilities[0]);
+
+        foreach (var ability in Unit.ActiveAbilities)
+        { AbilityCards.Add(new AbilityCard(ability)); }
 
         var effectsWrapper = new CardEffects
         {
