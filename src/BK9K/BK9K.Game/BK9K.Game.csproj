@@ -5,19 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Combat" Version="0.17.117" />
-    <PackageReference Include="OpenRpg.Core" Version="0.17.117" />
-    <PackageReference Include="OpenRpg.Data" Version="0.17.117" />
+    <PackageReference Include="OpenRpg.AdviceEngine" Version="0.17.3" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.17.119" />
+    <PackageReference Include="OpenRpg.Core" Version="0.17.119" />
+    <PackageReference Include="OpenRpg.Data" Version="0.17.119" />
     <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.18.79" />
-    <PackageReference Include="OpenRpg.Items" Version="0.17.117" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.17.117" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.17.117" />
+    <PackageReference Include="OpenRpg.Items" Version="0.17.119" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.17.119" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.17.119" />
     <PackageReference Include="SystemsRx.Infrastructure" Version="4.1.97" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BK9K.Game.Data\BK9K.Game.Data.csproj" />
-    <ProjectReference Include="..\BK9K.UAI\BK9K.UAI.csproj" />
   </ItemGroup>
 
 </Project>

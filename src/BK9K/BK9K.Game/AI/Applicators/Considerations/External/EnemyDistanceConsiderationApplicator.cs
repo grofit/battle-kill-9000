@@ -5,15 +5,14 @@ using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Units;
-using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Accessors;
-using BK9K.UAI.Clampers;
-using BK9K.UAI.Considerations;
-using BK9K.UAI.Evaluators;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
+using OpenRpg.AdviceEngine.Clampers;
+using OpenRpg.AdviceEngine.Considerations;
+using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
+using OpenRpg.CurveFunctions;
 
 namespace BK9K.Game.AI.Applicators.Considerations.External
 {
@@ -33,7 +32,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         {
             var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, otherUnit.Unit.Id);
             var distanceAccessor = new ManualValueAccessor(() => Vector2.Distance(otherUnit.Unit.Position, agent.GetRelatedUnit().Position));
-            return new ValueBasedConsideration(distanceUtilityKey, distanceAccessor, DistanceClamper, PresetEvaluators.QuadraticLowerLeft);
+            return new ValueBasedConsideration(distanceUtilityKey, distanceAccessor, DistanceClamper, PresetCurves.QuadraticLowerLeft);
         }
     }
 }

@@ -1,5 +1,5 @@
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
+using OpenRpg.AdviceEngine;
 
 namespace BK9K.Game.Units
 {

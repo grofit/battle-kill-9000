@@ -5,10 +5,10 @@ using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Advisors;
-using BK9K.UAI.Advisors.Applicators;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Advisors;
+using OpenRpg.AdviceEngine.Advisors.Applicators;
+using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Advisories

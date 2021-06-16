@@ -5,9 +5,9 @@ using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Game.Units;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Considerations;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Considerations;
+using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Considerations.External

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Mechanics", "BK9K.Mech
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Game.Data", "BK9K.Game.Data\BK9K.Game.Data.csproj", "{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BK9K.UAI", "BK9K.UAI\BK9K.UAI.csproj", "{4A392014-71B9-42D9-AF04-A94176761661}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{0F9C6853-4BC2-4C85-986D-2D9C43A93612}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A392014-71B9-42D9-AF04-A94176761661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A392014-71B9-42D9-AF04-A94176761661}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A392014-71B9-42D9-AF04-A94176761661}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A392014-71B9-42D9-AF04-A94176761661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

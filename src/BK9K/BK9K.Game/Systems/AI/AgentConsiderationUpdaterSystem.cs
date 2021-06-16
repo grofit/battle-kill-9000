@@ -3,7 +3,7 @@ using SystemsRx.Systems.Conventional;
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Events.Units;
 using BK9K.Game.Levels;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine.Keys;
 
 namespace BK9K.Game.Systems.AI
 {

@@ -1,9 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using BK9K.Game.AI.Applicators;
 using BK9K.Game.Processors;
-using BK9K.UAI.Advisors.Applicators.Registries;
-using BK9K.UAI.Considerations.Applicators.Registries;
+using OpenRpg.AdviceEngine.Advisors.Applicators.Registries;
+using OpenRpg.AdviceEngine.Considerations.Applicators.Registries;
 
 namespace BK9K.Game.Levels.Processors
 {

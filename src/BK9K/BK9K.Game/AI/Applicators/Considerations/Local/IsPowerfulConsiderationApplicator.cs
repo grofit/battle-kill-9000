@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
-using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Accessors;
-using BK9K.UAI.Applicators;
-using BK9K.UAI.Clampers;
-using BK9K.UAI.Considerations;
-using BK9K.UAI.Considerations.Applicators;
-using BK9K.UAI.Evaluators;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
+using OpenRpg.AdviceEngine.Clampers;
+using OpenRpg.AdviceEngine.Considerations;
+using OpenRpg.AdviceEngine.Considerations.Applicators;
+using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
+using OpenRpg.CurveFunctions;
 using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.AI.Applicators.Considerations.Local
@@ -30,7 +28,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
         public override IConsideration CreateConsideration(IAgent agent)
         {
             var attackOutputAccessor = new ManualValueAccessor(() => agent.GetRelatedUnit().Stats.GetDamageReferences().Sum(x => x.StatValue));
-            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsPowerful), attackOutputAccessor, DamageClamper, PresetEvaluators.Linear);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsPowerful), attackOutputAccessor, DamageClamper, PresetCurves.Linear);
         }
     }
 }

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.Data.Variables;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Accessors;
-using BK9K.UAI.Applicators;
-using BK9K.UAI.Clampers;
-using BK9K.UAI.Considerations;
-using BK9K.UAI.Considerations.Applicators;
-using BK9K.UAI.Evaluators;
-using BK9K.UAI.Keys;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
+using OpenRpg.AdviceEngine.Clampers;
+using OpenRpg.AdviceEngine.Considerations;
+using OpenRpg.AdviceEngine.Considerations.Applicators;
+using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
+using OpenRpg.CurveFunctions;
 
 namespace BK9K.Game.AI.Applicators.Considerations.Local
 {
@@ -35,7 +34,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
                     .Max();
             });
 
-            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsInDanger), dangerAccessor, PresetClampers.Passthrough, PresetEvaluators.PassThrough);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsInDanger), dangerAccessor, PresetClampers.Passthrough, PresetCurves.PassThrough);
         }
     }
 }

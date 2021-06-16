@@ -3,7 +3,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using SystemsRx.Events;
 using BK9K.Game.Events.Units;
-using BK9K.UAI.Handlers;
+using OpenRpg.AdviceEngine.Handlers;
 
 namespace BK9K.Game.Scheduler
 {

@@ -7,10 +7,10 @@ using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.AI.Applicators.Advisories;
 using BK9K.Game.AI.Applicators.Considerations.External;
 using BK9K.Game.AI.Applicators.Considerations.Local;
-using BK9K.UAI.Advisors.Applicators;
-using BK9K.UAI.Advisors.Applicators.Registries;
-using BK9K.UAI.Considerations.Applicators;
-using BK9K.UAI.Considerations.Applicators.Registries;
+using OpenRpg.AdviceEngine.Advisors.Applicators;
+using OpenRpg.AdviceEngine.Advisors.Applicators.Registries;
+using OpenRpg.AdviceEngine.Considerations.Applicators;
+using OpenRpg.AdviceEngine.Considerations.Applicators.Registries;
 
 namespace BK9K.Web.Modules
 {

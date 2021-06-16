@@ -2,9 +2,9 @@ using System;
 using SystemsRx.Events;
 using BK9K.Game.Scheduler;
 using BK9K.Mechanics.Units;
-using BK9K.UAI;
-using BK9K.UAI.Handlers.Advisors;
-using BK9K.UAI.Handlers.Considerations;
+using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Handlers.Advisors;
+using OpenRpg.AdviceEngine.Handlers.Considerations;
 
 namespace BK9K.Game.AI
 {
