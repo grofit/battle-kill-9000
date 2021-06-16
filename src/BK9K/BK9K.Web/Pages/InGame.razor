@@ -6,6 +6,7 @@
 @using BK9K.Game.Events.Cards
 @using BK9K.Game.Events.Level
 @using SystemsRx.Extensions
+@using BK9K.Game.Events.Units
 @using BK9K.Game.Levels
 @using BK9K.Game.Units
 @using BK9K.Mechanics.Units
@@ -35,22 +36,21 @@
                     <LevelFinishedView DidPlayerWin="_didPlayerWin" LevelId="_currentLevel" />
                 }
             </div>
-            <div class="player-cards">
-                <div class="columns">
-                    @foreach (var card in GameState.PlayerCards)
-                    {
-                        <div class="column">
-                            <GameCard Card="card" Draggable="true"></GameCard>
-                        </div>
-                    }
-                </div>
-                
-            </div>
         </div>
         <div class="column is-four">
             @if (!_didPlayerWin.HasValue && SelectedUnit != null)
             {
                 <UnitsSection Unit="SelectedUnit" />
+            }
+        </div>
+    </div>
+    <div class="player-cards">
+        <div class="columns">
+            @foreach (var card in GameState.PlayerCards)
+            {
+                <div class="column">
+                    <GameCard Card="card" Draggable="true"></GameCard>
+                </div>
             }
         </div>
     </div>
@@ -72,6 +72,7 @@
         GameApp.EventSystem.Receive<LevelLoadedEvent>().Subscribe(OnLevelLoaded).AddTo(_subs);
         GameApp.EventSystem.Receive<RoundConcludedEvent>().Subscribe(OnRoundConcluded).AddTo(_subs);
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
+        GameApp.EventSystem.Receive<UnitMovingEvent>().Subscribe(x => StateHasChanged()).AddTo(_subs);
         GameApp.EventSystem.Receive<PlayerCardsChangedEvent>().Subscribe(OnPlayerCardsChanged).AddTo(_subs);
         await LoadLevel(GameState.LevelId);
     }

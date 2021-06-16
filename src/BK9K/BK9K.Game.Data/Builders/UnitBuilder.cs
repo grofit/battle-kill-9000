@@ -32,6 +32,7 @@ namespace BK9K.Game.Data.Builders
         private int _weaponId = ItemTemplateLookups.Unknown;
         private int _armourId = ItemTemplateLookups.Unknown;
         private int _abilityId = AbilityLookups.Attack;
+        private int _movementRange = 2;
 
         private Vector2 _position = Vector2.Zero;
 
@@ -116,6 +117,12 @@ namespace BK9K.Game.Data.Builders
             _abilityId = abilityId;
             return this;
         }
+        
+        public UnitBuilder WithMovementRange(int movementRange)
+        {
+            _movementRange = movementRange;
+            return this;
+        }
 
         public Unit Build()
         {
@@ -133,6 +140,7 @@ namespace BK9K.Game.Data.Builders
             unit.ActiveAbilities.Add(ability);
             unit.Class = new DefaultClass(_level, classTemplate);
             unit.Equipment = new DefaultEquipment();
+            unit.MovementRange = _movementRange;
 
             var weapon = GetWeapon();
             if(weapon != null)

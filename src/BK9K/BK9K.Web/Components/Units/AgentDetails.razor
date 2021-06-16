@@ -9,6 +9,7 @@
 @using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Types
 @using BK9K.Mechanics.Units
+@using OpenRpg.AdviceEngine.Extensions
 @using OpenRpg.AdviceEngine.Keys
 
 @inject ILocaleRepository LocaleRepository;
@@ -29,7 +30,7 @@
                 <h5 class="title is-5">Agent Advice</h5>
                 <div class="field is-grouped is-grouped-multiline">
                     @{var index = 0;}
-                    @foreach (var advice in GameUnit.Agent.AdviceHandler.GetAdvice().OrderByDescending(x => x.UtilityValue))
+                    @foreach (var advice in GameUnit.Agent.GetAdvice())
                     {
                         var relatedUnit = advice.GetRelatedContext() as Unit;
                         <AdviceValue Text="@GetAdviceText(advice.AdviceId)" 

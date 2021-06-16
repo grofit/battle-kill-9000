@@ -9,6 +9,7 @@ using BK9K.Game.Handlers.SpellAbilities;
 using BK9K.Game.Handlers.UnitAbilities;
 using BK9K.Game.Levels;
 using BK9K.Game.Levels.Processors;
+using BK9K.Game.Movement;
 using BK9K.Game.Pools;
 using BK9K.Game.Processors;
 using BK9K.Mechanics.Grids;
@@ -29,6 +30,8 @@ namespace BK9K.Web.Modules
             container.Bind<Level>();
             container.Bind<GameConfiguration>();
             container.Bind<GameState>();
+            
+            container.Bind<MovementAdvisor>();
 
             container.Bind<IProcessor<Level>, CleanLevelProcessor>();
             container.Bind<IProcessor<Level>, LevelGridProcessor>();

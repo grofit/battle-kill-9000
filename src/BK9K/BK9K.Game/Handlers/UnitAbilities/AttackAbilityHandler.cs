@@ -52,13 +52,10 @@ namespace BK9K.Game.Handlers.UnitAbilities
         public Unit FindTarget(Unit unit)
         {
             var gameUnit = Level.GameUnits.Single(x => x.Unit == unit);
-            var advice = gameUnit.Agent.AdviceHandler.GetAdvice();
-            var attackAdvice = advice.FirstOrDefault(x => x.AdviceId == AdviceVariableTypes.GoAttack);
+            var attackAdvice = gameUnit.Agent.AdviceHandler.GetAdvice(AdviceVariableTypes.GoAttack);
 
             if (attackAdvice != null)
-            {
-                return attackAdvice.GetRelatedContext() as Unit;
-            }
+            { return attackAdvice.GetRelatedContext() as Unit; }
             
             var possibleUnit = Level.GetAliveUnits().FirstOrDefault(x => x.Unit.FactionType != unit.FactionType);
             return possibleUnit?.Unit;

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.AdviceEngine" Version="0.17.3" />
+    <PackageReference Include="OpenRpg.AdviceEngine" Version="0.17.7" />
     <PackageReference Include="OpenRpg.Combat" Version="0.17.119" />
     <PackageReference Include="OpenRpg.Core" Version="0.17.119" />
     <PackageReference Include="OpenRpg.Data" Version="0.17.119" />
