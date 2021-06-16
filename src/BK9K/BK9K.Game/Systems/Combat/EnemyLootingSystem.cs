@@ -6,11 +6,10 @@ using BK9K.Game.Events.Units;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.Cards.Genres;
-using OpenRpg.Genres.Fantasy.Extensions;
 
 namespace BK9K.Game.Systems.Combat
 {
-    public class EnemyLootingSystem : IReactToEventSystem<UnitAttackedEvent>
+    public class EnemyLootingSystem : IReactToEventSystem<UnitHasDiedEvent>
     {
         public GameState GameState { get; }
         public IEventSystem EventSystem { get; }
@@ -21,22 +20,25 @@ namespace BK9K.Game.Systems.Combat
             EventSystem = eventSystem;
         }
         
-        public void Process(UnitAttackedEvent eventData)
+        public void Process(UnitHasDiedEvent eventData)
         {
             var possibleEnemy = eventData.Target;
-            var isADeadEnemy = possibleEnemy.FactionType == FactionTypes.Enemy && possibleEnemy.Stats.Health() <= 0;
+            var isADeadEnemy = possibleEnemy.FactionType == FactionTypes.Enemy;
             if (!isADeadEnemy) { return; }
 
             var enemyUnit = possibleEnemy as EnemyUnit;
             var enemyLoot = enemyUnit.LootTable.GetLoot();
 
+            var hasLoot = false;
             foreach (var item in enemyLoot)
             {
+                hasLoot = true;
                 var itemCard = new ItemCard(item);
                 GameState.PlayerCards.Add(itemCard);
             }
 
-            EventSystem.Publish(new PlayerCardsChangedEvent());
+            if(hasLoot)
+            { EventSystem.Publish(new PlayerCardsChangedEvent()); }
         }
     }
 }

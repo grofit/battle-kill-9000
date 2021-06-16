@@ -1,26 +1,31 @@
 ﻿using System.Collections.Generic;
+using BK9K.Mechanics.Abilities;
 using BK9K.Mechanics.Types.Lookups;
-using OpenRpg.Combat.Abilities;
+using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.Data.Loaders
 {
-    public class AbilityDataLoader : IDataLoader<Ability>
+    public class AbilityDataLoader : IDataLoader<UnitAbility>
     {
-        public IEnumerable<Ability> LoadData()
+        public IEnumerable<UnitAbility> LoadData()
         {
-            return new List<Ability>
+            return new List<UnitAbility>
             {
                 MakeAttack()
             };
         }
 
-        private Ability MakeAttack()
+        private UnitAbility MakeAttack()
         {
-            return new Ability
+            return new()
             {
                 Id = AbilityLookups.Attack,
+                IsPassive = false,
                 NameLocaleId = "Attack",
-                DescriptionLocaleId = "Uses the default weapon to attack a nearby unit"
+                DescriptionLocaleId = "Uses the default weapon to attack a nearby unit",
+                DamageType = DamageTypes.UnknownDamage,
+                Range = 1,
+                Size = 1
             };
         }
     }

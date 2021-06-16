@@ -6,7 +6,8 @@
 @using BK9K.Game.Events.Cards
 @using BK9K.Game.Events.Level
 @using SystemsRx.Extensions
-@using BK9K.Mechanics.Levels
+@using BK9K.Game.Levels
+@using BK9K.Game.Units
 @using BK9K.Mechanics.Units
 
 @implements IDisposable
@@ -22,16 +23,16 @@
 
         <div class="column">
             <div>
-                @if (!DidPlayerWin.HasValue)
+                @if (!_didPlayerWin.HasValue)
                 {
-                    <LevelView Level="Level" OnUnitSelected="(Unit unit) => SelectedUnit = unit"/>
+                    <LevelView Level="Level" OnUnitSelected="gameUnit => SelectedUnit = gameUnit"/>
                     <div>
                         <GameSpeed Configuration="@GameApp.GameConfiguration"/>
                     </div>
                 }
                 else
                 {
-                    <LevelFinishedView DidPlayerWin="DidPlayerWin" LevelId="CurrentLevel" />
+                    <LevelFinishedView DidPlayerWin="_didPlayerWin" LevelId="_currentLevel" />
                 }
             </div>
             <div class="player-cards">
@@ -47,9 +48,9 @@
             </div>
         </div>
         <div class="column is-four">
-            @if (!DidPlayerWin.HasValue && SelectedUnit != null)
+            @if (!_didPlayerWin.HasValue && SelectedUnit != null)
             {
-                <UnitDetails Unit="SelectedUnit"></UnitDetails>
+                <UnitsSection Unit="SelectedUnit" />
             }
         </div>
     </div>
@@ -59,13 +60,12 @@
 
 @code
 {
-    private bool? DidPlayerWin = null;
-    private int CurrentLevel = 1;
+    private bool? _didPlayerWin = null;
+    private int _currentLevel = 1;
     private List<IDisposable> _subs = new();
 
     public Level Level => GameApp.Level;
-    public bool isLoaded = false;
-    public Unit SelectedUnit = null;
+    public GameUnit SelectedUnit = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,11 +80,11 @@
     {
         await Task.Delay(loadDelay);
         GameApp.EventSystem.Publish(new RequestLevelLoadEvent(GameState.LevelId));
-        DidPlayerWin = null;
     }
 
     public void OnLevelLoaded(LevelLoadedEvent args)
     {
+        _didPlayerWin = null;
         StateHasChanged();
     }
 
@@ -100,16 +100,16 @@
 
     public void OnLevelEnded(LevelEndedEvent args)
     {
-        DidPlayerWin = args.DidPlayerWin;
-        CurrentLevel = args.CurrentLevelId;
+        _didPlayerWin = args.DidPlayerWin;
+        _currentLevel = args.CurrentLevelId;
         StateHasChanged();
 
         if(args.DidPlayerWin)
-        { LoadLevel(3000).Start(); }
+        { Task.Run(() => LoadLevel(3000)); }
     }
 
     public void ResolveGame(LevelEndedEvent args)
-    { DidPlayerWin = args.DidPlayerWin; }
+    { _didPlayerWin = args.DidPlayerWin; }
 
     public void Dispose()
     { _subs.DisposeAll(); }

@@ -2,11 +2,11 @@
 
 namespace BK9K.Game.Events.Units
 {
-    public class UnitEndTurn
+    public class UnitEndTurnEvent
     {
         public Unit Unit { get; }
 
-        public UnitEndTurn(Unit unit)
+        public UnitEndTurnEvent(Unit unit)
         {
             Unit = unit;
         }

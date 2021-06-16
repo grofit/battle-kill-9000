@@ -5,8 +5,8 @@ using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Level;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using OpenRpg.Genres.Fantasy.Extensions;
 
@@ -28,7 +28,7 @@ namespace BK9K.Game.Systems.Levels
 
         public void Execute(ElapsedTime elapsed)
         {
-            if (Level.Units.Count == 0 || Level.HasLevelFinished)
+            if (Level.GameUnits.Count == 0 || Level.HasLevelFinished || Level.IsLevelLoading)
             { return; }
 
             if (HasPlayerWon())
@@ -53,9 +53,9 @@ namespace BK9K.Game.Systems.Levels
         }
         
         public bool HasPlayerWon()
-        { return !Level.Units?.Any(x => x.FactionType == FactionTypes.Enemy && !x.IsDead()) ?? false; }
+        { return !Level.GameUnits?.Any(x => x.Unit.FactionType == FactionTypes.Enemy && !x.Unit.IsDead()) ?? false; }
 
         public bool HasPlayerLost()
-        { return !Level.Units?.Any(x => x.FactionType == FactionTypes.Player && !x.IsDead()) ?? false; }
+        { return !Level.GameUnits?.Any(x => x.Unit.FactionType == FactionTypes.Player && !x.Unit.IsDead()) ?? false; }
     }
 }

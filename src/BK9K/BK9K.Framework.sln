@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Mechanics", "BK9K.Mech
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BK9K.Game.Data", "BK9K.Game.Data\BK9K.Game.Data.csproj", "{DB9B4D45-0266-4B2D-86DD-3611EFFD0B21}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{0F9C6853-4BC2-4C85-986D-2D9C43A93612}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {657D121A-EBA5-42C7-A498-F2E68ABBBAD3}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F45CEEE1-EE1B-4A37-BCDD-32248AEBD84C} = {0F9C6853-4BC2-4C85-986D-2D9C43A93612}
 	EndGlobalSection
 EndGlobal

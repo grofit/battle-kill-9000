@@ -2,9 +2,9 @@
 using SystemsRx.Events;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Units;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Handlers.Phases;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Handlers
@@ -28,10 +28,16 @@ namespace BK9K.Game.Handlers
 
         public async Task TakeTurn(Unit unit)
         {
+            if (ShouldStopTurn()) { return; }
             EventSystem.Publish(new UnitStartTurn(unit));
             await MovementPhaseHandler.ExecutePhase(unit);
             await ActionPhaseHandler.ExecutePhase(unit);
-            EventSystem.Publish(new UnitEndTurn(unit));
+            EventSystem.Publish(new UnitEndTurnEvent(unit));
+        }
+
+        public bool ShouldStopTurn()
+        {
+            return (Level.HasLevelFinished || Level.IsLevelLoading) ;
         }
     }
 }

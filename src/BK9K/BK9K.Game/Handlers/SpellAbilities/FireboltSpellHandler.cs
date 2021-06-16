@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using BK9K.Game.Extensions;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Spells;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
@@ -36,8 +37,8 @@ namespace BK9K.Game.Handlers.SpellAbilities
 
             var stats = StatsComputer.ComputeStats(spell.Effects.ToArray());
             var attack = AttackGenerator.GenerateAttack(stats);
-            var processedAttack = AttackProcessor.ProcessAttack(attack, unit.Stats);
-            unit.ApplyDamageToTarget(processedAttack);
+            var processedAttack = AttackProcessor.ProcessAttack(attack, unit.Unit.Stats);
+            unit.Unit.ApplyDamageToTarget(processedAttack);
             return true;
         }
     }

@@ -1,11 +1,11 @@
-﻿using SystemsRx.Infrastructure.Dependencies;
+﻿using SystemsRx.Infrastructure;
+using SystemsRx.Infrastructure.Dependencies;
 using DryIoc;
-using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.DryIoc;
 
 namespace BK9K.Web.Applications
 {
-    public abstract class BlazorEcsRxApplication : EcsRxApplication
+    public abstract class BlazorEcsRxApplication : SystemsRxApplication
     {
         private DryIocDependencyContainer _dependencyContainer;
 

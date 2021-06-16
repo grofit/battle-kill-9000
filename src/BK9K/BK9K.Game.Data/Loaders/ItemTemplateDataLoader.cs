@@ -38,7 +38,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.SlashingDamageAmount, Potency = 2.0f }
+                    new Effect { EffectType = EffectTypes.SlashingDamageAmount, Potency = 4.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -57,7 +57,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 2.0f }
+                    new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 3.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -76,7 +76,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.FireBonusAmount, Potency = 2.0f }
+                    new Effect { EffectType = EffectTypes.FireBonusAmount, Potency = 4.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -154,7 +154,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 5.0f },
+                    new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 8.0f },
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 5.0f }
                 }
             };

@@ -8,14 +8,14 @@
 @using BK9K.Mechanics.Types.Lookups
 @using BK9K.Mechanics.Units
 @using BK9K.Web.Types
-@using global::OpenRpg.Genres.Fantasy.Extensions
+@using OpenRpg.Genres.Fantasy.Extensions
 
 @inject IEventSystem EventSystem
 @implements IDisposable
 
-<div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isTargetUnit ? "is-target" : "")" @onclick="() => OnUnitClick.InvokeAsync(Unit)" 
-     ondragenter="OnCardDragEnter(event)" ondragleave="OnCardDragLeave(event)" ondragover="OnDragOver(event)" ondrop="OnCardDrop(event)" 
-     view-type="@ViewTypes.Unit" view-id="@Unit.Variables.UniqueId()">
+<div class="unit-avatar @(_isActiveUnit ? "is-active": "") @(_isUnitAttacked ? "is-attacked" : "") @(_isUnitHealed ? "is-healed" : "")" 
+     @onclick="() => OnUnitClick.InvokeAsync(Unit)" view-type="@ViewTypes.Unit" view-id="@Unit.Variables.UniqueId()"
+     ondragenter="OnCardDragEnter(event)" ondragleave="OnCardDragLeave(event)" ondragover="OnDragOver(event)" ondrop="OnCardDrop(event)">
     @{ var className = GetClassName(Unit.Class.ClassTemplate.Id); }
     <span class="tag is-info @GetFactionClass(Unit.FactionType)">@Unit.NameLocaleId</span>
     <img class="@(_isBuffed ? "has-buffs" : "") @(_isDebuffed ? "has-debuff" : "")" src="./assets/sprites/@(className).png" alt="@className">
@@ -37,7 +37,7 @@
     [Parameter]
     public Unit Unit { get; set; }
 
-    private bool _isActiveUnit, _isTargetUnit, _isBuffed, _isDebuffed;
+    private bool _isActiveUnit, _isUnitAttacked, _isUnitHealed, _isBuffed, _isDebuffed;
 
     private List<IDisposable> _sub = new();
 
@@ -61,16 +61,18 @@
         base.OnInitialized();
 
         EventSystem.Receive<UnitStartTurn>().Where(x => x.Unit == Unit).Subscribe(OnUnitTurnStarted).AddTo(_sub);
-        EventSystem.Receive<UnitEndTurn>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
-        EventSystem.Receive<UnitAttackedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitTargetted).AddTo(_sub);
+        EventSystem.Receive<UnitEndTurnEvent>().Subscribe(OnUnitTurnEnded).AddTo(_sub);
+        EventSystem.Receive<UnitAttackedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitAttacked).AddTo(_sub);
+        EventSystem.Receive<UnitHealedEvent>().Where(x => x.Target == Unit).Subscribe(OnUnitHealed).AddTo(_sub);
         EventSystem.Receive<EffectAddedEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectAdded).AddTo(_sub);
         EventSystem.Receive<EffectExpiredEvent>().Where(x => x.Unit == Unit).Subscribe(OnUnitActiveEffectRemoved).AddTo(_sub);
     }
 
-    public void OnUnitTurnEnded(UnitEndTurn args)
+    public void OnUnitTurnEnded(UnitEndTurnEvent args)
     {
         _isActiveUnit = false;
-        _isTargetUnit = false;
+        _isUnitAttacked = false;
+        _isUnitHealed = false;
         StateHasChanged();
     }
 
@@ -80,9 +82,15 @@
         StateHasChanged();
     }
 
-    public void OnUnitTargetted(UnitAttackedEvent args)
+    public void OnUnitAttacked(UnitAttackedEvent args)
     {
-        _isTargetUnit = true;
+        _isUnitAttacked = true;
+        StateHasChanged();
+    }
+
+    public void OnUnitHealed(UnitHealedEvent args)
+    {
+        _isUnitHealed = true;
         StateHasChanged();
     }
 

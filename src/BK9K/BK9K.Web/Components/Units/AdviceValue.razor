@@ -1,0 +1,14 @@
+<div class="control">
+    <div class="tags has-addons @(IsBestAdvice ? "" : "is-not-best-advice")">
+        <span class="tag is-dark">@Text</span>
+        <span class="tag is-info">@ContextText</span>
+        <span class="tag is-white">@Value</span>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool IsBestAdvice { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string ContextText { get; set; }
+    [Parameter] public float Value { get; set; }
+}

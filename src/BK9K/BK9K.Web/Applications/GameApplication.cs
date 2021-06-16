@@ -2,15 +2,17 @@
 using SystemsRx.Infrastructure.Extensions;
 using SystemsRx.Systems;
 using BK9K.Game.Configuration;
-using BK9K.Game.Data;
 using BK9K.Game.Data.Builders;
 using BK9K.Game.Data.Repositories;
+using BK9K.Game.Levels;
+using BK9K.Game.Pools;
+using BK9K.Game.Systems.AI;
 using BK9K.Game.Systems.Cards;
 using BK9K.Game.Systems.Combat;
 using BK9K.Game.Systems.Effects;
+using BK9K.Game.Systems.EventTranslation;
 using BK9K.Game.Systems.Levels;
 using BK9K.Mechanics.Cards;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
@@ -29,6 +31,7 @@ namespace BK9K.Web.Applications
         public GameConfiguration GameConfiguration { get; set; }
         public GameState GameState { get; set; }
         public UnitBuilder UnitBuilder { get; set; }
+        public IUnitIdPool UnitIdPool { get; set; }
         public IItemTemplateRepository ItemTemplateRepository { get; set; }
         public ICardEffectsRepository CardEffectsRepository { get; set; }
         public ISpellRepository SpellRepository { get; set; }
@@ -47,6 +50,7 @@ namespace BK9K.Web.Applications
         private IEnumerable<Unit> SetupPlayerTeam()
         {
             yield return UnitBuilder.Create()
+                .WithId(UnitIdPool.AllocateInstance())
                 .WithName("Gooch")
                 .WithFaction(FactionTypes.Player)
                 .WithClass(ClassLookups.Fighter)
@@ -55,6 +59,7 @@ namespace BK9K.Web.Applications
                 .Build();
 
             yield return UnitBuilder.Create()
+                .WithId(UnitIdPool.AllocateInstance())
                 .WithName("Kate")
                 .WithFaction(FactionTypes.Player)
                 .WithClass(ClassLookups.Fighter)
@@ -63,6 +68,7 @@ namespace BK9K.Web.Applications
                 .Build();
 
             yield return UnitBuilder.Create()
+                .WithId(UnitIdPool.AllocateInstance())
                 .WithName("Le Grandé Tudge")
                 .WithFaction(FactionTypes.Player)
                 .WithClass(ClassLookups.Rogue)
@@ -94,14 +100,16 @@ namespace BK9K.Web.Applications
         protected override void BindSystems()
         {
             base.BindSystems();
-            this.Container.Bind<ISystem, LevelSetupSystem>();
-            this.Container.Bind<ISystem, RoundExecutionSystem>();
-            this.Container.Bind<ISystem, LevelEndCheckSystem>();
-            this.Container.Bind<ISystem, ApplyCardToUnitSystem>();
-            this.Container.Bind<ISystem, EnemyLootingSystem>();
-            this.Container.Bind<ISystem, ApplyCardToTileSystem>();
-            this.Container.Bind<ISystem, EffectTimingSystem>();
-            this.Container.Bind<ISystem, ActionTickedEffectSystem>();
+            Container.Bind<ISystem, LevelLoadingSystem>();
+            Container.Bind<ISystem, UnitDeathTranslationSystem>();
+            Container.Bind<ISystem, RoundExecutionSystem>();
+            Container.Bind<ISystem, LevelEndCheckSystem>();
+            Container.Bind<ISystem, ApplyCardToUnitSystem>();
+            Container.Bind<ISystem, EnemyLootingSystem>();
+            Container.Bind<ISystem, ApplyCardToTileSystem>();
+            Container.Bind<ISystem, EffectTimingSystem>();
+            Container.Bind<ISystem, ActionTickedEffectSystem>();
+            Container.Bind<ISystem, AgentConsiderationUpdateSystem>();
         }
         
         protected override void ResolveApplicationDependencies()
@@ -114,13 +122,16 @@ namespace BK9K.Web.Applications
             ItemTemplateRepository = Container.Resolve<IItemTemplateRepository>();
             CardEffectsRepository = Container.Resolve<ICardEffectsRepository>();
             SpellRepository = Container.Resolve<ISpellRepository>();
+            UnitIdPool = Container.Resolve<IUnitIdPool>();
         }
 
         protected override void LoadModules()
         {
             base.LoadModules();
+            
             Container.LoadModule(new OpenRpgModule());
             Container.LoadModule(new GameModule());
+            Container.LoadModule(new GameAIModule());
             Container.LoadModule(new GameDataModule());
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemsRx.Attributes;
@@ -7,10 +8,9 @@ using SystemsRx.Scheduling;
 using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events;
-using BK9K.Game.Handlers;
+using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Levels;
 using BK9K.Mechanics.Units;
 using OpenRpg.Genres.Fantasy.Extensions;
 
@@ -37,25 +37,32 @@ namespace BK9K.Game.Systems.Combat
             UnitTurnHandler = unitTurnHandler;
         }
 
-        public IEnumerable<Unit> UnitsInTurnOrder => Level.Units.OrderBy(x => x.Stats.Initiative());
+        public IEnumerable<Unit> UnitsInTurnOrder => Level.GameUnits.OrderBy(x => x.Unit.Stats.Initiative()).Select(x => x.Unit);
 
         public void Execute(ElapsedTime elapsed)
         {
-            if (_isRoundActive || Configuration.GameSpeed == 0) 
+            if (_isRoundActive || Level.IsLevelLoading || Configuration.GameSpeed == 0)
             { return; }
 
-            var task = ProcessRound();
-            task.Wait();
-            if (task.Exception != null)
-            { throw task.Exception; }
+            var task = Task.Run(ProcessRound);
+            if(task.Exception != null)
+            { Console.WriteLine($"EXCEPTION: {task.Exception}");}
         }
 
         public async Task ProcessRound()
         {
             _isRoundActive = true;
-            await PlayRound();
-            EventSystem.Publish(new RoundConcludedEvent());
-            await Task.Delay(RoundTimeDelay);
+            try
+            {
+                await PlayRound();
+                EventSystem.Publish(new RoundConcludedEvent());
+                await Task.Delay(RoundTimeDelay);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"EXCEPTION {e.Message} {Environment.NewLine} {Environment.NewLine} {e.StackTrace}");
+            }
+
             _isRoundActive = false;
         }
 

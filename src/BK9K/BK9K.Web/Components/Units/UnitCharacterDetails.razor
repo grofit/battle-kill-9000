@@ -1,0 +1,51 @@
+@using BK9K.Mechanics.Units
+@using OpenRpg.Cards.Effects
+@using OpenRpg.Cards.Genres
+
+<CardSection>
+    <div class="container">
+        @if (Unit != null)
+        {
+            <div class="columns">
+                <div class="column">
+                    <CharacterDetails Name="@Unit.NameLocaleId" RaceTemplate="@Unit.Race" Class="@Unit.Class"/>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <CharacterVitals Stats="@Unit.Stats"/>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <CharacterStats Stats="@Unit.Stats"/>
+                </div>
+            </div>
+            <h4 class="subtitle mb-2 has-text-dark has-text-centered">Characteristics</h4>
+            <div class="columns">
+                <div class="column">
+                    <GameCard Card="@RaceCard"/>
+                </div>
+                <div class="column">
+                    <GameCard Card="@ClassCard"/>
+                </div>
+            </div>
+        }
+    </div>
+</CardSection>
+
+@code {
+
+    [Parameter]
+    public Unit Unit { get; set; }
+
+    public RaceCard RaceCard { get; set; }
+    public ClassCard ClassCard { get; set; }
+
+    protected override void OnInitialized()
+    {
+        RaceCard = new RaceCard(Unit.Race);
+        ClassCard = new ClassCard(Unit.Class.ClassTemplate);
+    }
+
+}

@@ -1,0 +1,115 @@
+@using OpenRpg.Core.Races
+@using OpenRpg.Core.Classes
+@using BK9K.Game.Data.Repositories.Defaults
+@using OpenRpg.Localization.Repositories
+@using SystemsRx.Events
+@using BK9K.Game.Events.Units
+@using BK9K.Game.Levels
+@using BK9K.Game.Units
+@using BK9K.Mechanics.Extensions
+@using BK9K.Mechanics.Types
+@using BK9K.Mechanics.Units
+@using OpenRpg.AdviceEngine.Keys
+
+@inject ILocaleRepository LocaleRepository;
+@inject IEventSystem EventSystem;
+@inject Level Level;
+@implements IDisposable;
+
+<CardSection>
+    <div class="container">
+        @if (GameUnit != null)
+        {
+            <div class="columns">
+                <div class="column">
+                    <CharacterDetails Name="@GameUnit.Unit.NameLocaleId" RaceTemplate="@GameUnit.Unit.Race" Class="@GameUnit.Unit.Class"/>
+                </div>
+            </div>
+            <div class="has-text-centered">
+                <h5 class="title is-5">Agent Advice</h5>
+                <div class="field is-grouped is-grouped-multiline">
+                    @{var index = 0;}
+                    @foreach (var advice in GameUnit.Agent.AdviceHandler.GetAdvice().OrderByDescending(x => x.UtilityValue))
+                    {
+                        var relatedUnit = advice.GetRelatedContext() as Unit;
+                        <AdviceValue Text="@GetAdviceText(advice.AdviceId)" 
+                                     ContextText="@relatedUnit.NameLocaleId"
+                                     IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue"/>
+                    }
+                </div>
+            </div>
+            <div class="has-text-centered">
+                <h5 class="title is-5">Agent Utilities</h5>
+                <div class="field is-grouped is-grouped-multiline">
+                    @foreach (var (key, value) in GetLocalUtilities())
+                    {
+                        <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
+                    }
+                </div>
+                <h5 class="title is-5">Grouped Agent Utilities</h5>
+                    @foreach (var enemy in Level.GameUnits.Where(x => x.Unit.Id != GameUnit.Unit.Id))
+                    {
+                        var unitUtilities = GetOtherUnitUtilities(enemy.Unit.Id); 
+                        if(!unitUtilities.Any()) { continue; }
+                        
+                        <h6 class="title is-6">@enemy.Unit.NameLocaleId [@enemy.Unit.Id]- Related Utilities</h6>
+                        <div class="field is-grouped is-grouped-multiline">
+                            @foreach (var (key, value) in unitUtilities)
+                            {
+                                <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
+                            }
+                        </div>
+                    }
+            </div>
+        }
+    </div>
+</CardSection>
+
+@code {
+    [Parameter] public GameUnit GameUnit { get; set; }
+
+    private IDisposable _sub;
+
+    public IEnumerable<KeyValuePair<UtilityKey, float>> GetLocalUtilities()
+    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == 0); }
+
+    public IEnumerable<KeyValuePair<UtilityKey, float>> GetOtherUnitUtilities(int unitId)
+    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == unitId); }
+
+    public int GetAllyFactionType()
+    { return GameUnit.Unit.FactionType; }
+    
+    public int GetEnemyFactionType()
+    { return GameUnit.Unit.FactionType == FactionTypes.Player ? FactionTypes.Enemy : FactionTypes.Player; }
+    
+    public IEnumerable<GameUnit> AllUnitsForFaction(int factionType)
+    { return Level.GameUnits.Where(x => x.Unit.FactionType == factionType && !x.Unit.IsDead()); }
+
+    public IEnumerable<GameUnit> EnemyUnits => AllUnitsForFaction(GetEnemyFactionType());
+    public IEnumerable<GameUnit> AllyUnits => AllUnitsForFaction(GetAllyFactionType());
+
+    public string GetUtilityText(UtilityKey key)
+    {
+        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.UtilityTypesTextKey, key.UtilityId);
+        var lookupText = LocaleRepository.Retrieve(lookupKey);
+        return key.RelatedId == 0 ? lookupText : $"{lookupText}:{key.RelatedId}";
+    }
+    
+    public string GetAdviceText(int adviceKey)
+    {
+        var lookupKey = DefaultLocaleRepository.GetKeyFor(DefaultLocaleRepository.AdviceTypesTextKey, adviceKey);
+        return LocaleRepository.Retrieve(lookupKey);
+    }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _sub = EventSystem.Receive<UnitEndTurnEvent>().Subscribe(x => StateHasChanged());
+    }
+
+    public void Dispose()
+    {
+        _sub?.Dispose();
+    }
+
+}

@@ -67,7 +67,7 @@ namespace BK9K.Game.Systems.Effects
 
             var processedAttack = new ProcessedAttack(new List<Damage> { damage }, new List<Damage>() { defense });
 
-            EventSystem.Publish(new UnitAttackedEvent(eventData.Unit, eventData.Unit, processedAttack));
+            EventSystem.Publish(new UnitHealedEvent(eventData.Unit, eventData.Unit, processedAttack));
         }
     }
 }
