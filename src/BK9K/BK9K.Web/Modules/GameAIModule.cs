@@ -30,7 +30,7 @@ namespace BK9K.Web.Modules
             container.Bind<IConsiderationApplicator, EnemyLowHealthConsiderationApplicator>();
             container.Bind<IConsiderationApplicatorRegistry, DefaultConsiderationApplicatorRegistry>();
             
-            container.Bind<IAdviceApplicator, ShouldAttackAdviceApplicator>();
+            container.Bind<IAdviceApplicator, ShouldUseAbilityAdviceApplicator>();
             container.Bind<IAdviceApplicator, ShouldHealOtherAdviceApplicator>();
             container.Bind<IAdviceApplicator, ShouldHealSelfAdviceApplicator>();
             container.Bind<IAdviceApplicatorRegistry, DefaultAdviceApplicatorRegistry>();

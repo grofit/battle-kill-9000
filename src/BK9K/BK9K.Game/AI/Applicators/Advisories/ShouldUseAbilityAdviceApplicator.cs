@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using BK9K.Game.AI.Applicators.Models;
 using BK9K.Game.Data.Variables;
+using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
@@ -12,7 +14,7 @@ using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Advisories
 {
-    public class ShouldAttackAdviceApplicator : DefaultAdviceApplicator<Unit>
+    public class ShouldUseAbilityAdviceApplicator : DefaultAdviceApplicator<Unit>
     {
         public Level Level { get; }
         
@@ -21,26 +23,32 @@ namespace BK9K.Game.AI.Applicators.Advisories
             new Requirement { RequirementType = CustomRequirementTypes.CanAttack }
         };
 
-        public ShouldAttackAdviceApplicator(IRequirementChecker<Unit> requirementChecker, Level level) : base(requirementChecker)
+        public ShouldUseAbilityAdviceApplicator(IRequirementChecker<Unit> requirementChecker, Level level) : base(requirementChecker)
         {
             Level = level;
         }
 
-        public Unit GetBestTarget(IAgent agent)
+        public AbilityWithTarget GetBestTarget(IAgent agent)
         {
             var targetUtility = agent.UtilityVariables
                 .GetRelatedUtilities(UtilityVariableTypes.EnemyDistance)
                 .OrderByDescending(x => x.Value)
                 .First();
 
-            return Level.GameUnits.Single(x => x.Unit.Id == targetUtility.Key.RelatedId).Unit;
+            var abilityUtility = agent.UtilityVariables
+                .GetRelatedUtilities(UtilityVariableTypes.IsAbilityUseful)
+                .OrderByDescending(x => x.Value)
+                .First();
+            
+            return new AbilityWithTarget(targetUtility.Key.RelatedId, abilityUtility.Key.RelatedId);
         }
 
         public override IAdvice CreateAdvice(IAgent agent)
         {
-            return new DefaultAdvice(AdviceVariableTypes.GoAttack, new[]
+            return new DefaultAdvice(AdviceVariableTypes.UseAbility, new[]
             {
-                new UtilityKey(UtilityVariableTypes.EnemyDistance)
+                new UtilityKey(UtilityVariableTypes.EnemyDistance),
+                new UtilityKey(UtilityVariableTypes.IsAbilityUseful)
             }, () => GetBestTarget(agent));
         }
     }

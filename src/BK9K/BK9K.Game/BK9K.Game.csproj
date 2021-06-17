@@ -20,4 +20,8 @@
     <ProjectReference Include="..\BK9K.Game.Data\BK9K.Game.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AI\Applicators\Models\" />
+  </ItemGroup>
+
 </Project>

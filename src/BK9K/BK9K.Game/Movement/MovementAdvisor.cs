@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Movement
@@ -18,33 +19,15 @@ namespace BK9K.Game.Movement
         public Vector2 GetBestMovement(Unit unit, Unit target)
         {
             return GetPossibleMovementLocationsFor(unit)
-                .OrderBy(x => Vector2.Distance(target.Position, unit.Position))
+                .OrderBy(x => Vector2.Distance(x, target.Position))
                 .FirstOrDefault();
         }
         
         public IEnumerable<Vector2> GetPossibleMovementLocationsFor(Unit unit)
         {
-            var minX = unit.Position.X - unit.MovementRange;
-            var maxX = unit.Position.X + unit.MovementRange;
-            var minY = unit.Position.Y - unit.MovementRange;
-            var maxY = unit.Position.Y + unit.MovementRange;
-           
-            if (minX < 0) { minX = 0; }
-            if (maxX >= Level.Grid.XSize-1) { maxX = Level.Grid.XSize-1; }
-            if (minY < 0) { minY = 0; }
-            if (maxY >= Level.Grid.YSize-1) { maxY = Level.Grid.YSize-1; }
-            
-            Console.WriteLine($"CURRENT {unit.NameLocaleId} = {unit.Position.X},{unit.Position.Y} || MIMMAX {minX}:{maxX}/{minY}:{maxY} || LVL {Level.Grid.XSize}x{Level.Grid.YSize}");
-
-            for (var x = minX; x <= maxX; x++)
-            {
-                for (var y = minY; y <= maxY; y++)
-                {
-                    var proposedPosition = new Vector2(x, y);
-                    if (IsPositionValid(proposedPosition))
-                    { yield return proposedPosition; }
-                }
-            }
+            return unit.Position
+                .GetLocationsInRange(unit.MovementRange, Level.Grid.XSize - 1, Level.Grid.YSize - 1)
+                .Where(IsPositionValid);
         }
 
         public bool IsPositionValid(Vector2 position)

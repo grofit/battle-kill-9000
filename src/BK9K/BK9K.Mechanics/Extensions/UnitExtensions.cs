@@ -59,5 +59,8 @@ namespace BK9K.Mechanics.Extensions
         
         public static bool HasPassiveAbility(this Unit unit)
         { return unit.ActiveAbilities.Any(x => x.IsPassive); }
+
+        public static bool IsUnitWithinRange(this Unit unit, Unit target, int range)
+        { return target.Position.GetLocationsInRange(range).Any(x => unit.Position.X == x.X && unit.Position.Y == x.Y); }
     }
 }

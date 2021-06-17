@@ -14,7 +14,6 @@ using BK9K.Game.Pools;
 using BK9K.Game.Processors;
 using BK9K.Mechanics.Grids;
 using BK9K.Mechanics.Handlers;
-using BK9K.Mechanics.Handlers.Phases;
 
 namespace BK9K.Web.Modules
 {
@@ -42,8 +41,7 @@ namespace BK9K.Web.Modules
             container.Bind<IProcessorRegistry<Level>, DefaultProcessorRegistry<Level>>();
 
             container.Bind<IUnitTurnHandler, UnitTurnHandler>();
-            container.Bind<IUnitMovementPhaseHandler, UnitMovementPhaseHandler>();
-            container.Bind<IUnitActionPhaseHandler, UnitActionPhaseHandler>();
+            container.Bind<UseAbilityOnTargetHandler>();
             container.Bind<IAbilityHandler, AttackAbilityHandler>();
             container.Bind<ISpellHandler, FireboltSpellHandler>();
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();

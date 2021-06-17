@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using SystemsRx.Events;
 using BK9K.Game.Configuration;
@@ -38,33 +39,16 @@ namespace BK9K.Game.Handlers.UnitAbilities
             GameConfiguration = gameConfiguration;
         }
 
-        public async Task<bool> ExecuteAbility(Unit unit)
+        public async Task<bool> ExecuteAbility(Unit unit, Unit target = null, Vector2 targetLocation = default)
         {
-            var possibleTarget = FindTarget(unit);
-            if (possibleTarget == null)
-            {
-                return false;
-            }
-
-            await AttackTarget(unit, possibleTarget);
+            if(target == null) { return false; }
+            await AttackTarget(unit, target);
             return true;
         }
 
         public Attack CalculateAttack(Unit unit)
         { return AttackGenerator.GenerateAttack(unit.Stats); }
-
-        public Unit FindTarget(Unit unit)
-        {
-            var gameUnit = Level.GameUnits.Single(x => x.Unit == unit);
-            var attackAdvice = gameUnit.Agent.AdviceHandler.GetAdvice(AdviceVariableTypes.GoAttack);
-
-            if (attackAdvice != null)
-            { return attackAdvice.GetRelatedContext() as Unit; }
-            
-            var possibleUnit = Level.GetAliveUnits().FirstOrDefault(x => x.Unit.FactionType != unit.FactionType);
-            return possibleUnit?.Unit;
-        }
-
+        
         private async Task AttackTarget(Unit unit, Unit target)
         {
             var processedAttack = RunAttack(unit, target);
