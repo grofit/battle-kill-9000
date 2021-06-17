@@ -7,6 +7,7 @@ namespace BK9K.Game.Data.Variables
         public static int HasLowHealth = 1;
         public static int IsPowerful = 2;
         public static int IsDefensive = 3;
+        public static int IsAbilityUseful = 4;
 
         public static int PartyLowHealth = 10;
         public static int EnemyLowHealth = 11;

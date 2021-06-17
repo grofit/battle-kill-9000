@@ -26,12 +26,12 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         {}
 
         public override bool ShouldConsiderUnit(IAgent agent, GameUnit otherUnit)
-        { return otherUnit.Unit.FactionType != agent.GetRelatedUnit().FactionType; }
+        { return otherUnit.Unit.FactionType != agent.GetOwnerUnit().FactionType; }
 
         public override IConsideration CreateConsideration(IAgent agent, GameUnit otherUnit)
         {
             var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, otherUnit.Unit.Id);
-            var distanceAccessor = new ManualValueAccessor(() => Vector2.Distance(otherUnit.Unit.Position, agent.GetRelatedUnit().Position));
+            var distanceAccessor = new ManualValueAccessor(() => Vector2.Distance(otherUnit.Unit.Position, agent.GetOwnerUnit().Position));
             return new ValueBasedConsideration(distanceUtilityKey, distanceAccessor, DistanceClamper, PresetCurves.QuadraticLowerLeft);
         }
     }

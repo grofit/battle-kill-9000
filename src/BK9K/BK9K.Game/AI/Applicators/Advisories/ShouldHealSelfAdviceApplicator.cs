@@ -26,7 +26,7 @@ namespace BK9K.Game.AI.Applicators.Advisories
             return new DefaultAdvice(AdviceVariableTypes.HealSelf, new[]
             {
                 new UtilityKey(UtilityVariableTypes.HasLowHealth)
-            }, agent.GetRelatedUnit);
+            }, agent.GetOwnerUnit);
         }
     }
 }

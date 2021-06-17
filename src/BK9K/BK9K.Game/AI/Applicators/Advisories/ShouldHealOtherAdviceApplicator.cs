@@ -42,7 +42,7 @@ namespace BK9K.Game.AI.Applicators.Advisories
             return new DefaultAdvice(AdviceVariableTypes.HealOther, new[]
             {
                 new UtilityKey(UtilityVariableTypes.PartyLowHealth)
-            }, agent.GetRelatedUnit);
+            }, agent.GetOwnerUnit);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -29,9 +30,11 @@ namespace BK9K.Game.Movement
             var maxY = unit.Position.Y + unit.MovementRange;
            
             if (minX < 0) { minX = 0; }
-            if (maxX > Level.Grid.XSize-1) { minX = Level.Grid.XSize-1; }
+            if (maxX >= Level.Grid.XSize-1) { maxX = Level.Grid.XSize-1; }
             if (minY < 0) { minY = 0; }
-            if (maxY < Level.Grid.YSize-1) { maxY = Level.Grid.YSize-1; }
+            if (maxY >= Level.Grid.YSize-1) { maxY = Level.Grid.YSize-1; }
+            
+            Console.WriteLine($"CURRENT {unit.NameLocaleId} = {unit.Position.X},{unit.Position.Y} || MIMMAX {minX}:{maxX}/{minY}:{maxY} || LVL {Level.Grid.XSize}x{Level.Grid.YSize}");
 
             for (var x = minX; x <= maxX; x++)
             {

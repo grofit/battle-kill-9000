@@ -10,6 +10,7 @@ using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
+using OpenRpg.Combat.Attacks;
 using OpenRpg.Combat.Processors;
 
 namespace BK9K.Game.Handlers.UnitAbilities
@@ -49,6 +50,9 @@ namespace BK9K.Game.Handlers.UnitAbilities
             return true;
         }
 
+        public Attack CalculateAttack(Unit unit)
+        { return AttackGenerator.GenerateAttack(unit.Stats); }
+
         public Unit FindTarget(Unit unit)
         {
             var gameUnit = Level.GameUnits.Single(x => x.Unit == unit);
@@ -76,7 +80,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
         
         public ProcessedAttack RunAttack(Unit attacker, Unit defender)
         {
-            var attack = AttackGenerator.GenerateAttack(attacker.Stats);
+            var attack = CalculateAttack(attacker);
             var processedAttack = AttackProcessor.ProcessAttack(attack, defender.Stats);
             defender.ApplyDamageToTarget(processedAttack);
             return processedAttack;
