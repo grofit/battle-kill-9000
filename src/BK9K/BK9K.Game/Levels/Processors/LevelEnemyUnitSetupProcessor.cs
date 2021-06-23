@@ -6,6 +6,7 @@ using BK9K.Game.Data.Repositories;
 using BK9K.Game.Extensions;
 using BK9K.Game.Pools;
 using BK9K.Game.Processors;
+using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
@@ -73,6 +74,7 @@ namespace BK9K.Game.Levels.Processors
                     .Build() as EnemyUnit;
 
                 enemyUnit.LootTable = loot;
+                enemyUnit.Stats.SetExperience(50);
 
                 enemies.Add(enemyUnit);
             }

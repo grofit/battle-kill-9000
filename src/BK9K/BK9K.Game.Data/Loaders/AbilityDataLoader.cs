@@ -11,7 +11,8 @@ namespace BK9K.Game.Data.Loaders
         {
             return new List<UnitAbility>
             {
-                MakeAttack()
+                MakeAttack(),
+                MakeHeal()
             };
         }
 
@@ -24,6 +25,20 @@ namespace BK9K.Game.Data.Loaders
                 NameLocaleId = "Attack",
                 DescriptionLocaleId = "Uses the default weapon to attack a nearby unit",
                 DamageType = DamageTypes.UnknownDamage,
+                Range = 1,
+                Size = 1
+            };
+        }
+        
+        private UnitAbility MakeHeal()
+        {
+            return new()
+            {
+                Id = AbilityLookups.Heal,
+                IsPassive = false,
+                NameLocaleId = "Heal",
+                DescriptionLocaleId = "Heals a single target based",
+                DamageType = DamageTypes.LightDamage,
                 Range = 1,
                 Size = 1
             };

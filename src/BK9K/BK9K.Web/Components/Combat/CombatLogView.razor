@@ -2,6 +2,9 @@
 @using SystemsRx.Events
 @using SystemsRx.Extensions
 @using BK9K.Game.Events.Units
+@using BK9K.Mechanics.Units
+@using OpenRpg.Combat.Processors
+@using OpenRpg.Genres.Fantasy.Characters
 
 @implements IDisposable 
 @inject IEventSystem EventSystem
@@ -11,24 +14,65 @@
     <div class="output-log is-absolute box">
         @foreach (var log in Logs)
         {
-            <AttackBreakdown Attacker=@log.Attacker Defender=@log.Target ProcessedAttack=@log.ProcessedAttack></AttackBreakdown>
+            if (log.ActionType == LogEventTypes.Attack || log.ActionType == LogEventTypes.PassiveAttack)
+            { <AttackBreakdown Attacker=@log.Actioner Target=@log.Target ProcessedAttack=@log.ProcessedAttack /> }
+
+            if (log.ActionType == LogEventTypes.Heal || log.ActionType == LogEventTypes.PassiveHeal)
+            { <HealBreakdown Healer=@log.Actioner Target=@log.Target ProcessedAttack=@log.ProcessedAttack /> }
         }
     </div>
 </section>
 
 @code {
-    private List<UnitAttackedEvent> Logs = new();
+
+    class LogEventTypes
+    {
+        public static int Unknown = 0;
+        public static int Attack = 1;
+        public static int Heal = 2;
+        public static int PassiveAttack = 3;
+        public static int PassiveHeal = 4;
+    }
+
+    class LogEvent
+    {
+        public Unit Actioner { get; set; }
+        public Unit Target { get; set; }
+        public ProcessedAttack ProcessedAttack { get; set; }
+        public int ActionType { get; set; }
+    }
+
+    private List<LogEvent> Logs = new();
     private List<IDisposable> _subs = new();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         EventSystem.Receive<UnitAttackedEvent>().Subscribe(UnitHasAttacked).AddTo(_subs);
+        EventSystem.Receive<UnitHealedEvent>().Subscribe(UnitWasHealed).AddTo(_subs);
     }
 
     public void UnitHasAttacked(UnitAttackedEvent args)
     {
-        Logs.Add(args);
+        Logs.Add(new LogEvent
+        {
+            ActionType = LogEventTypes.Attack,
+            Actioner = args.Attacker,
+            Target = args.Target,
+            ProcessedAttack = args.ProcessedAttack
+        });
+        StateHasChanged();
+    }
+
+    public void UnitWasHealed(UnitHealedEvent args)
+    {
+        Logs.Add(new LogEvent
+        {
+            ActionType = LogEventTypes.Heal,
+            Actioner = args.Healer,
+            Target = args.Target,
+            ProcessedAttack = args.ProcessedAttack
+        });
         StateHasChanged();
     }
 

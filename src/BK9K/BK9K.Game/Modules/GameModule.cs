@@ -1,4 +1,5 @@
-﻿using SystemsRx.Infrastructure.Dependencies;
+﻿using System.Linq;
+using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.AI;
 using BK9K.Game.Configuration;
@@ -14,6 +15,8 @@ using BK9K.Game.Pools;
 using BK9K.Game.Processors;
 using BK9K.Mechanics.Grids;
 using BK9K.Mechanics.Handlers;
+using BK9K.Mechanics.Leveling;
+using BK9K.Mechanics.Levelling;
 
 namespace BK9K.Web.Modules
 {
@@ -31,6 +34,7 @@ namespace BK9K.Web.Modules
             container.Bind<GameState>();
             
             container.Bind<MovementAdvisor>();
+            container.Bind<IExperienceCalculator, ExperienceCalculator>();
 
             container.Bind<IProcessor<Level>, CleanLevelProcessor>();
             container.Bind<IProcessor<Level>, LevelGridProcessor>();
@@ -43,6 +47,7 @@ namespace BK9K.Web.Modules
             container.Bind<IUnitTurnHandler, UnitTurnHandler>();
             container.Bind<UseAbilityOnTargetHandler>();
             container.Bind<IAbilityHandler, AttackAbilityHandler>();
+            container.Bind<IAbilityHandler, HealAbilityHandler>();
             container.Bind<ISpellHandler, FireboltSpellHandler>();
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();
         }

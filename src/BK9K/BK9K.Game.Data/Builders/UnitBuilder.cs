@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using BK9K.Game.Data.Repositories;
+using BK9K.Mechanics.Abilities;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
+using BK9K.Mechanics.Types.Variables;
 using BK9K.Mechanics.Units;
+using OpenRpg.Combat.Abilities;
 using OpenRpg.Core.Classes;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Stats;
@@ -31,7 +35,7 @@ namespace BK9K.Game.Data.Builders
         private int _classType = ClassLookups.Fighter;
         private int _weaponId = ItemTemplateLookups.Unknown;
         private int _armourId = ItemTemplateLookups.Unknown;
-        private int _abilityId = AbilityLookups.Attack;
+        private List<int> _abilityIds = new() { AbilityLookups.Attack };
         private int _movementRange = 2;
 
         private Vector2 _position = Vector2.Zero;
@@ -114,7 +118,7 @@ namespace BK9K.Game.Data.Builders
 
         public UnitBuilder WithAbility(int abilityId)
         {
-            _abilityId = abilityId;
+            _abilityIds.Add(abilityId);
             return this;
         }
         
@@ -128,8 +132,6 @@ namespace BK9K.Game.Data.Builders
         {
             var classTemplate = ClassTemplateRepository.Retrieve(_classType);
             var raceTemplate = RaceTemplateRepository.Retrieve(_raceType);
-            var ability = AbilityRepository.Retrieve(_abilityId);
-            
             var unit = _factionType == FactionTypes.Enemy ? new EnemyUnit() : new Unit();
 
             unit.Id = _id;
@@ -137,11 +139,14 @@ namespace BK9K.Game.Data.Builders
             unit.FactionType = _factionType;
             unit.Position = _position;
             unit.Race = raceTemplate;
-            unit.ActiveAbilities.Add(ability);
             unit.Class = new DefaultClass(_level, classTemplate);
             unit.Equipment = new DefaultEquipment();
             unit.MovementRange = _movementRange;
 
+            var abilities = GetAbilities();
+            foreach (var ability in abilities)
+            { unit.ActiveAbilities.Add(ability); }
+            
             var weapon = GetWeapon();
             if(weapon != null)
             { unit.Equipment.MainHandSlot.EquipItemToSlot(weapon); }
@@ -154,6 +159,18 @@ namespace BK9K.Game.Data.Builders
             unit.Stats = StatsComputer.ComputeStats(unitEffects);
             unit.Stats.Initiative(_initiative);
             return unit;
+        }
+
+        private IEnumerable<UnitAbility> GetAbilities()
+        {
+            if (_abilityIds.Count < 3)
+            {
+                if (_classType == ClassLookups.Mage)
+                { _abilityIds.Add(AbilityLookups.Heal); }
+            }
+            
+            foreach (var abilityId in _abilityIds)
+            { yield return AbilityRepository.Retrieve(abilityId); }
         }
 
         private IItem GetWeapon()

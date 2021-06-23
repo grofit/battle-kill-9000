@@ -27,19 +27,19 @@
             <div class="columns">
                 <div class="column">
                     @if(AbilityCards.Count >= 1)
-                    { <GameCard Card="@AbilityCards[0]"/> }
+                    { <GameCard Card="@AbilityCards[0]" AssociatedUnit="Unit"/> }
                     else
                     { <EmptyCard /> }
                 </div>
                 <div class="column">
                     @if(AbilityCards.Count >= 2)
-                    { <GameCard Card="@AbilityCards[1]"/> }
+                    { <GameCard Card="@AbilityCards[1]" AssociatedUnit="Unit"/> }
                     else
                     { <EmptyCard /> }
                 </div>
                 <div class="column">
                    @if(AbilityCards.Count >= 3)
-                   { <GameCard Card="@AbilityCards[2]"/> }
+                   { <GameCard Card="@AbilityCards[2]" AssociatedUnit="Unit"/> }
                    else
                    { <EmptyCard /> }
                 </div>
@@ -74,7 +74,5 @@
         };
 
         EffectsCard = new EffectCard(effectsWrapper);
-
     }
-
 }

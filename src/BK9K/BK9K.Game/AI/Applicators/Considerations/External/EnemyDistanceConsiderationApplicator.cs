@@ -18,7 +18,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
 {
     public class EnemyDistanceConsiderationApplicator : LevelExternalConsiderationApplicator
     {
-        private static readonly IClamper DistanceClamper = new Clamper(0, 4.0f);
+        private static readonly IClamper DistanceClamper = new Clamper(1.0f, 4.0f);
 
         public override IEnumerable<Requirement> Requirements { get; } = Array.Empty<Requirement>();
 

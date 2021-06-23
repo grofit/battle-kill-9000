@@ -1,13 +1,18 @@
 ﻿@using BK9K.Game.Data
 @using BK9K.Game.Data.Extensions
+@using BK9K.Game.Data.Repositories
 @using BK9K.Game.Data.Repositories.Defaults
 @using BK9K.Mechanics.Extensions
 @using BK9K.Mechanics.Types
+@using BK9K.Mechanics.Units
 @using OpenRpg.Cards
+@using OpenRpg.Cards.Genres
+@using OpenRpg.Combat.Abilities
 @using OpenRpg.Core.Effects
 @using OpenRpg.Localization.Repositories
 
 @inject ILocaleRepository LocaleRepository
+@inject IAbilityHandlerRepository AbilityHandlerRepository
 
 <div class="container game-card" draggable="@Draggable.ToString().ToLower()" ondragstart="OnStartDragCard(event)" ondrag="OnDragging(event)" ondragend="OnEndDragCard(event)" card-type="@Card.CardType" view-id="@Card.Variables.UniqueId()">
     <div class="card @CardTypeClass">
@@ -28,6 +33,13 @@
                             </span>
                         </div>
                     }
+                    
+                     @if (Card.CardType == CardTypes.AbilityCard && AssociatedUnit != null)
+                    {
+                        <div class="box as-circle has-background-link-light">
+                            <span class="is-size-4">@DamageNumber</span>
+                        </div>
+                    }
                 </div>
                 <div class="description-section">
                     <p>@Card.DescriptionLocaleId</p>
@@ -46,8 +58,32 @@
     [Parameter]
     public bool Draggable { get; set; } = false;
 
+    [Parameter]
+    public Unit AssociatedUnit { get; set; } = null;
+
     public string CardTypeClass => $"card-type-{Card.CardType}";
     public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, Card.CardType));
     public Effect GetMaximumEffectPotency => Card.Effects.OrderByDescending(x => x.Potency).FirstOrDefault();
+    public int DamageNumber;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (Card.CardType == CardTypes.AbilityCard && AssociatedUnit != null)
+        { DamageNumber = (int)GetAverageAbilityDamageString(Card as AbilityCard); }
+    }
+
+    public float GetAverageAbilityDamageString(AbilityCard card)
+    {
+        var handler = AbilityHandlerRepository.Retrieve(card.Data.Id);
+        var totalDamages = new List<float>();
+        for (var i = 0; i < 5; i++)
+        {
+            var attack = handler.CalculateHealing(AssociatedUnit);
+            totalDamages.Add(attack.Damages.Sum(x => x.Value));
+        }
+        return totalDamages.Average();
+    }
 
 }

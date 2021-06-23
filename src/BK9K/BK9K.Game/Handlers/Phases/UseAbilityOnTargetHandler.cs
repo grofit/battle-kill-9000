@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SystemsRx.Events;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data.Repositories;
-using BK9K.Game.Data.Variables;
 using BK9K.Game.Events.Units;
 using BK9K.Game.Levels;
 using BK9K.Game.Movement;
@@ -39,29 +36,32 @@ namespace BK9K.Game.Handlers.Phases
         {
             await Task.Delay(ScaledDelay);
 
-            var canHitEnemy = unit.IsUnitWithinRange(target, ability.Range);
-            if (canHitEnemy)
-            {
-                await UseAbilityOn(unit, target, ability);
-                return;
-            }
+            var couldExecute = await ExecuteIfInRange(unit, target, ability);
+            if(couldExecute) { return; }
 
             MoveTowards(unit, target);
-            canHitEnemy = unit.IsUnitWithinRange(target, ability.Range);
-            if (canHitEnemy)
-            { await UseAbilityOn(unit, target, ability); }
+            await ExecuteIfInRange(unit, target, ability);
+        }
+
+        public async Task<bool> ExecuteIfInRange(Unit unit, Unit target, UnitAbility ability)
+        {
+            var canHitTarget = unit.IsUnitWithinRange(target, ability.Range);
+            if (!canHitTarget) { return false; }
+
+            await UseAbilityOn(unit, target, ability);
+            return true;
         }
 
         public void MoveTowards(Unit unit, Unit target)
         {
-            var bestMovement = MovementAdvisor.GetBestMovement(unit, target);
+            var bestMovement = MovementAdvisor.GetBestMovementTowardsTarget(unit, target);
             unit.Position = bestMovement;
             EventSystem.Publish(new UnitMovingEvent(unit, unit.Position));
         }
 
         public async Task UseAbilityOn(Unit unit, Unit target, Ability ability)
         {
-            var abilityToUse = AbilityHandlerRepository.Retrieve(unit.ActiveAbilities[0].Id);
+            var abilityToUse = AbilityHandlerRepository.Retrieve(ability.Id);
             await abilityToUse.ExecuteAbility(unit, target);
         }
     }

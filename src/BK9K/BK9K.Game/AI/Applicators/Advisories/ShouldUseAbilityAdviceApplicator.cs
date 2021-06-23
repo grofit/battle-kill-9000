@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.AI.Applicators.Models;
 using BK9K.Game.Data.Variables;
-using BK9K.Game.Extensions;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
@@ -36,7 +35,7 @@ namespace BK9K.Game.AI.Applicators.Advisories
                 .First();
 
             var abilityUtility = agent.UtilityVariables
-                .GetRelatedUtilities(UtilityVariableTypes.IsAbilityUseful)
+                .GetRelatedUtilities(UtilityVariableTypes.IsAbilityDamaging)
                 .OrderByDescending(x => x.Value)
                 .First();
             
@@ -48,7 +47,8 @@ namespace BK9K.Game.AI.Applicators.Advisories
             return new DefaultAdvice(AdviceVariableTypes.UseAbility, new[]
             {
                 new UtilityKey(UtilityVariableTypes.EnemyDistance),
-                new UtilityKey(UtilityVariableTypes.IsAbilityUseful)
+                new UtilityKey(UtilityVariableTypes.EnemyLowHealth),
+                new UtilityKey(UtilityVariableTypes.IsAbilityDamaging),
             }, () => GetBestTarget(agent));
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BK9K.Mechanics.Abilities;
 using BK9K.Mechanics.Units;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Effects;
@@ -44,6 +45,9 @@ namespace BK9K.Mechanics.Extensions
 
             target.Stats.AddHealth(totalHealing);
         }
+
+        public static UnitAbility GetAbility(this Unit unit, int abilityId)
+        { return unit.ActiveAbilities.FirstOrDefault(x => x.Id == abilityId); }
 
         public static bool HasHealAbility(this Unit unit)
         { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage); }

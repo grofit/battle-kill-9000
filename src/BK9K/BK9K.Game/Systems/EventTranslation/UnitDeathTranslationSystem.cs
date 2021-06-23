@@ -16,7 +16,7 @@ namespace BK9K.Game.Systems.EventTranslation
         {
             var hasDied = eventData.Target.Stats.Health() <= 0;
             if (hasDied)
-            { EventSystem.Publish(new UnitHasDiedEvent(eventData.Target)); }
+            { EventSystem.Publish(new UnitHasDiedEvent(eventData.Target, eventData.Attacker)); }
         }
     }
 }

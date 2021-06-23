@@ -1,12 +1,9 @@
 ﻿using System;
-using SystemsRx.Events;
 using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
-using BK9K.Game.Data;
 using BK9K.Game.Data.Repositories.Defaults;
 using BK9K.Mechanics.Requirements;
 using BK9K.Mechanics.Units;
-using BK9K.Web.Debug;
 using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Core.Stats;
@@ -23,9 +20,6 @@ namespace BK9K.Web.Modules
     {
         public void Setup(IDependencyContainer container)
         {
-            container.Unbind<IEventSystem>();
-            container.Bind<IEventSystem, DebugEventSystem>();
-            
             container.Bind<IRandomizer>(x =>  x.ToInstance(new DefaultRandomizer(new Random())));
             container.Bind<IAttributeStatPopulator, DefaultAttributeStatPopulator>();
             container.Bind<IVitalStatsPopulator, DefaultVitalStatsPopulator>();

@@ -1,12 +1,12 @@
-﻿using BK9K.Mechanics.Units;
+using BK9K.Mechanics.Units;
 
 namespace BK9K.Game.Events.Units
 {
-    public class UnitActionPhase
+    public class UnitLeveledUpEvent
     {
         public Unit Unit { get; }
 
-        public UnitActionPhase(Unit unit)
+        public UnitLeveledUpEvent(Unit unit)
         {
             Unit = unit;
         }

@@ -25,5 +25,8 @@ namespace BK9K.Game.Extensions
             
         public static IEnumerable<GameUnit> GetAllEnemies(this Level level)
         { return GetAllUnitsInFaction(level, FactionTypes.Enemy); }
+
+        public static Unit GetUnitById(this Level level, int unitId)
+        { return level.GameUnits.FirstOrDefault(x => x.Agent.OwnerContext.Id == unitId)?.Unit; }
     }
 }

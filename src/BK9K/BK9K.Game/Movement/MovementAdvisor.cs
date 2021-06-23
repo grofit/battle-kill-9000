@@ -16,13 +16,23 @@ namespace BK9K.Game.Movement
         public MovementAdvisor(Level level)
         { Level = level; }
 
-        public Vector2 GetBestMovement(Unit unit, Unit target)
+        public Vector2 GetBestMovementTowardsTarget(Unit unit, Unit target)
         {
             return GetPossibleMovementLocationsFor(unit)
                 .OrderBy(x => Vector2.Distance(x, target.Position))
                 .FirstOrDefault();
         }
-        
+
+        public Vector2 GetBestMovementAwayFromTarget(Unit unit, Unit target)
+        { return GetBestMovementAwayFromLocation(unit, target.Position); }
+
+        public Vector2 GetBestMovementAwayFromLocation(Unit unit, Vector2 position)
+        {
+            return GetPossibleMovementLocationsFor(unit)
+                .OrderByDescending(x => Vector2.Distance(x, position))
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Vector2> GetPossibleMovementLocationsFor(Unit unit)
         {
             return unit.Position

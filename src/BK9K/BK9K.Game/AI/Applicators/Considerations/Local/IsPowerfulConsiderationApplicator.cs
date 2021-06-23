@@ -18,7 +18,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
 {
     public class IsPowerfulConsiderationApplicator : DefaultLocalConsiderationApplicator<Unit>
     {
-        private static readonly IClamper DamageClamper = new Clamper(0, 30);
+        private static readonly IClamper DamageClamper = new Clamper(1, 15);
         
         public override IEnumerable<Requirement> Requirements { get; } = Array.Empty<Requirement>();
 

@@ -62,7 +62,7 @@ namespace BK9K.Web.Applications
                 .WithId(UnitIdPool.AllocateInstance())
                 .WithName("Kate")
                 .WithFaction(FactionTypes.Player)
-                .WithClass(ClassLookups.Fighter)
+                .WithClass(ClassLookups.Mage)
                 .WithInitiative(6)
                 .WithPosition(1, 1)
                 .Build();
@@ -110,6 +110,7 @@ namespace BK9K.Web.Applications
             Container.Bind<ISystem, EffectTimingSystem>();
             Container.Bind<ISystem, ActionTickedEffectSystem>();
             Container.Bind<ISystem, AgentConsiderationUpdateSystem>();
+            Container.Bind<ISystem, ExperienceAllocationSystem>();
         }
         
         protected override void ResolveApplicationDependencies()
@@ -129,6 +130,7 @@ namespace BK9K.Web.Applications
         {
             base.LoadModules();
             
+            Container.LoadModule(new DebugModule());
             Container.LoadModule(new OpenRpgModule());
             Container.LoadModule(new GameModule());
             Container.LoadModule(new GameAIModule());

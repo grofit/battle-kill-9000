@@ -32,7 +32,10 @@ namespace BK9K.Game.AI.Applicators.Advisories
             var targetUtility = agent.UtilityVariables
                 .GetRelatedUtilities(UtilityVariableTypes.PartyLowHealth)
                 .OrderByDescending(x => x.Value)
-                .First();
+                .FirstOrDefault();
+
+            if (targetUtility.Key.UtilityId == 0)
+            { return null; }
 
             return Level.GameUnits.Single(x => x.Unit.Id == targetUtility.Key.RelatedId).Unit;
         }
@@ -41,8 +44,9 @@ namespace BK9K.Game.AI.Applicators.Advisories
         {
             return new DefaultAdvice(AdviceVariableTypes.HealOther, new[]
             {
-                new UtilityKey(UtilityVariableTypes.PartyLowHealth)
-            }, agent.GetOwnerUnit);
+                new UtilityKey(UtilityVariableTypes.PartyLowHealth),
+                new UtilityKey(UtilityVariableTypes.AllyDistance),
+            }, () => GetBestTarget(agent));
         }
     }
 }

@@ -1,7 +1,7 @@
 <div class="control">
     <div class="tags has-addons">
         <span class="tag is-dark">@Text</span>
-        <span class="tag @GetValueClass(Value)">@Value</span>
+        <span class="tag @GetValueClass(Value)">@Value.ToString("F2")</span>
     </div>
 </div>
 
@@ -12,8 +12,7 @@
     public string GetValueClass(float value)
     {
         if(value > 0.75f) { return "is-danger"; }  
-        else if(value < 0.25f) { return "is-success"; }
-        
+        if(value < 0.25f) { return "is-success"; }
         return "is-info"; 
     }
 }

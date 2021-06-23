@@ -26,7 +26,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
         {
             var healthValueAccessor = new ManualValueAccessor(() => agent.GetOwnerUnit().Stats.Health());
             var healthClamper = new DynamicClamper(() => 0, () => agent.GetOwnerUnit().Stats.MaxHealth());
-            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.HasLowHealth), healthValueAccessor, healthClamper, PresetCurves.StandardRuntime);
+            return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.HasLowHealth), healthValueAccessor, healthClamper, PresetCurves.InverseLinear);
         }
     }
 }

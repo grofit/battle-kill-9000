@@ -20,7 +20,7 @@ namespace BK9K.Web.Modules
         {
             container.Bind<IConsiderationApplicator, HasLowHealthConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, IsPowerfulConsiderationApplicator>();
-            container.Bind<IConsiderationApplicator, IsAbilityUsefulConsideration>();
+            container.Bind<IConsiderationApplicator, IsAbilityDamagingConsideration>();
             container.Bind<IConsiderationApplicator, IsInDangerConsideration>();
             container.Bind<IConsiderationApplicator, IsDefensiveConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, EnemyDistanceConsiderationApplicator>();
@@ -33,6 +33,7 @@ namespace BK9K.Web.Modules
             container.Bind<IAdviceApplicator, ShouldUseAbilityAdviceApplicator>();
             container.Bind<IAdviceApplicator, ShouldHealOtherAdviceApplicator>();
             container.Bind<IAdviceApplicator, ShouldHealSelfAdviceApplicator>();
+            container.Bind<IAdviceApplicator, ShouldEscapeAdviceApplicator>();
             container.Bind<IAdviceApplicatorRegistry, DefaultAdviceApplicatorRegistry>();
         }
     }

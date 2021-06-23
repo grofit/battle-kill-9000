@@ -12,9 +12,9 @@
     
     <div class="field is-grouped is-grouped-multiline">
         <div class="control">
-            <span class="tag @GetFactionClass(Attacker)">@Attacker.NameLocaleId</span>
+            <span class="tag @GetFactionClass(Healer)">@Healer.NameLocaleId</span>
         </div>
-        <span>&nbsp;Attacked&nbsp;</span>
+        <span>&nbsp;Healed&nbsp;</span>
         <div class="control">
             <span class="tag @GetFactionClass(Target)">@GetTargetName()</span>
         </div>
@@ -27,46 +27,29 @@
                 <span class="tags has-addons">
                     <span class="tag is-dark">
                         <span class="icon">
-                            <i class="fas fa-fist-raised"></i>
+                            <i class="fas fa-heart"></i>
                         </span>
-                        <span>@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type)).Replace("Damage", "")</span>
+                        <span>@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, damage.Type)).Replace("Damage", "").Replace("Light", "Heal")</span>
                     </span>
                     <span class="tag is-warning">@((int)Math.Round(damage.Value))</span>
                 </span>
             </div>
         }
     </div>
-    
-    <div class="field is-grouped is-grouped-multiline">
-        @foreach (var defense in ProcessedAttack.DamageDefended)
-        {
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark">
-                        <span class="icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </span>
-                        <span>@LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.DamageTypesTextKey, defense.Type)).Replace("Damage", "")</span>
-                    </span>
-                    <span class="tag is-info">@((int)Math.Round(defense.Value))</span>
-                </div>
-            </div>
-        }
-    </div>
     <div class="control">
         <div class="tags has-addons">
-            <span class="tag is-dark">Total Damage</span>
-            <span class="tag is-warning">@TotalDamage</span>
+            <span class="tag is-dark">Total Heal</span>
+            <span class="tag is-warning">@TotalHeal</span>
         </div>
     </div>
 </div>
 
 @code {
 
-    public int TotalDamage => (int)Math.Round(ProcessedAttack.DamageDone.Sum(x => x.Value));
+    public int TotalHeal => (int)Math.Round(ProcessedAttack.DamageDone.Sum(x => x.Value));
 
     [Parameter]
-    public Unit Attacker { get; set; }
+    public Unit Healer { get; set; }
 
     [Parameter]
     public Unit Target { get; set; }
@@ -76,7 +59,7 @@
 
     public string GetTargetName()
     {
-        if(Target.Id == Attacker.Id)
+        if (Target.Id == Healer.Id)
         { return "Self"; }
 
         return Target.NameLocaleId;

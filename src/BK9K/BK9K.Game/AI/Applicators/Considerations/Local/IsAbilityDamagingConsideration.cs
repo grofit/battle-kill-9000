@@ -4,6 +4,7 @@ using System.Linq;
 using BK9K.Game.Data.Repositories;
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Extensions;
+using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.AdviceEngine;
 using OpenRpg.AdviceEngine.Accessors;
@@ -13,20 +14,24 @@ using OpenRpg.AdviceEngine.Considerations.Applicators;
 using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
 using OpenRpg.CurveFunctions;
+using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.AI.Applicators.Considerations.Local
 {
-    public class IsAbilityUsefulConsideration : DefaultExternalConsiderationApplicator<Unit>
+    public class IsAbilityDamagingConsideration : DefaultExternalConsiderationApplicator<Unit>
     {
-        private static readonly IClamper DamageClamper = new Clamper(0, 30);
+        private static readonly IClamper DamageClamper = new Clamper(1, 15);
 
         public override int Priority => ApplicatorPriorities.Local;
 
-        public override IEnumerable<Requirement> Requirements { get; } = Array.Empty<Requirement>();
+        public override IEnumerable<Requirement> Requirements { get; } = new []
+        {
+            new Requirement { RequirementType = CustomRequirementTypes.CanAttack }
+        };
 
         public IAbilityHandlerRepository AbilityHandlerRepository { get; }
 
-        public IsAbilityUsefulConsideration(IRequirementChecker<Unit> requirementChecker, IAbilityHandlerRepository abilityHandlerRepository) : base(requirementChecker)
+        public IsAbilityDamagingConsideration(IRequirementChecker<Unit> requirementChecker, IAbilityHandlerRepository abilityHandlerRepository) : base(requirementChecker)
         {
             AbilityHandlerRepository = abilityHandlerRepository;
         }
@@ -36,13 +41,16 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
             var unit = agent.GetOwnerUnit();
             foreach (var ability in agent.GetOwnerUnit().ActiveAbilities)
             {
+                if (ability.IsPassive || ability.DamageType == DamageTypes.LightDamage)
+                { continue; }
+                
                 var abilityHandler = AbilityHandlerRepository.Retrieve(ability.Id);
                 var attackOutputAccessor = new ManualValueAccessor(() =>
                 {
-                    var attack = abilityHandler.CalculateAttack(unit);
+                    var attack = abilityHandler.CalculateHealing(unit);
                     return attack.Damages.Sum(x => x.Value);
                 });
-                yield return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsAbilityUseful, ability.Id), attackOutputAccessor, DamageClamper, PresetCurves.Linear);
+                yield return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsAbilityDamaging, ability.Id), attackOutputAccessor, DamageClamper, PresetCurves.Linear);
             }
         }
     }

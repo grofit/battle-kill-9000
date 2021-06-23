@@ -3,6 +3,8 @@
 @using BK9K.Game.Data.Repositories.Defaults
 @using OpenRpg.Localization.Repositories
 @using SystemsRx.Events
+@using BK9K.Game.AI.Applicators.Models
+@using BK9K.Game.Data.Variables
 @using BK9K.Game.Events.Units
 @using BK9K.Game.Levels
 @using BK9K.Game.Units
@@ -32,10 +34,27 @@
                     @{var index = 0;}
                     @foreach (var advice in GameUnit.Agent.GetAdvice())
                     {
-                        var relatedUnit = advice.GetRelatedContext() as Unit;
-                        <AdviceValue Text="@GetAdviceText(advice.AdviceId)" 
-                                     ContextText="@relatedUnit.NameLocaleId"
-                                     IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue"/>
+                        var relatedContext = advice.GetRelatedContext();
+                        if (relatedContext is Unit relatedUnit)
+                        {
+                            <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
+                                         ContextText="@relatedUnit.NameLocaleId"
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                        }
+                        else if (relatedContext is AbilityWithTarget abilityWithTarget)
+                        {
+                            var targetUnit = Level.GameUnits.First(x => x.Unit.Id == abilityWithTarget.TargetUnitId).Unit;
+                            var ability = GameUnit.Unit.ActiveAbilities.First(x => x.Id == abilityWithTarget.AbilityId);
+                            <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
+                                         ContextText="@($"{ability.NameLocaleId}  >  {targetUnit.NameLocaleId}")"
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                        }
+                        else
+                        {
+                            <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
+                                         ContextText="@(advice.GetRelatedContext()?.ToString() ?? "None")"
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                        }
                     }
                 </div>
             </div>
@@ -47,15 +66,29 @@
                         <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
                     }
                 </div>
-                <h5 class="title is-5">Grouped Agent Utilities</h5>
+                <h5 class="title is-5">Related Utilities</h5>
                     @foreach (var enemy in Level.GameUnits.Where(x => x.Unit.Id != GameUnit.Unit.Id))
                     {
-                        var unitUtilities = GetOtherUnitUtilities(enemy.Unit.Id); 
+                        var unitUtilities = GetOtherUtilities(enemy.Unit.Id).Where(x => x.Key.UtilityId != UtilityVariableTypes.IsAbilityDamaging); 
                         if(!unitUtilities.Any()) { continue; }
                         
                         <h6 class="title is-6">@enemy.Unit.NameLocaleId [@enemy.Unit.Id]- Related Utilities</h6>
                         <div class="field is-grouped is-grouped-multiline">
                             @foreach (var (key, value) in unitUtilities)
+                            {
+                                <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
+                            }
+                        </div>
+                    }
+                    
+                    @foreach (var ability in GameUnit.Unit.ActiveAbilities)
+                    {
+                        var abilityUtilities = GetOtherUtilities(ability.Id).Where(x => x.Key.UtilityId == UtilityVariableTypes.IsAbilityDamaging); 
+                        if(!abilityUtilities.Any()) { continue; }
+                        
+                        <h6 class="title is-6">@ability.NameLocaleId [@ability.Id]- Related Utilities</h6>
+                        <div class="field is-grouped is-grouped-multiline">
+                            @foreach (var (key, value) in abilityUtilities)
                             {
                                 <UtilityValue Text="@GetUtilityText(key)" Value="@value"/>
                             }
@@ -74,9 +107,9 @@
     public IEnumerable<KeyValuePair<UtilityKey, float>> GetLocalUtilities()
     { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == 0); }
 
-    public IEnumerable<KeyValuePair<UtilityKey, float>> GetOtherUnitUtilities(int unitId)
-    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == unitId); }
-
+    public IEnumerable<KeyValuePair<UtilityKey, float>> GetOtherUtilities(int relatedId)
+    { return GameUnit.Agent.ConsiderationHandler.UtilityVariables.Where(x => x.Key.RelatedId == relatedId); }
+    
     public int GetAllyFactionType()
     { return GameUnit.Unit.FactionType; }
     
