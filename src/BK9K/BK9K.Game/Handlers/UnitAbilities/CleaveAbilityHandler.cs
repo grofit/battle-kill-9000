@@ -16,12 +16,12 @@ using OpenRpg.Combat.Processors;
 
 namespace BK9K.Game.Handlers.UnitAbilities
 {
-    public class AttackAbilityHandler : IAbilityHandler
+    public class CleaveAbilityHandler : IAbilityHandler
     {
         public const int AttackActionTime = 500;
         public int ScaledAttackDelay => (int) (AttackActionTime * GameConfiguration.GameSpeed);
 
-        public int Id => AbilityLookups.Attack;
+        public int Id => AbilityLookups.Cleave;
 
         public Level Level { get; }
         public GameConfiguration GameConfiguration { get; }
@@ -29,7 +29,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
         public IAttackProcessor AttackProcessor { get; }
         public IEventSystem EventSystem { get; }
         
-        public AttackAbilityHandler(Level level, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor,
+        public CleaveAbilityHandler(Level level, IAttackGenerator attackGenerator, IAttackProcessor attackProcessor,
             IEventSystem eventSystem, GameConfiguration gameConfiguration)
         {
             Level = level;
@@ -47,16 +47,30 @@ namespace BK9K.Game.Handlers.UnitAbilities
         }
 
         public Attack CalculateAttack(Unit unit)
-        { return AttackGenerator.GenerateAttack(unit.Stats); }
+        {
+            var attack = AttackGenerator.GenerateAttack(unit.Stats);
+            return attack.ScaleByPercentage(0.6f);
+        }
         
         private async Task AttackTarget(Unit unit, Unit target)
         {
             var processedAttack = RunAttack(unit, target);
             EventSystem.Publish(new UnitAttackedEvent(unit, target, processedAttack));
-
+         
+            var shouldUseXLine = unit.Position.isUnitAboveOrBelow(target.Position);
+            var sideLocations = target.Position.GetLocationsInLine(1, shouldUseXLine);
+            foreach (var adjacentLocation in sideLocations)
+            {
+                var possibleUnit = Level.GetUnitAt(adjacentLocation);
+                if (possibleUnit == null || possibleUnit.Unit.FactionType == unit.FactionType) 
+                { continue; }
+                
+                var adjacentAttack = RunAttack(unit, target);
+                EventSystem.Publish(new UnitAttackedEvent(unit, possibleUnit.Unit, adjacentAttack));
+            }
             await Task.Delay(ScaledAttackDelay);
         }
-        
+
         public ProcessedAttack RunAttack(Unit attacker, Unit defender)
         {
             var attack = CalculateAttack(attacker);

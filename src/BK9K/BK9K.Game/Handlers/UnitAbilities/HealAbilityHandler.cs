@@ -51,7 +51,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
         public Attack WrapHealIntoAttack(float healScore)
         {  return new Attack(new []{ new Damage(DamageTypes.LightDamage, healScore) }); }
 
-        public Attack CalculateHealing(Unit unit)
+        public Attack CalculateAttack(Unit unit)
         {
             var lightDamage = unit.Stats.LightDamage();
             if (lightDamage == 0)
@@ -74,7 +74,7 @@ namespace BK9K.Game.Handlers.UnitAbilities
         
         public ProcessedAttack RunHeal(Unit attacker, Unit defender)
         {
-            var attack = CalculateHealing(attacker);
+            var attack = CalculateAttack(attacker);
             defender.ApplyHealingToTarget((int)attack.Damages.First().Value);
             return new ProcessedAttack(attack.Damages, Array.Empty<Damage>());
         }

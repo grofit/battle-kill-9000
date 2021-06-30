@@ -6,14 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="OpenRpg.AdviceEngine" Version="0.17.9" />
-    <PackageReference Include="OpenRpg.Combat" Version="0.17.123" />
-    <PackageReference Include="OpenRpg.Core" Version="0.17.123" />
-    <PackageReference Include="OpenRpg.Data" Version="0.17.123" />
+    <PackageReference Include="OpenRpg.Combat" Version="0.17.127" />
+    <PackageReference Include="OpenRpg.Core" Version="0.17.127" />
+    <PackageReference Include="OpenRpg.Data" Version="0.17.127" />
     <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.18.79" />
-    <PackageReference Include="OpenRpg.Items" Version="0.17.123" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.17.123" />
-    <PackageReference Include="OpenRpg.Quests" Version="0.17.123" />
-    <PackageReference Include="SystemsRx.Infrastructure" Version="4.1.97" />
+    <PackageReference Include="OpenRpg.Items" Version="0.17.127" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.17.127" />
+    <PackageReference Include="OpenRpg.Quests" Version="0.17.127" />
+    <PackageReference Include="SystemsRx.Infrastructure" Version="5.0.13" />
   </ItemGroup>
 
   <ItemGroup>

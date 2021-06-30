@@ -158,7 +158,7 @@ namespace BK9K.Game.Data.Loaders
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 5.0f }
                 }
             };
-            template.Variables.QualityType(ItemQualityTypes.CommonQuality);
+            template.Variables.QualityType(ItemQualityTypes.MagicalQuality);
             template.Variables.Value(10);
             template.Variables.AssetCode("the-deadly-sosig");
             return template;

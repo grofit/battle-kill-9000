@@ -41,5 +41,20 @@ namespace BK9K.Mechanics.Extensions
                 }
             }
         }
+
+        public static IEnumerable<Vector2> GetLocationsInLine(this Vector2 position, float rangeEitherSide, bool useXAxis = true)
+        {
+            for (var i = 0; i < rangeEitherSide; i++)
+            {
+                yield return new Vector2(position.X + (useXAxis ? 1 : 0), position.Y + (useXAxis ? 0 : 1));
+                yield return new Vector2(position.X - (useXAxis ? 1 : 0), position.Y - (useXAxis ? 0 : 1));
+            }
+        }
+        
+        public static bool isUnitAboveOrBelow(this Vector2 position, Vector2 targetPosition)
+        {
+            return position.X == targetPosition.X &&
+                   (targetPosition.Y == position.Y + 1 || targetPosition.Y == position.Y - 1);
+        }
     }
 }

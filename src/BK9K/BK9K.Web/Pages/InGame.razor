@@ -9,12 +9,14 @@
 @using BK9K.Game.Events.Units
 @using BK9K.Game.Levels
 @using BK9K.Game.Units
+@using BK9K.Mechanics.Types
 @using BK9K.Mechanics.Units
 
 @implements IDisposable
 
 @inject GameApplication GameApp
 @inject GameState GameState
+@inject GameConfiguration Configuration
 
 <div class="container is-fluid">
     <div class="columns">
@@ -75,6 +77,7 @@
         GameApp.EventSystem.Receive<UnitMovingEvent>().Subscribe(x => StateHasChanged()).AddTo(_subs);
         GameApp.EventSystem.Receive<PlayerCardsChangedEvent>().Subscribe(OnPlayerCardsChanged).AddTo(_subs);
         await LoadLevel(GameState.LevelId);
+        Configuration.GameSpeed = GameSpeedTypes.Default;
     }
 
     public async Task LoadLevel(int loadDelay = 0)

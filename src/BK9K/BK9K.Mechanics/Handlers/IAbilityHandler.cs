@@ -9,6 +9,6 @@ namespace BK9K.Mechanics.Handlers
     public interface IAbilityHandler : IHasDataId
     {
         Task<bool> ExecuteAbility(Unit unit, Unit target = null, Vector2 targetLocation = default);
-        Attack CalculateHealing(Unit unit);
+        Attack CalculateAttack(Unit unit);
     }
 }

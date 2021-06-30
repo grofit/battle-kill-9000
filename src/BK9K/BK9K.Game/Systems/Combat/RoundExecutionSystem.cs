@@ -11,6 +11,7 @@ using BK9K.Game.Events;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Extensions;
 using BK9K.Mechanics.Handlers;
+using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.Genres.Fantasy.Extensions;
 
@@ -41,10 +42,11 @@ namespace BK9K.Game.Systems.Combat
 
         public void Execute(ElapsedTime elapsed)
         {
-            if (_isRoundActive || Level.IsLevelLoading || Configuration.GameSpeed == 0)
+            if (_isRoundActive || Level.IsLevelLoading || Level.HasLevelFinished || Configuration.GameSpeed == GameSpeedTypes.Paused)
             { return; }
 
             var task = Task.Run(ProcessRound);
+            
             if(task.Exception != null)
             { Console.WriteLine($"EXCEPTION: {task.Exception}");}
         }

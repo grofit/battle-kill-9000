@@ -47,7 +47,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
                 var abilityHandler = AbilityHandlerRepository.Retrieve(ability.Id);
                 var attackOutputAccessor = new ManualValueAccessor(() =>
                 {
-                    var attack = abilityHandler.CalculateHealing(unit);
+                    var attack = abilityHandler.CalculateAttack(unit);
                     return attack.Damages.Sum(x => x.Value);
                 });
                 yield return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsAbilityDamaging, ability.Id), attackOutputAccessor, DamageClamper, PresetCurves.Linear);

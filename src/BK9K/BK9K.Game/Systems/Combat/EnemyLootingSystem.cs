@@ -3,9 +3,14 @@ using SystemsRx.Systems.Conventional;
 using BK9K.Game.Configuration;
 using BK9K.Game.Events.Cards;
 using BK9K.Game.Events.Units;
+using BK9K.Mechanics.Cards;
+using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
+using OpenRpg.Cards;
 using OpenRpg.Cards.Genres;
+using OpenRpg.Items;
+using OpenRpg.Items.Extensions;
 
 namespace BK9K.Game.Systems.Combat
 {
@@ -27,18 +32,28 @@ namespace BK9K.Game.Systems.Combat
             if (!isADeadEnemy) { return; }
 
             var enemyUnit = possibleEnemy as EnemyUnit;
-            var enemyLoot = enemyUnit.LootTable.GetLoot();
+            var enemyLoot = enemyUnit.LootTable.GetRandomLootEntries();
 
             var hasLoot = false;
-            foreach (var item in enemyLoot)
+            foreach (var loot in enemyLoot)
             {
                 hasLoot = true;
-                var itemCard = new ItemCard(item);
-                GameState.PlayerCards.Add(itemCard);
+                var cardLoot = GetCardForLoot(loot as ICustomLootTableEntry);
+                GameState.PlayerCards.Add(cardLoot);
             }
 
             if(hasLoot)
             { EventSystem.Publish(new PlayerCardsChangedEvent()); }
+        }
+
+        public ICard GetCardForLoot(ICustomLootTableEntry lootEntry)
+        {
+            if (lootEntry.Item != null) { return new ItemCard((lootEntry.Item as DefaultItem).Clone()); }
+            if (lootEntry.Ability != null) { return new AbilityCard(lootEntry.Ability); }
+            if (lootEntry.Spell != null) { return new SpellCard(lootEntry.Spell); }
+            if (lootEntry.Class != null) { return new ClassCard(lootEntry.Class); }
+            if (lootEntry.CardEffects != null) { return new EffectCard(lootEntry.CardEffects); }
+            return null;
         }
     }
 }

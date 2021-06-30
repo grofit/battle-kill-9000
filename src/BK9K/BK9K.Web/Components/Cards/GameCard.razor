@@ -80,7 +80,7 @@
         var totalDamages = new List<float>();
         for (var i = 0; i < 5; i++)
         {
-            var attack = handler.CalculateHealing(AssociatedUnit);
+            var attack = handler.CalculateAttack(AssociatedUnit);
             totalDamages.Add(attack.Damages.Sum(x => x.Value));
         }
         return totalDamages.Average();

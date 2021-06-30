@@ -12,7 +12,8 @@ namespace BK9K.Game.Data.Loaders
             return new List<UnitAbility>
             {
                 MakeAttack(),
-                MakeHeal()
+                MakeHeal(),
+                MakeCleave()
             };
         }
 
@@ -39,6 +40,20 @@ namespace BK9K.Game.Data.Loaders
                 NameLocaleId = "Heal",
                 DescriptionLocaleId = "Heals a single target based",
                 DamageType = DamageTypes.LightDamage,
+                Range = 1,
+                Size = 1
+            };
+        }
+        
+        private UnitAbility MakeCleave()
+        {
+            return new()
+            {
+                Id = AbilityLookups.Cleave,
+                IsPassive = false,
+                NameLocaleId = "Cleave",
+                DescriptionLocaleId = "A slightly weaker attack that hurts an enemy and any adjacent enemies",
+                DamageType = DamageTypes.UnknownDamage,
                 Range = 1,
                 Size = 1
             };
