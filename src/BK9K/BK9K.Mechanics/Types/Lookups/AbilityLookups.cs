@@ -7,5 +7,6 @@
         public static readonly int Attack = 1;
         public static readonly int Heal = 2;
         public static readonly int Cleave = 3;
+        public static readonly int IceShard = 4;
     }
 }

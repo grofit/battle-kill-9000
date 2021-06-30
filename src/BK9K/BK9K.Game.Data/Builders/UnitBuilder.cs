@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using BK9K.Game.Data.Repositories;
@@ -165,7 +166,7 @@ namespace BK9K.Game.Data.Builders
         {
             if (_abilityIds.Count < 3)
             {
-                if (_classType == ClassLookups.Mage)
+                if (_classType == ClassLookups.Priest)
                 { _abilityIds.Add(AbilityLookups.Heal); }
             }
             
@@ -183,7 +184,7 @@ namespace BK9K.Game.Data.Builders
                 if (_classType == ClassLookups.Rogue)
                 { _weaponId = ItemTemplateLookups.Dagger; }
 
-                if (_classType == ClassLookups.Mage)
+                if (_classType == ClassLookups.Mage || _classType == ClassLookups.Priest)
                 { _weaponId = ItemTemplateLookups.Staff; }
             }
 
@@ -195,7 +196,7 @@ namespace BK9K.Game.Data.Builders
             return new DefaultItem
             {
                 ItemTemplate = weaponTemplate,
-                Modifications = new IModification[0],
+                Modifications = Array.Empty<IModification>(),
                 Variables = new DefaultItemVariables()
             };
         }
@@ -210,7 +211,7 @@ namespace BK9K.Game.Data.Builders
                 if (_classType == ClassLookups.Rogue)
                 { _armourId = ItemTemplateLookups.Tunic; }
 
-                if (_classType == ClassLookups.Mage)
+                if (_classType == ClassLookups.Mage || _classType == ClassLookups.Priest)
                 { _armourId = ItemTemplateLookups.Robe; }
             }
 

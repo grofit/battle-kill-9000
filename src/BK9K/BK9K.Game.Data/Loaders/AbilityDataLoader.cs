@@ -13,7 +13,8 @@ namespace BK9K.Game.Data.Loaders
             {
                 MakeAttack(),
                 MakeHeal(),
-                MakeCleave()
+                MakeCleave(),
+                MakeIceShard()
             };
         }
 
@@ -55,6 +56,20 @@ namespace BK9K.Game.Data.Loaders
                 DescriptionLocaleId = "A slightly weaker attack that hurts an enemy and any adjacent enemies",
                 DamageType = DamageTypes.UnknownDamage,
                 Range = 1,
+                Size = 1
+            };
+        }
+        
+        private UnitAbility MakeIceShard()
+        {
+            return new()
+            {
+                Id = AbilityLookups.IceShard,
+                IsPassive = false,
+                NameLocaleId = "Ice Shard",
+                DescriptionLocaleId = "Fires a shard of ice at the enemy",
+                DamageType = DamageTypes.IceDamage,
+                Range = 3,
                 Size = 1
             };
         }

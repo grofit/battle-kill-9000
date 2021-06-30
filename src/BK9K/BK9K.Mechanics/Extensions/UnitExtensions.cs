@@ -66,5 +66,22 @@ namespace BK9K.Mechanics.Extensions
 
         public static bool IsUnitWithinRange(this Unit unit, Unit target, int range)
         { return target.Position.GetLocationsInRange(range).Any(x => unit.Position.X == x.X && unit.Position.Y == x.Y); }
+
+        public static void AddOrApplyPassiveEffect(this Unit unit, Effect effect)
+        {
+            var currentEffectForType = unit.PassiveEffects.FirstOrDefault(x => x.EffectType == effect.EffectType);
+            if (currentEffectForType != null)
+            {
+                currentEffectForType.Potency += effect.Potency;
+                return;
+            }
+            unit.PassiveEffects.Add(effect);
+        }
+        
+        public static void AddOrApplyPassiveEffects(this Unit unit, IEnumerable<Effect> effects)
+        {
+            foreach (var effect in effects)
+            { AddOrApplyPassiveEffect(unit, effect); }
+        }
     }
 }
