@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using BK9K.Game.Data.Repositories;
@@ -165,7 +166,7 @@ namespace BK9K.Game.Data.Builders
         {
             if (_abilityIds.Count < 3)
             {
-                if (_classType == ClassLookups.Mage)
+                if (_classType == ClassLookups.Priest)
                 { _abilityIds.Add(AbilityLookups.Heal); }
             }
             
@@ -185,19 +186,16 @@ namespace BK9K.Game.Data.Builders
 
                 if (_classType == ClassLookups.Mage)
                 { _weaponId = ItemTemplateLookups.Staff; }
+
+                if (_classType == ClassLookups.Priest)
+                { _weaponId = ItemTemplateLookups.Scepter; }
             }
 
             if (_weaponId == ItemTemplateLookups.Unknown)
             { return null; }
 
             var weaponTemplate = ItemTemplateRepository.Retrieve(_weaponId);
-
-            return new DefaultItem
-            {
-                ItemTemplate = weaponTemplate,
-                Modifications = new IModification[0],
-                Variables = new DefaultItemVariables()
-            };
+            return new DefaultItem { ItemTemplate = weaponTemplate };
         }
 
         private IItem GetArmour()
@@ -210,7 +208,7 @@ namespace BK9K.Game.Data.Builders
                 if (_classType == ClassLookups.Rogue)
                 { _armourId = ItemTemplateLookups.Tunic; }
 
-                if (_classType == ClassLookups.Mage)
+                if (_classType == ClassLookups.Mage || _classType == ClassLookups.Priest)
                 { _armourId = ItemTemplateLookups.Robe; }
             }
 
@@ -220,9 +218,7 @@ namespace BK9K.Game.Data.Builders
             var armourTemplate = ItemTemplateRepository.Retrieve(_armourId);
             return new DefaultItem
             {
-                ItemTemplate = armourTemplate,
-                Modifications = new IModification[0],
-                Variables = new DefaultItemVariables()
+                ItemTemplate = armourTemplate
             };
 
         }

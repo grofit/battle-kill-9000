@@ -7,14 +7,15 @@
         public static int Sword = 1;
         public static int Dagger = 2;
         public static int Staff = 3;
+        public static int Scepter = 4;
 
-        public static int PlateArmour = 4;
-        public static int Robe = 5;
-        public static int Tunic = 6;
+        public static int PlateArmour = 50;
+        public static int Robe = 51;
+        public static int Tunic = 52;
 
-        public static int MinorHealthPotion = 100;
-        public static int MajorHealthPotion = 101;
+        public static int MinorHealthPotion = 200;
+        public static int MajorHealthPotion = 201;
 
-        public static int DeadlySosig = 200;
+        public static int DeadlySosig = 500;
     }
 }

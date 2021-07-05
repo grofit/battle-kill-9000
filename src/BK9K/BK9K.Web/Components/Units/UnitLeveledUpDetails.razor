@@ -1,0 +1,21 @@
+@using BK9K.Mechanics.Units
+@using BK9K.Mechanics.Classes
+@using OpenRpg.Core.Effects
+
+<div class="box has-text-centered">
+    <h3 class="title">@(Unit.NameLocaleId) Has Become A Level @(Unit.Class.Level) @(Unit.Class.ClassTemplate.NameLocaleId)</h3>
+    <div>
+        <EffectList Effects="@LevelUpEffects" Character="@Unit"></EffectList>
+    </div>
+    <button class="button" @onclick="() => OnClosed.InvokeAsync()">Close</button>
+</div>
+
+@code {
+    [Parameter]
+    public Unit Unit { get; set; }
+
+    [Parameter]
+    public EventCallback OnClosed { get; set; }
+
+    public Effect[] LevelUpEffects => (Unit.Class.ClassTemplate as ICustomClassTemplate)?.LevelUpEffects.ToArray() ?? Array.Empty<Effect>();
+}

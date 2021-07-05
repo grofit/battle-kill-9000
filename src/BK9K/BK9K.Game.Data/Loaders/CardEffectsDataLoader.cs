@@ -2,7 +2,6 @@
 using BK9K.Mechanics.Types;
 using OpenRpg.Cards.Effects;
 using OpenRpg.Core.Effects;
-using OpenRpg.Core.Requirements;
 using OpenRpg.Genres.Fantasy.Types;
 
 namespace BK9K.Game.Data.Loaders
@@ -13,37 +12,37 @@ namespace BK9K.Game.Data.Loaders
         {
             return new List<CardEffects>
             {
-                MakeMinorStrengthEffects(),
-                MakeMinorIntelligenceEffects()
+                MakeMinor(CardEffectLookups.MinorStrength, EffectTypes.StrengthBonusAmount, "Strength"),
+                MakeMinor(CardEffectLookups.MinorConstitution, EffectTypes.ConstitutionBonusAmount, "Constitution"),
+                MakeMinor(CardEffectLookups.MinorDexterity, EffectTypes.DexterityBonusAmount, "Dexterity"),
+                MakeMinor(CardEffectLookups.MinorIntelligence, EffectTypes.IntelligenceBonusAmount, "Intelligence"),
+                MakeMinor(CardEffectLookups.MinorWisdom, EffectTypes.WisdomBonusAmount, "Wisdom"),
+
+                MakeMajor(CardEffectLookups.MajorStrength, EffectTypes.StrengthBonusAmount, "Strength"),
+                MakeMajor(CardEffectLookups.MajorConstitution, EffectTypes.ConstitutionBonusAmount, "Constitution"),
+                MakeMajor(CardEffectLookups.MajorDexterity, EffectTypes.DexterityBonusAmount, "Dexterity"),
+                MakeMajor(CardEffectLookups.MajorIntelligence, EffectTypes.IntelligenceBonusAmount, "Intelligence"),
+                MakeMajor(CardEffectLookups.MajorWisdom, EffectTypes.WisdomBonusAmount, "Wisdom"),
             };
         }
 
-        private CardEffects MakeMinorStrengthEffects()
-        {
-            var effects = new List<Effect>
-            {
-                new() {EffectType = EffectTypes.StrengthBonusAmount, Potency = 1, Requirements = new Requirement[0]}
-            };
-            return new CardEffects
-            {
-                Id = CardEffectLookups.MinorStrength,
-                NameLocaleId = "Minor Strength",
-                DescriptionLocaleId = "The card imbues the unit with a minor increase in strength",
-                Effects = effects
-            };
-        }
+        private CardEffects MakeMinor(int cardEffectType, int effectType, string effectName)
+        { return MakeStatEffectCard(cardEffectType, effectType, 1, effectName, "Minor"); }
 
-        private CardEffects MakeMinorIntelligenceEffects()
+        private CardEffects MakeMajor(int cardEffectType, int effectType, string effectName)
+        { return MakeStatEffectCard(cardEffectType, effectType, 2, effectName, "Major"); }
+
+        private CardEffects MakeStatEffectCard(int cardEffectType, int effectType, int potency, string effectName, string prefix)
         {
             var effects = new List<Effect>
             {
-                new() {EffectType = EffectTypes.IntelligenceBonusAmount, Potency = 1, Requirements = new Requirement[0]}
+                new() { EffectType = effectType, Potency = potency }
             };
             return new CardEffects
             {
-                Id = CardEffectLookups.MinorIntelligence,
-                NameLocaleId = "Minor Intelligence",
-                DescriptionLocaleId = "The card imbues the unit with a minor increase in intelligence",
+                Id = cardEffectType,
+                NameLocaleId = $"{prefix} {effectName}",
+                DescriptionLocaleId = $"The card imbues the unit with a {prefix} increase in {effectName}",
                 Effects = effects
             };
         }

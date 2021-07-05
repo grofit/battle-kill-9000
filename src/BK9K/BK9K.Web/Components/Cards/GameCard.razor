@@ -9,6 +9,8 @@
 @using OpenRpg.Cards.Genres
 @using OpenRpg.Combat.Abilities
 @using OpenRpg.Core.Effects
+@using OpenRpg.Genres.Fantasy.Extensions
+@using OpenRpg.Genres.Fantasy.Types
 @using OpenRpg.Localization.Repositories
 
 @inject ILocaleRepository LocaleRepository
@@ -27,14 +29,25 @@
                     </div>
                     @if (Card.CardType == CardTypes.EquipmentCard)
                     {
-                        <div class="box as-circle has-background-link-light">
-                            <span class="is-size-4">
-                                @GetMaximumEffectPotency.Potency
-                            </span>
-                        </div>
+                        @if ((Card as EquipmentCard).Data.ItemTemplate.ItemType == ItemTypes.GenericWeapon)
+                        {
+                            <div class="box as-circle has-background-link-light">
+                                <span class="is-size-4">
+                                    @(GetMaximumDamagingEffect()?.Potency ?? 0)
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="box as-circle has-background-link-light">
+                                <span class="is-size-4">
+                                    @(GetMaximumDefensiveEffect()?.Potency ?? 0)
+                                </span>
+                            </div>
+                        }
                     }
-                    
-                     @if (Card.CardType == CardTypes.AbilityCard && AssociatedUnit != null)
+
+                    @if (Card.CardType == CardTypes.AbilityCard && AssociatedUnit != null)
                     {
                         <div class="box as-circle has-background-link-light">
                             <span class="is-size-4">@DamageNumber</span>
@@ -63,7 +76,7 @@
 
     public string CardTypeClass => $"card-type-{Card.CardType}";
     public string CardTypeText => LocaleRepository.Retrieve(LocaleRepository.GetKeyFor(DefaultLocaleRepository.CardTypesTextKey, Card.CardType));
-    public Effect GetMaximumEffectPotency => Card.Effects.OrderByDescending(x => x.Potency).FirstOrDefault();
+
     public int DamageNumber;
 
     protected override void OnInitialized()
@@ -84,6 +97,27 @@
             totalDamages.Add(attack.Damages.Sum(x => x.Value));
         }
         return totalDamages.Average();
+    }
+
+    public bool IsHealEffect(int effectType)
+    {
+        return effectType == EffectTypes.LightDamageAmount ||
+               effectType == EffectTypes.LightDamagePercentage ||
+               effectType == EffectTypes.LightBonusAmount;
+    }
+
+    public Effect GetMaximumDamagingEffect()
+    {
+        return Card.Effects.Where(x => x.IsDamagingEffect() && !IsHealEffect(x.EffectType))
+            .OrderByDescending(x => x.Potency)
+            .FirstOrDefault();
+    }
+
+    public Effect GetMaximumDefensiveEffect()
+    {
+        return Card.Effects.Where(x => x.IsDefensiveEffect() && !IsHealEffect(x.EffectType))
+            .OrderByDescending(x => x.Potency)
+            .FirstOrDefault();
     }
 
 }

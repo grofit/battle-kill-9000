@@ -7,6 +7,7 @@ using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.AI.Applicators.Advisories;
 using BK9K.Game.AI.Applicators.Considerations.External;
 using BK9K.Game.AI.Applicators.Considerations.Local;
+using BK9K.Game.AI.Service;
 using OpenRpg.AdviceEngine.Advisors.Applicators;
 using OpenRpg.AdviceEngine.Advisors.Applicators.Registries;
 using OpenRpg.AdviceEngine.Considerations.Applicators;
@@ -35,6 +36,8 @@ namespace BK9K.Web.Modules
             container.Bind<IAdviceApplicator, ShouldHealSelfAdviceApplicator>();
             container.Bind<IAdviceApplicator, ShouldEscapeAdviceApplicator>();
             container.Bind<IAdviceApplicatorRegistry, DefaultAdviceApplicatorRegistry>();
+
+            container.Bind<IAgentService, AgentService>();
         }
     }
 }

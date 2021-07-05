@@ -1,0 +1,34 @@
+<div class="modal @(IsActive ? "is-active" : "")">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    @Content(CloseModal);
+  </div>
+  <button class="modal-close is-large" aria-label="close" @onclick="() => ToggleModal(false)"></button>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment<Action> Content { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public EventCallback OnModalOpened { get; set; }
+
+    [Parameter]
+    public EventCallback OnModalClosed { get; set; }
+
+    public void CloseModal()
+    { ToggleModal(false); }
+
+    public void ToggleModal(bool? newState = null)
+    {
+        IsActive = newState ?? !IsActive;
+        if (IsActive)
+        { OnModalOpened.InvokeAsync(); }
+        else
+        { OnModalClosed.InvokeAsync(); }
+    }
+}

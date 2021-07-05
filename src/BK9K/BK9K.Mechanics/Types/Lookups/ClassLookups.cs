@@ -7,6 +7,7 @@
         public static readonly int Fighter = 1;
         public static readonly int Mage = 2;
         public static readonly int Rogue = 3;
+        public static readonly int Priest = 4;
 
         public static readonly int Monster = 100;
     }

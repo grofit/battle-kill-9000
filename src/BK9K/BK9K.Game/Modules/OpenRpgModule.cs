@@ -2,6 +2,7 @@
 using SystemsRx.Infrastructure.Dependencies;
 using SystemsRx.Infrastructure.Extensions;
 using BK9K.Game.Data.Repositories.Defaults;
+using BK9K.Mechanics.Combat;
 using BK9K.Mechanics.Requirements;
 using BK9K.Mechanics.Units;
 using OpenRpg.Combat.Processors;
@@ -26,7 +27,7 @@ namespace BK9K.Web.Modules
             container.Bind<IDamageStatPopulator, DefaultDamageStatPopulator>();
             container.Bind<IDefenseStatPopulator, DefaultDefenseStatPopulator>();
             container.Bind<IStatsComputer, DefaultStatsComputer>();
-            container.Bind<IAttackGenerator, BasicAttackGenerator>();
+            container.Bind<IAttackGenerator, CustomAttackGenerator>();
             container.Bind<IAttackProcessor, DefaultAttackProcessor>();
             container.Bind<ILocaleRepository, DefaultLocaleRepository>();
             container.Bind<ICharacterRequirementChecker, DefaultCharacterRequirementChecker>();

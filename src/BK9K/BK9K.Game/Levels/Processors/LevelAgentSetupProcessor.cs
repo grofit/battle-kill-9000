@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
 using BK9K.Game.AI.Applicators;
+using BK9K.Game.AI.Service;
 using BK9K.Game.Processors;
-using OpenRpg.AdviceEngine.Advisors.Applicators.Registries;
-using OpenRpg.AdviceEngine.Considerations.Applicators.Registries;
 
 namespace BK9K.Game.Levels.Processors
 {
@@ -10,13 +9,11 @@ namespace BK9K.Game.Levels.Processors
     {
         public int Priority => 6;
         
-        public IConsiderationApplicatorRegistry ConsiderationApplicatorRegistry { get; }
-        public IAdviceApplicatorRegistry AdviceApplicatorRegistry { get; }
+        public IAgentService AgentService { get; }
 
-        public LevelAgentSetupProcessor(IConsiderationApplicatorRegistry considerationApplicatorRegistry, IAdviceApplicatorRegistry adviceApplicatorRegistry)
+        public LevelAgentSetupProcessor(IAgentService agentService)
         {
-            ConsiderationApplicatorRegistry = considerationApplicatorRegistry;
-            AdviceApplicatorRegistry = adviceApplicatorRegistry;
+            AgentService = agentService;
         }
 
         public Task Process(Level context)
@@ -32,7 +29,7 @@ namespace BK9K.Game.Levels.Processors
         {
             foreach (var gameUnit in level.GameUnits)
             {
-                ConsiderationApplicatorRegistry.ApplyOnlyPriority(gameUnit.Agent, priorityLevel);
+                AgentService.ApplyConsiderationsForPriority(gameUnit.Agent, priorityLevel);
             }
         }
         
@@ -40,7 +37,7 @@ namespace BK9K.Game.Levels.Processors
         {
             foreach (var gameUnit in level.GameUnits)
             {
-                AdviceApplicatorRegistry.ApplyAll(gameUnit.Agent);
+                AgentService.ApplyAdvice(gameUnit.Agent);
             }
         }
     }
