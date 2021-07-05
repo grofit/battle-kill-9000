@@ -19,6 +19,7 @@ namespace BK9K.Game.Data.Loaders
                 MakeSword(),
                 MakeDagger(),
                 MakeStaff(),
+                MakeScepter(),
                 MakePlateArmour(),
                 MakeRobe(),
                 MakeTunic(),
@@ -38,7 +39,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.SlashingDamageAmount, Potency = 4.0f }
+                    new Effect { EffectType = EffectTypes.SlashingDamageAmount, Potency = 8.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -57,7 +58,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 3.0f }
+                    new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 5.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -76,12 +77,32 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.FireBonusAmount, Potency = 4.0f }
+                    new Effect { EffectType = EffectTypes.FireDamageAmount, Potency = 8.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
             template.Variables.Value(10);
             template.Variables.AssetCode("staff");
+            return template;
+        }
+
+        private IItemTemplate MakeScepter()
+        {
+            var template = new DefaultItemTemplate
+            {
+                Id = ItemTemplateLookups.Scepter,
+                NameLocaleId = "Scepter",
+                DescriptionLocaleId = "A scepter with a small glow",
+                ItemType = ItemTypes.GenericWeapon,
+                Effects = new[]
+                {
+                    new Effect { EffectType = EffectTypes.BluntDamageAmount, Potency = 3.0f },
+                    new Effect { EffectType = EffectTypes.LightDamageAmount, Potency = 6.0f }
+                }
+            };
+            template.Variables.QualityType(ItemQualityTypes.CommonQuality);
+            template.Variables.Value(10);
+            template.Variables.AssetCode("scepter");
             return template;
         }
 
@@ -95,7 +116,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.UpperBodyArmour,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 2.0f }
+                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 5.0f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -114,8 +135,8 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.UpperBodyArmour,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 0.5f },
-                    new Effect { EffectType = EffectTypes.AllElementDefenseBonusAmount, Potency = 1.0f }
+                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 1.5f },
+                    new Effect { EffectType = EffectTypes.AllElementDefenseBonusAmount, Potency = 2f }
                 }
             };
             template.Variables.QualityType(ItemQualityTypes.CommonQuality);
@@ -134,7 +155,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.UpperBodyArmour,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 1.0f },
+                    new Effect { EffectType = EffectTypes.AllMeleeDefenseBonusAmount, Potency = 2f },
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 1.0f }
                 }
             };
@@ -154,7 +175,7 @@ namespace BK9K.Game.Data.Loaders
                 ItemType = ItemTypes.GenericWeapon,
                 Effects = new[]
                 {
-                    new Effect { EffectType = EffectTypes.PiercingBonusAmount, Potency = 8.0f },
+                    new Effect { EffectType = EffectTypes.PiercingDamageAmount, Potency = 15.0f },
                     new Effect { EffectType = EffectTypes.DexterityBonusAmount, Potency = 5.0f }
                 }
             };

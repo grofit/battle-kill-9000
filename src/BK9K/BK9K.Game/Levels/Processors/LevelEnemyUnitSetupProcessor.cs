@@ -11,9 +11,11 @@ using BK9K.Mechanics.Loot;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Types.Lookups;
 using BK9K.Mechanics.Units;
+using OpenRpg.Cards.Effects;
 using OpenRpg.Core.Modifications;
 using OpenRpg.Core.Requirements;
 using OpenRpg.Core.Utils;
+using OpenRpg.Data.Defaults.Queries.Common;
 using OpenRpg.Items;
 using OpenRpg.Items.Extensions;
 using OpenRpg.Items.Loot;
@@ -121,15 +123,7 @@ namespace BK9K.Game.Levels.Processors
             var regenSpell = SpellRepository.Retrieve(SpellLookups.Firebolt);
             var regenLootEntry = new CustomLootTableEntry {Spell = regenSpell};
             regenLootEntry.Variables.DropRate(0.03f);
-
-            var minorStrength = CardEffectsRepository.Retrieve(CardEffectLookups.MinorStrength);
-            var minorStrengthLootEntry = new CustomLootTableEntry {CardEffects = minorStrength};
-            minorStrengthLootEntry.Variables.DropRate(0.05f);
             
-            var minorInt = CardEffectsRepository.Retrieve(CardEffectLookups.MinorIntelligence);
-            var minorIntLootEntry = new CustomLootTableEntry {CardEffects = minorInt};
-            minorIntLootEntry.Variables.DropRate(0.05f);
-
             var lootEntries = new List<ILootTableEntry>
             {
                 potionItem.GenerateCustomLootTableEntry(0.10f),
@@ -137,10 +131,17 @@ namespace BK9K.Game.Levels.Processors
                 attackLootEntry,
                 healLootEntry,
                 fireboltLootEntry,
-                regenLootEntry,
-                minorStrengthLootEntry,
-                minorIntLootEntry
+                regenLootEntry
             };
+
+            var allCardEffects = CardEffectsRepository.FindAll(new GetAllQuery<CardEffects>());
+            foreach (var cardEffect in allCardEffects)
+            {
+                var lootEntry = new CustomLootTableEntry { CardEffects = cardEffect };
+                lootEntry.Variables.DropRate(0.05f);
+                lootEntries.Add(lootEntry);
+            }
+
             return new DefaultLootTable
             {
                 AvailableLoot = lootEntries,

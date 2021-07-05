@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using BK9K.Game.Levels;
@@ -13,7 +14,10 @@ namespace BK9K.Game.Extensions
     {
         public static GameUnit GetUnitAt(this Level level, Vector2 position)
         { return level.GameUnits?.SingleOrDefault(x => x.Unit.Position == position); }
-        
+
+        public static bool HasUnitAt(this Level level, Vector2 position)
+        { return level.GameUnits?.Any(x => x.Unit.Position == position) ?? false; }
+
         public static IEnumerable<GameUnit> GetAliveUnits(this Level level)
         { return level.GameUnits.Where(x => !x.Unit.IsDead()); }
 

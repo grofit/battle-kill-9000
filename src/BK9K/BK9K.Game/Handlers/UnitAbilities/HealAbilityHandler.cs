@@ -61,8 +61,8 @@ namespace BK9K.Game.Handlers.UnitAbilities
             if (wisdom == 0)
             { return WrapHealIntoAttack(BaseHealScore); }
             
-            var modifier = (wisdom / 5);
-            return WrapHealIntoAttack(BaseHealScore + (lightDamage / modifier));
+            var modifier = ((float)wisdom / 75);
+            return WrapHealIntoAttack(BaseHealScore + (lightDamage * modifier));
         }
         
         private async Task HealTarget(Unit unit, Unit target)

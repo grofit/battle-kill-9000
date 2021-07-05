@@ -11,6 +11,7 @@
 @using BK9K.Game.Units
 @using BK9K.Mechanics.Types
 @using BK9K.Mechanics.Units
+@using System.Reactive.Linq
 
 @implements IDisposable
 
@@ -57,6 +58,14 @@
         </div>
     </div>
     <InteropProxy />
+    <Modal IsActive="@ShowLevelUpModal" OnModalClosed="@OnLevelUpModalClosed">
+        <Content>
+            @if (SelectedUnit != null)
+            {
+                <UnitLeveledUpDetails Unit="@SelectedUnit.Unit" OnClosed="context"></UnitLeveledUpDetails>
+            }
+        </Content>
+    </Modal>
 </div>
 
 
@@ -68,6 +77,8 @@
 
     public Level Level => GameApp.Level;
     public GameUnit SelectedUnit = null;
+    public bool ShowLevelUpModal = false;
+    public float _cachedGameSpeed = GameSpeedTypes.Default;
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,6 +87,10 @@
         GameApp.EventSystem.Receive<LevelEndedEvent>().Subscribe(OnLevelEnded).AddTo(_subs);
         GameApp.EventSystem.Receive<UnitMovingEvent>().Subscribe(x => StateHasChanged()).AddTo(_subs);
         GameApp.EventSystem.Receive<PlayerCardsChangedEvent>().Subscribe(OnPlayerCardsChanged).AddTo(_subs);
+        GameApp.EventSystem.Receive<UnitLeveledUpEvent>()
+            .Where(x => x.Unit.FactionType == FactionTypes.Player)
+            .Subscribe(OnUnitLeveledUp).AddTo(_subs);
+
         await LoadLevel(GameState.LevelId);
         Configuration.GameSpeed = GameSpeedTypes.Default;
     }
@@ -100,6 +115,21 @@
     public void OnRoundConcluded(RoundConcludedEvent args)
     {
         StateHasChanged();
+    }
+
+    public void OnUnitLeveledUp(UnitLeveledUpEvent args)
+    {
+        SelectedUnit = Level.GameUnits.First(x => x.Agent.OwnerContext.Id == args.Unit.Id);
+        _cachedGameSpeed = Configuration.GameSpeed;
+        Configuration.GameSpeed = GameSpeedTypes.Paused;
+        ShowLevelUpModal = true;
+        StateHasChanged();
+    }
+
+    public void OnLevelUpModalClosed()
+    {
+        Configuration.GameSpeed = _cachedGameSpeed;
+        ShowLevelUpModal = false;
     }
 
     public void OnLevelEnded(LevelEndedEvent args)

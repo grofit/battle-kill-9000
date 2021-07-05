@@ -40,7 +40,7 @@ namespace BK9K.Game.Levels.Processors
         }
 
         private Vector2 FindOpenPosition(Level level)
-        { return GeneratePosition(level).First(position => level.GetUnitAt(position) == null); }
+        { return GeneratePosition(level).First(position => !level.HasUnitAt(position)); }
         
     }
 }

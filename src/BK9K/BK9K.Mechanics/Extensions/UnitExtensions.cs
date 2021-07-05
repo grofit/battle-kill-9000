@@ -7,6 +7,7 @@ using OpenRpg.Combat.Processors;
 using OpenRpg.Core.Effects;
 using OpenRpg.Genres.Fantasy.Extensions;
 using OpenRpg.Genres.Fantasy.Types;
+using OpenRpg.Items;
 
 namespace BK9K.Mechanics.Extensions
 {
@@ -82,6 +83,44 @@ namespace BK9K.Mechanics.Extensions
         {
             foreach (var effect in effects)
             { AddOrApplyPassiveEffect(unit, effect); }
+        }
+
+        public static IItem EquipItem(this Unit unit, IItem itemToEquip)
+        {
+            if (itemToEquip.ItemTemplate.ItemType == ItemTypes.GenericWeapon)
+            {
+                if (unit.Equipment.MainHandSlot.SlottedItem != null)
+                {
+                    var currentEquipment = unit.Equipment.MainHandSlot.UnequipItem();
+                    unit.Equipment.MainHandSlot.EquipItemToSlot(itemToEquip);
+                    return currentEquipment;
+                }
+                unit.Equipment.MainHandSlot.EquipItemToSlot(itemToEquip);
+                return null;
+            }
+
+            if (unit.Equipment.UpperBodySlot.SlottedItem != null)
+            {
+                var currentEquipment = unit.Equipment.UpperBodySlot.UnequipItem();
+                unit.Equipment.UpperBodySlot.EquipItemToSlot(itemToEquip);
+                return currentEquipment;
+            }
+            unit.Equipment.UpperBodySlot.EquipItemToSlot(itemToEquip);
+            return null;
+        }
+
+        public static UnitAbility EquipAbility(this Unit unit, UnitAbility ability)
+        {
+            if (unit.ActiveAbilities.Count < 3)
+            {
+                unit.ActiveAbilities.Add(ability);
+                return null;
+            }
+
+            var unequippedAbility = unit.ActiveAbilities[0];
+            unit.ActiveAbilities.RemoveAt(0);
+            unit.ActiveAbilities.Add(ability);
+            return unequippedAbility;
         }
     }
 }

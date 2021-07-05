@@ -184,21 +184,18 @@ namespace BK9K.Game.Data.Builders
                 if (_classType == ClassLookups.Rogue)
                 { _weaponId = ItemTemplateLookups.Dagger; }
 
-                if (_classType == ClassLookups.Mage || _classType == ClassLookups.Priest)
+                if (_classType == ClassLookups.Mage)
                 { _weaponId = ItemTemplateLookups.Staff; }
+
+                if (_classType == ClassLookups.Priest)
+                { _weaponId = ItemTemplateLookups.Scepter; }
             }
 
             if (_weaponId == ItemTemplateLookups.Unknown)
             { return null; }
 
             var weaponTemplate = ItemTemplateRepository.Retrieve(_weaponId);
-
-            return new DefaultItem
-            {
-                ItemTemplate = weaponTemplate,
-                Modifications = Array.Empty<IModification>(),
-                Variables = new DefaultItemVariables()
-            };
+            return new DefaultItem { ItemTemplate = weaponTemplate };
         }
 
         private IItem GetArmour()
@@ -221,9 +218,7 @@ namespace BK9K.Game.Data.Builders
             var armourTemplate = ItemTemplateRepository.Retrieve(_armourId);
             return new DefaultItem
             {
-                ItemTemplate = armourTemplate,
-                Modifications = new IModification[0],
-                Variables = new DefaultItemVariables()
+                ItemTemplate = armourTemplate
             };
 
         }

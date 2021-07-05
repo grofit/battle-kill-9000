@@ -119,7 +119,7 @@ namespace BK9K.Game.Data.Loaders
             var effects = new[]
             {
                 new Effect {Potency = 4, EffectType = EffectTypes.WisdomBonusAmount},
-                new Effect {Potency = 4, EffectType = EffectTypes.AllMeleeAttackBonusPercentage},
+                new Effect {Potency = 25, EffectType = EffectTypes.LightBonusPercentage},
                 new Effect {Potency = 30, EffectType = EffectTypes.AllElementDefenseBonusPercentage},
                 new Effect {Potency = 30, EffectType = EffectTypes.MagicBonusPercentage}
             };
@@ -127,6 +127,7 @@ namespace BK9K.Game.Data.Loaders
             var levelUpEffects = new[]
             {
                 new Effect {Potency = 2, EffectType = EffectTypes.WisdomBonusAmount},
+                new Effect {Potency = 10, EffectType = EffectTypes.LightBonusPercentage},
                 new Effect {Potency = 10, EffectType = EffectTypes.AllElementDefenseBonusPercentage},
                 new Effect {Potency = 1, EffectType = EffectTypes.AllElementDefenseBonusAmount},
                 new Effect {Potency = 2, EffectType = EffectTypes.HealthBonusAmount}

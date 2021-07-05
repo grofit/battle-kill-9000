@@ -1,5 +1,4 @@
-﻿@using BK9K.Game
-@using System.Numerics
+﻿@using System.Numerics
 @using BK9K.Game.Extensions
 @using BK9K.Game.Levels
 @using BK9K.Game.Units
@@ -7,23 +6,26 @@
 @using BK9K.Mechanics.Units
 
 <div>
-    @for (var y = 0; y < Level.Grid.YSize; y++)
+    @if (!Level.IsLevelLoading && !Level.HasLevelFinished)
     {
-        <div>
-            @for (var x = 0; x < Level.Grid.XSize; x++)
-            {
-                <div class="ground-tile is-relative">
-                    <span class="grid-tag tag is-info">Pos [@x,@y]</span>
-                    @{
-                        var possibleUnit = Level.GetUnitAt(new Vector2(x, y));
-                        if (possibleUnit != null && !possibleUnit.Unit.IsDead())
-                        {
-                            <UnitAvatarView Unit="possibleUnit.Unit" OnUnitClick=@OnUnitClicked />
+        @for (var y = 0; y < Level.Grid.YSize; y++)
+        {
+            <div>
+                @for (var x = 0; x < Level.Grid.XSize; x++)
+                {
+                    <div class="ground-tile is-relative">
+                        <span class="grid-tag tag is-info">Pos [@x,@y]</span>
+                        @{
+                            var possibleUnit = Level.GetUnitAt(new Vector2(x, y));
+                            if (possibleUnit != null && !possibleUnit.Unit.IsDead())
+                            {
+                                <UnitAvatarView Unit="possibleUnit.Unit" OnUnitClick=@OnUnitClicked/>
+                            }
                         }
-                    }
-                </div>
-            }
-        </div>
+                    </div>
+                }
+            </div>
+        }
     }
 </div>
 
