@@ -29,6 +29,8 @@ namespace BK9K.Web.Modules
             container.Bind<IConsiderationApplicator, IsADangerConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, PartyLowHealthConsiderationApplicator>();
             container.Bind<IConsiderationApplicator, EnemyLowHealthConsiderationApplicator>();
+            container.Bind<IConsiderationApplicator, IsWeakConsiderationApplicator>();
+            container.Bind<IConsiderationApplicator, IsVulnerableConsiderationApplicator>();
             container.Bind<IConsiderationApplicatorRegistry, DefaultConsiderationApplicatorRegistry>();
             
             container.Bind<IAdviceApplicator, ShouldUseAbilityAdviceApplicator>();

@@ -31,7 +31,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         {
             var enemyLowHealth = new UtilityKey(UtilityVariableTypes.EnemyLowHealth, otherUnit.Unit.Id);
             var dependentUtilityId = new UtilityKey(UtilityVariableTypes.HasLowHealth);
-            var healthAccessor = new ManualValueAccessor(() => otherUnit.Agent.UtilityVariables.GetVariable(dependentUtilityId));
+            var healthAccessor = new ManualValueAccessor((_, _) => otherUnit.Agent.UtilityVariables.GetVariable(dependentUtilityId));
             return new ValueBasedConsideration(enemyLowHealth, healthAccessor, PresetClampers.Passthrough, PresetCurves.Linear.Alter(yShift:0.1f));
             
             

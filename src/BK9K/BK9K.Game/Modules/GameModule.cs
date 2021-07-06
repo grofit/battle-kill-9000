@@ -48,6 +48,7 @@ namespace BK9K.Web.Modules
             container.Bind<UseAbilityOnTargetHandler>();
             container.Bind<IAbilityHandler, AttackAbilityHandler>();
             container.Bind<IAbilityHandler, HealAbilityHandler>();
+            container.Bind<IAbilityHandler, CleaveAbilityHandler>();
             container.Bind<ISpellHandler, FireboltSpellHandler>();
             container.Bind<ISpellHandler, MinorRegenSpellHandler>();
         }

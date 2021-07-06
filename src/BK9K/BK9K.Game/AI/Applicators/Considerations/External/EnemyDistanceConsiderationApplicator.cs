@@ -31,7 +31,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         public override IConsideration CreateConsideration(IAgent agent, GameUnit otherUnit)
         {
             var distanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, otherUnit.Unit.Id);
-            var distanceAccessor = new ManualValueAccessor(() => Vector2.Distance(otherUnit.Unit.Position, agent.GetOwnerUnit().Position));
+            var distanceAccessor = new ManualValueAccessor((context, _) => Vector2.Distance(otherUnit.Unit.Position, (context as Unit).Position));
             return new ValueBasedConsideration(distanceUtilityKey, distanceAccessor, DistanceClamper, PresetCurves.QuadraticLowerLeft);
         }
     }

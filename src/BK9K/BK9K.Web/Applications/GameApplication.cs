@@ -4,6 +4,7 @@ using SystemsRx.Systems;
 using BK9K.Game.Configuration;
 using BK9K.Game.Data.Builders;
 using BK9K.Game.Data.Repositories;
+using BK9K.Game.Data.Repositories.Defaults;
 using BK9K.Game.Levels;
 using BK9K.Game.Pools;
 using BK9K.Game.Systems.AI;
@@ -35,6 +36,7 @@ namespace BK9K.Web.Applications
         public IItemTemplateRepository ItemTemplateRepository { get; set; }
         public ICardEffectsRepository CardEffectsRepository { get; set; }
         public ISpellRepository SpellRepository { get; set; }
+        public IAbilityRepository AbilityRepository { get; set; }
 
         public GameApplication(Container container) : base(container)
         {}
@@ -95,6 +97,9 @@ namespace BK9K.Web.Applications
 
             var regenSpell = SpellRepository.Retrieve(SpellLookups.MinorRegen);
             yield return new SpellCard(regenSpell);
+
+            var cleaveAbility = AbilityRepository.Retrieve(AbilityLookups.Cleave);
+            yield return new AbilityCard(cleaveAbility);
         }
 
         protected override void BindSystems()
@@ -125,6 +130,7 @@ namespace BK9K.Web.Applications
             CardEffectsRepository = Container.Resolve<ICardEffectsRepository>();
             SpellRepository = Container.Resolve<ISpellRepository>();
             UnitIdPool = Container.Resolve<IUnitIdPool>();
+            AbilityRepository = Container.Resolve<IAbilityRepository>();
         }
 
         protected override void LoadModules()

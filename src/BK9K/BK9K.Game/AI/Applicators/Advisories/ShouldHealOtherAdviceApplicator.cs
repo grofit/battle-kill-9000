@@ -6,9 +6,12 @@ using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
 using OpenRpg.AdviceEngine.Advisors;
 using OpenRpg.AdviceEngine.Advisors.Applicators;
 using OpenRpg.AdviceEngine.Keys;
+using OpenRpg.AdviceEngine.Variables;
+using OpenRpg.Core.Common;
 using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Advisories
@@ -27,9 +30,9 @@ namespace BK9K.Game.AI.Applicators.Advisories
             Level = level;
         }
         
-        public Unit GetBestTarget(IAgent agent)
+        public Unit GetBestTarget(IHasDataId context, IUtilityVariables variables)
         {
-            var targetUtility = agent.UtilityVariables
+            var targetUtility = variables
                 .GetRelatedUtilities(UtilityVariableTypes.PartyLowHealth)
                 .OrderByDescending(x => x.Value)
                 .FirstOrDefault();
@@ -42,11 +45,12 @@ namespace BK9K.Game.AI.Applicators.Advisories
 
         public override IAdvice CreateAdvice(IAgent agent)
         {
+            var contextAccessor = new ManualContextAccessor(agent.OwnerContext, agent.UtilityVariables, GetBestTarget);
             return new DefaultAdvice(AdviceVariableTypes.HealOther, new[]
             {
                 new UtilityKey(UtilityVariableTypes.PartyLowHealth),
                 new UtilityKey(UtilityVariableTypes.AllyDistance),
-            }, () => GetBestTarget(agent));
+            }, contextAccessor);
         }
     }
 }

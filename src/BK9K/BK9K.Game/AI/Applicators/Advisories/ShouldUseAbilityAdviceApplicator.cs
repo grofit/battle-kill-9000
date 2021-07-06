@@ -6,9 +6,12 @@ using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
 using OpenRpg.AdviceEngine.Advisors;
 using OpenRpg.AdviceEngine.Advisors.Applicators;
 using OpenRpg.AdviceEngine.Keys;
+using OpenRpg.AdviceEngine.Variables;
+using OpenRpg.Core.Common;
 using OpenRpg.Core.Requirements;
 
 namespace BK9K.Game.AI.Applicators.Advisories
@@ -27,14 +30,14 @@ namespace BK9K.Game.AI.Applicators.Advisories
             Level = level;
         }
 
-        public AbilityWithTarget GetBestTarget(IAgent agent)
+        public AbilityWithTarget GetBestTarget(IHasDataId context, IUtilityVariables variables)
         {
-            var targetUtility = agent.UtilityVariables
+            var targetUtility = variables
                 .GetRelatedUtilities(UtilityVariableTypes.EnemyDistance)
                 .OrderByDescending(x => x.Value)
                 .First();
 
-            var abilityUtility = agent.UtilityVariables
+            var abilityUtility = variables
                 .GetRelatedUtilities(UtilityVariableTypes.IsAbilityDamaging)
                 .OrderByDescending(x => x.Value)
                 .First();
@@ -44,12 +47,15 @@ namespace BK9K.Game.AI.Applicators.Advisories
 
         public override IAdvice CreateAdvice(IAgent agent)
         {
+            var contextAccessor = new ManualContextAccessor(agent.OwnerContext, agent.UtilityVariables, GetBestTarget);
             return new DefaultAdvice(AdviceVariableTypes.UseAbility, new[]
             {
                 new UtilityKey(UtilityVariableTypes.EnemyDistance),
                 new UtilityKey(UtilityVariableTypes.EnemyLowHealth),
                 new UtilityKey(UtilityVariableTypes.IsAbilityDamaging),
-            }, () => GetBestTarget(agent));
+                new UtilityKey(UtilityVariableTypes.IsWeak),
+                new UtilityKey(UtilityVariableTypes.IsVulnerable),
+            }, contextAccessor);
         }
     }
 }

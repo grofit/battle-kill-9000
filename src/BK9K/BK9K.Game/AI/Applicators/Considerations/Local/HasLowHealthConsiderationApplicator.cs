@@ -24,7 +24,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
         
         public override IConsideration CreateConsideration(IAgent agent)
         {
-            var healthValueAccessor = new ManualValueAccessor(() => agent.GetOwnerUnit().Stats.Health());
+            var healthValueAccessor = new ManualValueAccessor((unit, _) => (unit as Unit).Stats.Health());
             var healthClamper = new DynamicClamper(() => 0, () => agent.GetOwnerUnit().Stats.MaxHealth());
             return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.HasLowHealth), healthValueAccessor, healthClamper, PresetCurves.InverseLinear);
         }

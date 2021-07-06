@@ -5,6 +5,7 @@ using BK9K.Mechanics.Units;
 using OpenRpg.AdviceEngine;
 using OpenRpg.AdviceEngine.Handlers.Advisors;
 using OpenRpg.AdviceEngine.Handlers.Considerations;
+using OpenRpg.AdviceEngine.Variables;
 
 namespace BK9K.Game.AI
 {
@@ -25,9 +26,10 @@ namespace BK9K.Game.AI
             if (unit.Id == 0)
             { throw new Exception("Unit must have a valid Id"); }
 
-            var considerationHandler = new ConsiderationHandler(new CustomRefreshScheduler(EventSystem));
-            var adviceHandler = new AdviceHandler(new CustomRefreshScheduler(EventSystem));
-            var agent = new Agent(unit, considerationHandler, adviceHandler);
+            var utilityVariables = new UtilityVariables();
+            var considerationHandler = new ConsiderationHandler(new CustomRefreshScheduler(EventSystem), utilityVariables, unit);
+            var adviceHandler = new AdviceHandler(new CustomRefreshScheduler(EventSystem), utilityVariables, unit);
+            var agent = new Agent(unit, utilityVariables, considerationHandler, adviceHandler);
             return agent;
         }
     }

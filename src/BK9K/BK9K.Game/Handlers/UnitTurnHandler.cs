@@ -73,13 +73,13 @@ namespace BK9K.Game.Handlers
             { await HandleUseAbilityAdvice(unit, attackOrHealAdvice); }
             else if (attackOrHealAdvice.AdviceId == AdviceVariableTypes.HealOther)
             {
-                var healTarget = attackOrHealAdvice.GetRelatedContext() as Unit;
+                var healTarget = attackOrHealAdvice.ContextAccessor.GetContext() as Unit;
                 var healAbility = unit.ActiveAbilities.First(x => x.DamageType == DamageTypes.LightDamage);
                 await UseAbilityOnTargetHandler.ExecuteIfInRange(unit, healTarget, healAbility);
             }
             else
             {
-                var targetAndAbility = attackOrHealAdvice.GetRelatedContext() as AbilityWithTarget;
+                var targetAndAbility = attackOrHealAdvice.ContextAccessor.GetContext() as AbilityWithTarget;
                 var targetUnit = Level.GetUnitById(targetAndAbility.TargetUnitId);
                 var ability = unit.GetAbility(targetAndAbility.AbilityId);
                 await UseAbilityOnTargetHandler.ExecuteIfInRange(unit, targetUnit, ability);
@@ -88,7 +88,7 @@ namespace BK9K.Game.Handlers
 
         public async Task HandleUseAbilityAdvice(Unit unit, IAdvice advice)
         {
-            var targetAndAbility = advice.GetRelatedContext() as AbilityWithTarget;
+            var targetAndAbility = advice.ContextAccessor.GetContext() as AbilityWithTarget;
             if(targetAndAbility == null) { return; }
 
             var ability = unit.GetAbility(targetAndAbility.AbilityId);
@@ -102,7 +102,7 @@ namespace BK9K.Game.Handlers
         
         public async Task HandleHealOtherAdvice(Unit unit, IAdvice advice)
         {
-            var target = advice.GetRelatedContext() as Unit;
+            var target = advice.ContextAccessor.GetContext() as Unit;
             if(target == null) { return; }
 
             var ability = unit.ActiveAbilities.FirstOrDefault(x => x.DamageType == DamageTypes.LightDamage);
@@ -113,7 +113,7 @@ namespace BK9K.Game.Handlers
 
         public async Task HandleMovementAdvice(Unit unit, IAdvice advice)
         {
-            var bestLocation = (Vector2)advice.GetRelatedContext();
+            var bestLocation = (Vector2)advice.ContextAccessor.GetContext();
             unit.Position = bestLocation;
             EventSystem.Publish(new UnitMovingEvent(unit, unit.Position));
         }

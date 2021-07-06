@@ -4,6 +4,7 @@ using BK9K.Game.Extensions;
 using BK9K.Mechanics.Types;
 using BK9K.Mechanics.Units;
 using OpenRpg.AdviceEngine;
+using OpenRpg.AdviceEngine.Accessors;
 using OpenRpg.AdviceEngine.Advisors;
 using OpenRpg.AdviceEngine.Advisors.Applicators;
 using OpenRpg.AdviceEngine.Keys;
@@ -23,10 +24,11 @@ namespace BK9K.Game.AI.Applicators.Advisories
 
         public override IAdvice CreateAdvice(IAgent agent)
         {
+            var contextAccessor = new ManualContextAccessor(agent.OwnerContext, agent.UtilityVariables, (unit,_) => unit);
             return new DefaultAdvice(AdviceVariableTypes.HealSelf, new[]
             {
                 new UtilityKey(UtilityVariableTypes.HasLowHealth)
-            }, agent.GetOwnerUnit);
+            }, contextAccessor);
         }
     }
 }

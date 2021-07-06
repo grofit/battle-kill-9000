@@ -30,9 +30,9 @@ namespace BK9K.Game.AI.Applicators.Considerations.External
         {
             var isDangerUtilityKey = new UtilityKey(UtilityVariableTypes.IsADanger, otherUnit.Unit.Id);
             var enemyDistanceUtilityKey = new UtilityKey(UtilityVariableTypes.EnemyDistance, otherUnit.Unit.Id);
-            var isADangerAccessor = new ManualValueAccessor(() =>
+            var isADangerAccessor = new ManualValueAccessor((_, variables) =>
             {
-                var distanceUtility = agent.UtilityVariables.GetVariable(enemyDistanceUtilityKey);
+                var distanceUtility = variables.GetVariable(enemyDistanceUtilityKey);
                 var powerfulUtility = otherUnit.Agent.UtilityVariables.GetVariable(new UtilityKey(UtilityVariableTypes.IsPowerful));
                 return UtilityExtensions.CalculateScore(distanceUtility, powerfulUtility);
             });

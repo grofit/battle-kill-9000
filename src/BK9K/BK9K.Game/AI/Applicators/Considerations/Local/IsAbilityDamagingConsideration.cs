@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.Data.Repositories;
@@ -38,15 +37,15 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
 
         public override IEnumerable<IConsideration> CreateConsiderations(IAgent agent)
         {
-            var unit = agent.GetOwnerUnit();
             foreach (var ability in agent.GetOwnerUnit().ActiveAbilities)
             {
                 if (ability.IsPassive || ability.DamageType == DamageTypes.LightDamage)
                 { continue; }
                 
                 var abilityHandler = AbilityHandlerRepository.Retrieve(ability.Id);
-                var attackOutputAccessor = new ManualValueAccessor(() =>
+                var attackOutputAccessor = new ManualValueAccessor((context, _) =>
                 {
+                    var unit = context as Unit;
                     var attack = abilityHandler.CalculateAttack(unit);
                     return attack.Damages.Sum(x => x.Value);
                 });

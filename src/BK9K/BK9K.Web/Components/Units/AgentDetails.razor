@@ -34,12 +34,12 @@
                     @{var index = 0;}
                     @foreach (var advice in GameUnit.Agent.GetAdvice())
                     {
-                        var relatedContext = advice.GetRelatedContext();
+                        var relatedContext = advice.ContextAccessor.GetContext();
                         if (relatedContext is Unit relatedUnit)
                         {
                             <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
                                          ContextText="@relatedUnit.NameLocaleId"
-                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.Score" />
                         }
                         else if (relatedContext is AbilityWithTarget abilityWithTarget)
                         {
@@ -47,13 +47,13 @@
                             var ability = GameUnit.Unit.ActiveAbilities.First(x => x.Id == abilityWithTarget.AbilityId);
                             <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
                                          ContextText="@($"{ability.NameLocaleId}  >  {targetUnit.NameLocaleId}")"
-                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.Score" />
                         }
                         else
                         {
                             <AdviceValue Text="@GetAdviceText(advice.AdviceId)"
-                                         ContextText="@(advice.GetRelatedContext()?.ToString() ?? "None")"
-                                         IsBestAdvice="@(index++ == 0)" Value="@advice.UtilityValue" />
+                                         ContextText="@(advice.ContextAccessor.GetContext()?.ToString() ?? "None")"
+                                         IsBestAdvice="@(index++ == 0)" Value="@advice.Score" />
                         }
                     }
                 </div>

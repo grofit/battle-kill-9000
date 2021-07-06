@@ -25,9 +25,9 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
 
         public override IConsideration CreateConsideration(IAgent agent)
         {
-            var dangerAccessor = new ManualValueAccessor(() =>
+            var dangerAccessor = new ManualValueAccessor((_, variables) =>
             {
-                return agent.UtilityVariables
+                return variables
                     .GetRelatedUtilities(UtilityVariableTypes.IsADanger)
                     .Select(x => x.Value)
                     .DefaultIfEmpty(0)

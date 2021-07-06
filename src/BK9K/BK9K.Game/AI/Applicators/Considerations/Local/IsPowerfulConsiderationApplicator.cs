@@ -27,7 +27,7 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
         
         public override IConsideration CreateConsideration(IAgent agent)
         {
-            var attackOutputAccessor = new ManualValueAccessor(() => agent.GetOwnerUnit().Stats.GetDamageReferences().Sum(x => x.StatValue));
+            var attackOutputAccessor = new ManualValueAccessor((context, _) => (context as Unit).Stats.GetDamageReferences().Sum(x => x.StatValue));
             return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsPowerful), attackOutputAccessor, DamageClamper, PresetCurves.Linear);
         }
     }
