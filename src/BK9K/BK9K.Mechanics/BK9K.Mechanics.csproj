@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Cards" Version="0.17.129" />
-    <PackageReference Include="OpenRpg.CurveFunctions" Version="0.17.129" />
+    <PackageReference Include="OpenRpg.Cards" Version="0.17.131" />
+    <PackageReference Include="OpenRpg.CurveFunctions" Version="0.17.131" />
     <PackageReference Include="OpenRpg.Genres.Fantasy" Version="0.18.81" />
   </ItemGroup>
 
