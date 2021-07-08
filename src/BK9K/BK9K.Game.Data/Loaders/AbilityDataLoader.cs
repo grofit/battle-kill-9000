@@ -28,7 +28,7 @@ namespace BK9K.Game.Data.Loaders
                 DescriptionLocaleId = "Uses the default weapon to attack a nearby unit",
                 DamageType = DamageTypes.UnknownDamage,
                 Range = 1,
-                Size = 1
+                Shape = ShapePresets.Empty
             };
         }
         
@@ -42,7 +42,7 @@ namespace BK9K.Game.Data.Loaders
                 DescriptionLocaleId = "Heals a single target based",
                 DamageType = DamageTypes.LightDamage,
                 Range = 1,
-                Size = 1
+                Shape = ShapePresets.Empty
             };
         }
         
@@ -56,7 +56,7 @@ namespace BK9K.Game.Data.Loaders
                 DescriptionLocaleId = "A slightly weaker attack that hurts an enemy and any adjacent enemies",
                 DamageType = DamageTypes.UnknownDamage,
                 Range = 1,
-                Size = 1
+                Shape = ShapePresets.HorizontalLineShape
             };
         }
         
@@ -70,7 +70,7 @@ namespace BK9K.Game.Data.Loaders
                 DescriptionLocaleId = "Fires a shard of ice at the enemy",
                 DamageType = DamageTypes.IceDamage,
                 Range = 3,
-                Size = 1
+                Shape = ShapePresets.Empty
             };
         }
     }

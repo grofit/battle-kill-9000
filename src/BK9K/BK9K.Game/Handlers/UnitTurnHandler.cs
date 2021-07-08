@@ -114,8 +114,15 @@ namespace BK9K.Game.Handlers
         public async Task HandleMovementAdvice(Unit unit, IAdvice advice)
         {
             var bestLocation = (Vector2)advice.ContextAccessor.GetContext();
+            var newDirection = unit.Position - bestLocation;
+            var directionType = newDirection.GetDirection();
+
+            var oldPosition = unit.Position;
+            var oldDirection = unit.FacingDirection;
+            
             unit.Position = bestLocation;
-            EventSystem.Publish(new UnitMovingEvent(unit, unit.Position));
+            unit.FacingDirection = directionType;
+            EventSystem.Publish(new UnitMovingEvent(unit, oldPosition, oldDirection));
         }
 
         public bool ShouldStopTurn()

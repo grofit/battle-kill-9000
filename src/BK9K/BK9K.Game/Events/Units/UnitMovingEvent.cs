@@ -5,13 +5,15 @@ namespace BK9K.Game.Events.Units
 {
     public class UnitMovingEvent
     {
-        public Vector2 OldPosition { get; set; }
+        public Vector2 OldPosition { get; }
+        public int OldDirection { get; }
         public Unit Unit { get; }
 
-        public UnitMovingEvent(Unit unit, Vector2 oldPosition)
+        public UnitMovingEvent(Unit unit, Vector2 oldPosition, int oldDirection)
         {
             Unit = unit;
             OldPosition = oldPosition;
+            OldDirection = oldDirection;
         }
     }
 }

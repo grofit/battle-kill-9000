@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BK9K.Game.AI.Applicators.Models;
+using BK9K.Game.AI.Modifiers;
 using BK9K.Game.Data.Variables;
 using BK9K.Game.Levels;
 using BK9K.Mechanics.Types;
@@ -47,6 +48,7 @@ namespace BK9K.Game.AI.Applicators.Advisories
 
         public override IAdvice CreateAdvice(IAgent agent)
         {
+            var modifiers = new[] { new AdditiveValueModifier(0.1f) };
             var contextAccessor = new ManualContextAccessor(agent.OwnerContext, agent.UtilityVariables, GetBestTarget);
             return new DefaultAdvice(AdviceVariableTypes.UseAbility, new[]
             {
@@ -55,7 +57,7 @@ namespace BK9K.Game.AI.Applicators.Advisories
                 new UtilityKey(UtilityVariableTypes.IsAbilityDamaging),
                 new UtilityKey(UtilityVariableTypes.IsWeak),
                 new UtilityKey(UtilityVariableTypes.IsVulnerable),
-            }, contextAccessor);
+            }, contextAccessor, modifiers);
         }
     }
 }

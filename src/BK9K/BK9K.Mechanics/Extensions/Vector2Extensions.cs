@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
+using BK9K.Mechanics.Abilities;
+using BK9K.Mechanics.Types;
 
 namespace BK9K.Mechanics.Extensions
 {
@@ -49,6 +52,24 @@ namespace BK9K.Mechanics.Extensions
                 yield return new Vector2(position.X + (useXAxis ? 1 : 0), position.Y + (useXAxis ? 0 : 1));
                 yield return new Vector2(position.X - (useXAxis ? 1 : 0), position.Y - (useXAxis ? 0 : 1));
             }
+        }
+        
+        public static IEnumerable<Vector2> GetLocationsFromShape(this Vector2 position, AbilityShape shape)
+        {
+            var relativePositions = shape.GetPositionsRelativeToTarget();
+
+            foreach (var relativePosition in relativePositions)
+            { yield return position + relativePosition; }
+        }
+
+        public static int GetDirection(this Vector2 directionVector)
+        {
+            var absX = Math.Abs(directionVector.X);
+            var absY = Math.Abs(directionVector.Y);
+
+            if (absX > absY)
+            { return directionVector.X > 0 ? DirectionTypes.Right : DirectionTypes.Left; }
+            return directionVector.Y > 0 ? DirectionTypes.Up : DirectionTypes.Down;
         }
         
         public static bool isUnitAboveOrBelow(this Vector2 position, Vector2 targetPosition)

@@ -11,6 +11,7 @@ using OpenRpg.AdviceEngine.Considerations.Applicators;
 using OpenRpg.AdviceEngine.Keys;
 using OpenRpg.Core.Requirements;
 using OpenRpg.CurveFunctions;
+using OpenRpg.CurveFunctions.Extensions;
 
 namespace BK9K.Game.AI.Applicators.Considerations.Local
 {
@@ -27,11 +28,16 @@ namespace BK9K.Game.AI.Applicators.Considerations.Local
         {
             var dangerAccessor = new ManualValueAccessor((_, variables) =>
             {
-                return variables
+                var maxDanger = variables
                     .GetRelatedUtilities(UtilityVariableTypes.IsADanger)
                     .Select(x => x.Value)
                     .DefaultIfEmpty(0)
                     .Max();
+
+                var unitPower = variables.GetVariable(new UtilityKey(UtilityVariableTypes.IsPowerful));
+
+                var actualDanger = maxDanger - unitPower;
+                return actualDanger.SanitizeAndClamp();
             });
 
             return new ValueBasedConsideration(new UtilityKey(UtilityVariableTypes.IsInDanger), dangerAccessor, PresetClampers.Passthrough, PresetCurves.PassThrough);

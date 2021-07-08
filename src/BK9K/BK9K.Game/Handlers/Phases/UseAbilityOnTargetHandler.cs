@@ -55,8 +55,14 @@ namespace BK9K.Game.Handlers.Phases
         public void MoveTowards(Unit unit, Unit target)
         {
             var bestMovement = MovementAdvisor.GetBestMovementTowardsTarget(unit, target);
+            var newDirection = unit.Position - bestMovement;
+            var directionType = newDirection.GetDirection();
+
+            var oldPosition = unit.Position;
+            var oldDirection = unit.FacingDirection;
             unit.Position = bestMovement;
-            EventSystem.Publish(new UnitMovingEvent(unit, unit.Position));
+            unit.FacingDirection = directionType;
+            EventSystem.Publish(new UnitMovingEvent(unit, oldPosition, oldDirection));
         }
 
         public async Task UseAbilityOn(Unit unit, Unit target, Ability ability)

@@ -57,7 +57,7 @@ namespace BK9K.Mechanics.Extensions
         { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Range > 0); }
         
         public static bool HasAoeHealAbility(this Unit unit)
-        { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && x.Size > 1); }
+        { return unit.ActiveAbilities.Any(x => x.DamageType == DamageTypes.LightDamage && !x.Shape.Equals(ShapePresets.Empty)); }
         
         public static bool HasActiveAttackAbility(this Unit unit)
         { return unit.ActiveAbilities.Any(x => x.DamageType != DamageTypes.LightDamage && !x.IsPassive); }
