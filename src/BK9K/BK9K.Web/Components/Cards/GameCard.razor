@@ -90,13 +90,8 @@
     public float GetAverageAbilityDamageString(AbilityCard card)
     {
         var handler = AbilityHandlerRepository.Retrieve(card.Data.Id);
-        var totalDamages = new List<float>();
-        for (var i = 0; i < 5; i++)
-        {
-            var attack = handler.CalculateAttack(AssociatedUnit);
-            totalDamages.Add(attack.Damages.Sum(x => x.Value));
-        }
-        return totalDamages.Average();
+        var attack = handler.CalculateAttack(AssociatedUnit);
+        return attack.Damages.Sum(x => x.Value);
     }
 
     public bool IsHealEffect(int effectType)

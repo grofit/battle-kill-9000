@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRpg.Data" Version="0.17.131" />
-    <PackageReference Include="OpenRpg.Localization" Version="0.17.131" />
+    <PackageReference Include="OpenRpg.Data" Version="0.17.135" />
+    <PackageReference Include="OpenRpg.Localization" Version="0.17.135" />
   </ItemGroup>
 
   <ItemGroup>
